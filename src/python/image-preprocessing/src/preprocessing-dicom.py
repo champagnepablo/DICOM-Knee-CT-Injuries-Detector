@@ -63,6 +63,7 @@ def thresholdCTImage(img):
 
 def getCTContours(originalImage, tresholdedImage):
     contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    print(contours)
     cv2.drawContours(originalImage, contours, -1, (0,255,0), 1)
     return originalImage, contours
 
@@ -75,12 +76,23 @@ def getContouredCTImage(originalImage):
     contoured_image, contours = getCTContours(hu_scale_image, thresholded_ct_image)
     return contoured_image
 
+def cropKneeCT(originalImage):
+    h, w = originalImage.shape
+    newHeigth = (int) (np.floor(h / 2))
+    newWidth = (int)  (np.floor( w / 2))
+    croppedImage = originalImage[200:375, 100:256]
+    return croppedImage
 
-ds=pydicom.dcmread('../data/dicom/Knee/vhf.151.dcm')
+
+
+ds=pydicom.dcmread('../data/dicom/Knee/vhf.499.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img = transformToHu(ds,ds.pixel_array)
-img = thresholdCTImage(img)
-img2 = ds.pixel_array.copy()    
+img3 = cropKneeCT(img)
+img = thresholdCTImage(img3)
+img2 = img3.copy()  
 getCTContours(img2, img)
-plt.imshow(img2)
+img = img.astype(np.float32)
+print(img)
+plt.imshow(cv2.cvtColor(img,cv2.COLOR_GRAY2BGR))
 plt.show()
