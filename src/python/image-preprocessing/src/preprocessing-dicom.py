@@ -1,4 +1,5 @@
 import math
+import random as rng
 import cv2 as cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -63,8 +64,19 @@ def thresholdCTImage(img):
 
 def getCTContours(originalImage, tresholdedImage):
     contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    print(contours)
-    cv2.drawContours(originalImage, contours, -1, (0,255,0), 1)
+    contours_poly = [None]*len(contours)
+    boundRect = [None]*len(contours)
+    centers = [None]*len(contours)
+    radius = [None]*len(contours)
+    for i, c in enumerate(contours):
+        contours_poly[i] = cv2.approxPolyDP(c, 3, True)
+        boundRect[i] = cv2.boundingRect(contours_poly[i])
+        centers[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
+    for i in range(len(contours)):
+        color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
+        cv2.drawContours(originalImage, contours_poly, i, color)
+        cv2.rectangle(originalImage, (int(boundRect[i][0]), int(boundRect[i][1])), \
+             (int(boundRect[i][0]+boundRect[i][2]), int(boundRect[i][1]+boundRect[i][3])), color, 2)
     return originalImage, contours
 
 
@@ -81,18 +93,23 @@ def cropKneeCT(originalImage):
     newHeigth = (int) (np.floor(h / 2))
     newWidth = (int)  (np.floor( w / 2))
     croppedImage = originalImage[200:375, 100:256]
+    moments = cv2.moments(croppedImage)
+    cX = int(moments["m10"] / moments["m00"])
+    cY = int(moments["m01"] / moments["m00"])
+    croppedImage[:,cX] = 0
     return croppedImage
+
+
+
 
 
 
 ds=pydicom.dcmread('../data/dicom/Knee/vhf.499.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img = transformToHu(ds,ds.pixel_array)
-img3 = cropKneeCT(img)
-img = thresholdCTImage(img3)
-img2 = img3.copy()  
+img = thresholdCTImage(img)
+img2 = img.copy()  
 getCTContours(img2, img)
-img = img.astype(np.float32)
-print(img)
-plt.imshow(cv2.cvtColor(img,cv2.COLOR_GRAY2BGR))
+img3 = cropKneeCT(img)
+plt.imshow(img3)
 plt.show()
