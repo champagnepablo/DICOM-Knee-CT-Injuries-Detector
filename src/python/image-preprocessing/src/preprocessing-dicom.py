@@ -8,6 +8,15 @@ from pydicom.data import get_testdata_files
 from pydicom.pixel_data_handlers.util import apply_modality_lut
 from pydicom.pixel_data_handlers.util import apply_voi_lut
 
+def getLineEquation(point1, point2) :
+    (x1, y1) = point1
+    (x2, y2) = point2
+    m = (y1 - y2) / (x1 - x2)
+    b = y1 - (x1 * m)
+    return m,b
+
+
+
 def magnitude(img):
     magnitude = 0
     for i in range(img.shape[0]):
@@ -62,31 +71,45 @@ def thresholdCTImage(img):
     return mask
 
 
-def getCTContours(originalImage, tresholdedImage):
+def drawCTContours(originalImage, tresholdedImage):
     contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours_poly = [None]*len(contours)
-    boundRect = [None]*len(contours)
-    centers = [None]*len(contours)
-    radius = [None]*len(contours)
-    for i, c in enumerate(contours):
-        contours_poly[i] = cv2.approxPolyDP(c, 3, True)
-        boundRect[i] = cv2.boundingRect(contours_poly[i])
-        centers[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
-    for i in range(len(contours)):
-        color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
-        cv2.drawContours(originalImage, contours_poly, i, color)
-        cv2.rectangle(originalImage, (int(boundRect[i][0]), int(boundRect[i][1])), \
-             (int(boundRect[i][0]+boundRect[i][2]), int(boundRect[i][1]+boundRect[i][3])), color, 2)
-    return originalImage, contours
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    originalImage = originalImage * 255
+    bgrImage = cv2.cvtColor(originalImage, cv2.COLOR_GRAY2BGR)
+    cv2.drawContours(bgrImage, contours, -1, (0, 255, 0), 1) 
+    return bgrImage, contours
+
+def getLowestPoints(originalImage, tresholdedImage):
+    contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    half_one = sorted_contours[0]
+    half_two = sorted_contours[1]
+    originalImage = originalImage * 255
+    bgrImage = cv2.cvtColor(originalImage, cv2.COLOR_GRAY2BGR)
+    cv2.drawContours(bgrImage, [half_one], 0, (0,255,0), 1)
+    cv2.drawContours(bgrImage, [half_two], 0, (255,0,0), 1)
+    p1 = tuple(half_one[half_one[:, :, 1].argmax()][0])
+    p2 = tuple(half_two[half_two[:, :, 1].argmax()][0])
+    m,b =getLineEquation(p1,p2)
+    point1 = (int) (m * 0 + b)
+    point2 = (int) (m * bgrImage.shape[1] + b)
+    print(point2)
+    cv2.circle(bgrImage, p1, 1, (0, 50, 255), -1)
+    cv2.circle(bgrImage, p2, 1, (0, 50, 255), -1)
+    cv2.line(bgrImage, (0, point1), (bgrImage.shape[1], point2), (255,80,0), 1)
+    return bgrImage, contours
 
 
 
+'''
 def getContouredCTImage(originalImage):
     ds = pydicom.dcmread(originalImage)
     hu_scale_image = transformToHu(ds, ds.pixel_array)
     thresholded_ct_image = thresholdCTImage(hu_scale_image)
     contoured_image, contours = getCTContours(hu_scale_image, thresholded_ct_image)
     return contoured_image
+'''
+
 
 def cropKneeCT(originalImage):
     h, w = originalImage.shape
@@ -109,7 +132,7 @@ ds=pydicom.dcmread('../data/dicom/Knee/vhf.499.dcm')
 img = transformToHu(ds,ds.pixel_array)
 img = thresholdCTImage(img)
 img2 = img.copy()  
-getCTContours(img2, img)
 img3 = cropKneeCT(img)
-plt.imshow(img3)
+img4, _ = getLowestPoints(img3, img3)
+plt.imshow(img4)
 plt.show()
