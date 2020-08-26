@@ -74,9 +74,8 @@ def thresholdCTImage(img):
 def drawCTContours(originalImage, tresholdedImage):
     contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
-    bgrImage = cv2.cvtColor(originalImage, cv2.COLOR_GRAY2BGR)
-    cv2.drawContours(bgrImage, contours, -1, (0, 255, 0), 1) 
-    return bgrImage, contours
+    cv2.drawContours(originalImage, sorted_contours, -1, (0, 255, 0), 1) 
+    return originalImage, contours
 
 def getLowestPointsFemur(originalImage, tresholdedImage):
     contours, _ = cv2.findContours(tresholdedImage, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -104,11 +103,11 @@ def getTransvesalPointRotula(originalImage, thresholdedImage, femurSlope):
     rotula_contour = sorted_contours[1]
     originalImage = originalImage.astype(np.uint8)
   #  originalImage = cv2.cvtColor(originalImage, cv2.COLOR_GRAY2BGR)
-    cv2.drawContours(originalImage, [rotula_contour], 0, (255,0,0), 1)
+    cv2.drawContours(originalImage, [rotula_contour], 0, (0,0,255), 1)
     top = tuple(rotula_contour[rotula_contour[:, :, 1].argmin()][0]) 
     bottom = tuple(rotula_contour[rotula_contour[:, :, 1].argmax()][0])
-    cv2.circle(originalImage, top, 1, (0, 50, 255), -1)
-    cv2.circle(originalImage, bottom, 1, (0, 50, 255), -1)
+    cv2.circle(originalImage, top, 1, (0, 255, 0), -1)
+    cv2.circle(originalImage, bottom, 1, (0, 255, 0), -1)
     m, b = getLineEquation(top, bottom)
     slope = -1 / m 
     midpointX = (top[0] + bottom[0]) / 2 
@@ -138,7 +137,7 @@ def cropFemurCT(originalImage):
     h, w = originalImage.shape
     newHeigth = (int) (np.floor(h / 2))
     newWidth = (int)  (np.floor( w / 2))
-    croppedImage = originalImage[160:325, 112:250]
+    croppedImage = originalImage[130:400,230:470]
     moments = cv2.moments(croppedImage)
     cX = int(moments["m10"] / moments["m00"])
     cY = int(moments["m01"] / moments["m00"])
@@ -151,7 +150,7 @@ def cropRotulaCT(originalImage):
     h, w = originalImage.shape
     newHeigth = (int) (np.floor(h / 2))
     newWidth = (int)  (np.floor( w / 2))
-    croppedImage = originalImage[160:325, 112:250]
+    croppedImage = originalImage[130:400,230:470]
     return croppedImage
 
 
@@ -159,6 +158,29 @@ def cropRotulaCT(originalImage):
 
 ds=pydicom.dcmread('../data/dicom/Knee/vhf.421.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
+
+img = cv2.imread('../data/img/image.png', cv2.IMREAD_GRAYSCALE)
+kernel = np.ones((5,5),np.uint8)
+kernel2 = np.ones((1,1),np.uint8)
+closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+num_rows, num_cols = img.shape[:2]
+rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), 10, 1)
+img_rotation = cv2.warpAffine(closing, rotation_matrix, (num_cols, num_rows))
+originalImage = cropRotulaCT(img_rotation)
+
+img_rotation_2 = img_rotation.copy()
+femur_cropped = cropFemurCT(img_rotation_2)
+originalImage, slope = getLowestPointsFemur(originalImage, femur_cropped)
+
+
+rotula_cropped = cropRotulaCT(img_rotation)
+originalImage = getTransvesalPointRotula(originalImage, rotula_cropped, slope)
+
+
+
+plt.imshow(originalImage)
+plt.show()
+'''
 img = transformToHu(ds,ds.pixel_array)
 imgNoTh = transformToHu(ds,ds.pixel_array)
 imgNoTh = imgNoTh -  imgNoTh.min()
@@ -184,3 +206,5 @@ originalImage = getTransvesalPointRotula(originalImage, rotula_thresholded, slop
 
 plt.imshow(img)
 plt.show()
+
+'''
