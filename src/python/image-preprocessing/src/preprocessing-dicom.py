@@ -43,9 +43,7 @@ def normalizeImage(img, window_center, window_width):
                 normalized_image[i,j] = (img[i,j]-window_center-0.5)/(window_width-1) +0.5
     return normalized_image
             
-def thresholdCTImage(img):
-    window_center = 160
-    window_width = 2368
+def thresholdCTImage(img, window_center, window_width):
     normalized_image = normalizeImage(img, window_center, window_width)
     mag_image = magnitude(normalized_image)
     bins = 70
@@ -76,11 +74,12 @@ def getContouredCTImage(originalImage):
     return contoured_image
 
 
-ds=pydicom.dcmread('../data/dicom/Knee/vhf.151.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
+print(ds.WindowCenter)
 img = transformToHu(ds,ds.pixel_array)
-img = thresholdCTImage(img)
-img2 = ds.pixel_array.copy()    
-getCTContours(img2, img)
-plt.imshow(img2)
+img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
+#img2 = ds.pixel_array.copy()    
+#getCTContours(img2, img)
+plt.imshow(img)
 plt.show()
