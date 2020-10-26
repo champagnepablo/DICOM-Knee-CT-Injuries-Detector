@@ -29,6 +29,16 @@ def transformToHu(medical_image, image):
     hu_image = image * slope + intercept
     return hu_image
 
+def window_image(image, window_center, window_width):
+    img_min = window_center - window_width // 2
+    img_max = window_center + window_width // 2
+    window_image = image.copy()
+    window_image[window_image < img_min] = img_min
+    window_image[window_image > img_max] = img_max
+    
+    return window_image
+
+
 def normalizeImage(img, window_center, window_width):
     normalized_image = np.zeros((img.shape[0],img.shape[1]), dtype = float)
     op1 = window_center - 0.5 - (window_width-1)/2
@@ -64,6 +74,17 @@ def getCTContours(originalImage, tresholdedImage):
     cv2.drawContours(originalImage, contours, -1, (0,255,0), 1)
     return originalImage, contours
 
+def standardRangeImage(img):
+    min =  np.amin(img)
+    max = np.amax(img)
+    standardImg = img.copy()
+    for i in range(img.shape[0]-1):
+        for j in range(img.shape[1]-1):
+                standardImg[i][j] =  (np.uint8) (img[i][j] + abs(min)) / (abs(min) + max) * 255 # adding min for preventing negative values
+    print(np.amax(standardImg))
+
+    return standardImg
+
 
 
 def getContouredCTImage(originalImage):
@@ -74,11 +95,11 @@ def getContouredCTImage(originalImage):
     return contoured_image
 
 
-ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img130.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
-print(ds.WindowCenter)
 img = transformToHu(ds,ds.pixel_array)
-img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
+thresh4 = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
+contoured_img , _ = getCTContours(img, thresh4)
 #img2 = ds.pixel_array.copy()    
 #getCTContours(img2, img)
 plt.imshow(img)
