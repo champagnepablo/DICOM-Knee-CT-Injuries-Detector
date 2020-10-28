@@ -53,9 +53,9 @@ def normalizeImage(img, window_center, window_width):
                 normalized_image[i,j] = (img[i,j]-window_center-0.5)/(window_width-1) +0.5
     return normalized_image
             
-def thresholdCTImage(img):
-    window_center = 160
-    window_width = 2368
+def thresholdCTImage(img,c,w):
+    window_center = c
+    window_width = w
     normalized_image = normalizeImage(img, window_center, window_width)
     mag_image = magnitude(normalized_image)
     bins = 70
@@ -69,6 +69,50 @@ def thresholdCTImage(img):
     threshold = 0.5
     mask = getMask(normalized_image, threshold)
     return mask
+
+def getAngleFemur(frame, contours):
+    frame = cv2.cvtColor(frame.astype('float32'), cv2.COLOR_GRAY2BGR)
+    for contour in contours:
+        #calculate area and moment of each contour
+        area = cv2.contourArea(contour)
+        M = cv2.moments(contour)
+
+        if M["m00"] > 0:
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+
+
+        #Use contour if size is bigger then 1000 and smaller then 50000
+        if area > 1000:
+            if area <50000:
+                approx = cv2.approxPolyDP(contour, 0.001*cv2.arcLength(contour, True), True)
+                #draw contour
+                cv2.drawContours(frame, contour, -1, (0, 255, 0), 3)
+                #draw circle on center of contour
+                cv2.circle(frame, (cX, cY), 7, (255, 255, 255), -1)
+                perimeter = cv2.arcLength(contour,True)
+                approx = cv2.approxPolyDP(contour, 0.04 * perimeter, True)
+                #fit elipse
+                _ ,_ ,angle = cv2.fitEllipse(contour)
+                P1x = cX
+                P1y = cY
+                length = 35
+
+                #calculate vector line at angle of bounding box
+                P2x = int(P1x + length * math.cos(math.radians(angle)))
+                P2y = int(P1y + length * math.sin(math.radians(angle)))
+                 #draw vector line
+                cv2.line(frame,(cX, cY),(P2x,P2y),(255,255,255),5)
+
+                #output center of contour
+                print  (P1x , P2y, angle)
+
+                #detect bounding box
+                rect = cv2.minAreaRect(contour)
+                box = cv2.boxPoints(rect)
+                box = np.int0(box)
+                #draw bounding box
+                cv2.drawContours(frame, [box],0,(0,0,255),2)
 
 
 def drawCTContours(originalImage, tresholdedImage):
@@ -157,30 +201,39 @@ def cropRotulaCT(originalImage):
 
 
 
-ds=pydicom.dcmread('../data/dicom/Knee/vhf.421.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img = transformToHu(ds,ds.pixel_array)
-imgNoTh = transformToHu(ds,ds.pixel_array)
-imgNoTh = imgNoTh -  imgNoTh.min()
+th_img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
+kernel = np.ones((3,3))
+closing = cv2.morphologyEx(th_img, cv2.MORPH_CLOSE, kernel)
+contours, hierarchy = cv2.findContours(closing, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+
+biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
+rect = cv2.minAreaRect(biggest_contour)
+angle = rect[2]
+
+if angle < -45:
+    angle = (90 + angle)
+
+# otherwise, just take the inverse of the angle to make
+# it positive
+else:
+    angle = -angle  
+
+# rotate the image to deskew it
+(h, w) = img.shape[:2]
+center = (w // 2, h // 2)
+M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+
+'''
 num_rows, num_cols = img.shape[:2]
 rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
 img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
-imgNoTh = img_rotation.copy()
-imgNoTh = imgNoTh - imgNoTh.min()
-imgNoTh = imgNoTh / imgNoTh.max() * 255
-originalImage = cropRotulaCT(imgNoTh)
+'''
 
-img_rotation_2 = img_rotation.copy()
-femur_cropped = cropFemurCT(img_rotation_2)
-femur_thresholded = thresholdCTImage(femur_cropped)
-originalImage, slope = getLowestPointsFemur(originalImage, femur_thresholded)
-
-
-rotula_cropped = cropRotulaCT(img_rotation)
-rotula_thresholded = thresholdCTImage(rotula_cropped)
-originalImage = getTransvesalPointRotula(originalImage, rotula_thresholded, slope)
-
-
-
-plt.imshow(img)
+plt.imshow(rotated)
 plt.show()
