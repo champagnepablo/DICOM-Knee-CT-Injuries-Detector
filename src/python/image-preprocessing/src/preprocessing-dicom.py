@@ -199,7 +199,55 @@ def cropRotulaCT(originalImage):
     return croppedImage
 
 
+def getROI(img):
+    img2 = img.copy()
+    half_column = img.shape[1] / 2
+    for i in range(img.shape[0]-1):
+        for j in range(img.shape[1]-1):
+            if j> half_column:
+                img2[i][j] = 0
+    return img2
 
+
+def rotateFemur(img):
+    contours, hierarchy = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+
+    biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
+    rect = cv2.minAreaRect(biggest_contour)
+    angle = rect[2]
+
+    if angle < -45:
+        angle = (90 + angle)
+
+# otherwise, just take the inverse of the angle to make
+# it positive
+    else:
+        angle = -angle  
+
+# rotate the image to deskew it
+    (h, w) = img.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+    rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    return rotated, biggest_contour
+
+
+def getPointsFemur(img):
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    c = max(contour_sizes, key=lambda x: x[0])[1]
+    extLeft = tuple(c[c[:, :, 0].argmin()][0])
+    extRight = tuple(c[c[:, :, 0].argmax()][0])
+    extTop = tuple(c[c[:, :, 1].argmin()][0])
+    extBot = tuple(c[c[:, :, 1].argmax()][0])
+
+    center = (int)  ((extLeft[0] + extRight[0]) / 2)
+    print(extRight)
+    print(extLeft)
+    img[:, center] = 0
+    return img
 
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
@@ -207,27 +255,9 @@ img = transformToHu(ds,ds.pixel_array)
 th_img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
 kernel = np.ones((3,3))
 closing = cv2.morphologyEx(th_img, cv2.MORPH_CLOSE, kernel)
-contours, hierarchy = cv2.findContours(closing, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
-
-biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
-rect = cv2.minAreaRect(biggest_contour)
-angle = rect[2]
-
-if angle < -45:
-    angle = (90 + angle)
-
-# otherwise, just take the inverse of the angle to make
-# it positive
-else:
-    angle = -angle  
-
-# rotate the image to deskew it
-(h, w) = img.shape[:2]
-center = (w // 2, h // 2)
-M = cv2.getRotationMatrix2D(center, -angle, 1.0)
-rotated = cv2.warpAffine(img, M, (w, h),
-    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+roi_img = getROI(closing)
+rotated_img, contour = rotateFemur(roi_img)
+cropped_img = getPointsFemur(rotated_img)
 
 '''
 num_rows, num_cols = img.shape[:2]
@@ -235,5 +265,5 @@ rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
 img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
 '''
 
-plt.imshow(rotated)
+plt.imshow(cropped_img)
 plt.show()
