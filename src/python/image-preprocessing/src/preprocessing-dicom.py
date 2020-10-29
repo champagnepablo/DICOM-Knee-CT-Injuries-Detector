@@ -4,6 +4,7 @@ import cv2 as cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import pydicom
+import imutils
 from pydicom.data import get_testdata_files
 from pydicom.pixel_data_handlers.util import apply_modality_lut
 from pydicom.pixel_data_handlers.util import apply_voi_lut
@@ -231,10 +232,10 @@ def rotateFemur(img):
     M = cv2.getRotationMatrix2D(center, -angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
-    return rotated, biggest_contour
+    return rotated, angle
 
 
-def getPointsFemur(img):
+def getPointsFemur(img, angle):
     contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
     c = max(contour_sizes, key=lambda x: x[0])[1]
@@ -242,22 +243,51 @@ def getPointsFemur(img):
     extRight = tuple(c[c[:, :, 0].argmax()][0])
     extTop = tuple(c[c[:, :, 1].argmin()][0])
     extBot = tuple(c[c[:, :, 1].argmax()][0])
-
     center = (int)  ((extLeft[0] + extRight[0]) / 2)
-    print(extRight)
-    print(extLeft)
     img[:, center] = 0
-    return img
+    for i in  range(img.shape[0]-1):
+        for j in range(img.shape[1]-1):
+            if extTop[1] > i :
+                img[i][j] = 0   #remove rotula
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    img = cv2.cvtColor(img.astype('float32'), cv2.COLOR_GRAY2BGR)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    c = max(contour_sizes, key=lambda x: x[0])[1]
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    left_femur = sorted_contours[1]
+    extBot = tuple(c[c[:, :, 1].argmax()][0])
+    leftBot = tuple(left_femur[left_femur[:,:,1].argmax()][0])
+    (h, w) = img.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    transform_points = np.array( [ [ [ extBot[0], extBot[1] ] ],  [ [ leftBot[0], leftBot[1] ] ]  ])
+    tf2 = cv2.transform(transform_points, M)
+    cv2.circle(rotated, (tf2[0][0][0], tf2[0][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
+    cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
+    return rotated, (tf2[0][0], tf2[1][0])
 
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img = transformToHu(ds,ds.pixel_array)
 th_img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
-kernel = np.ones((3,3))
-closing = cv2.morphologyEx(th_img, cv2.MORPH_CLOSE, kernel)
+kernel = np.ones((2,2))
+closing = cv2.morphologyEx(th_img, cv2.MORPH_ERODE, kernel)
 roi_img = getROI(closing)
-rotated_img, contour = rotateFemur(roi_img)
-cropped_img = getPointsFemur(rotated_img)
+rotated_img, angle = rotateFemur(roi_img)
+cropped_img, (extBot, extBot2) = getPointsFemur(rotated_img, angle)
+img_2d = ds.pixel_array.astype(float)
+
+## Step 2. Rescaling grey scale between 0-255
+img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
+
+## Step 3. Convert to uint
+img_2d_scaled = np.uint8(img_2d_scaled)
+
+img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
+cv2.circle(img2, (extBot[0], extBot[1]), radius=0, color=(0, 0, 255), thickness=-1)
+cv2.circle(img2, (extBot2[0], extBot2[1]), radius=0, color=(0, 0, 255), thickness=-1)
 
 '''
 num_rows, num_cols = img.shape[:2]
@@ -265,5 +295,5 @@ rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
 img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
 '''
 
-plt.imshow(cropped_img)
+plt.imshow(img2)
 plt.show()
