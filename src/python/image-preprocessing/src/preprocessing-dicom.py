@@ -232,6 +232,7 @@ def rotateFemur(img):
     M = cv2.getRotationMatrix2D(center, -angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+  #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
     return rotated, angle
 
 
@@ -268,12 +269,15 @@ def getPointsFemur(img, angle):
     cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     return rotated, (tf2[0][0], tf2[1][0])
 
-ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
+#ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img = transformToHu(ds,ds.pixel_array)
-th_img = thresholdCTImage(img, ds.WindowCenter, ds.WindowWidth)
+print(ds.WindowWidth)
+img_norm = normalizeImage(img, ds.WindowCenter[1], ds.WindowWidth[0])
+th_img = thresholdCTImage(img, (ds.WindowCenter[1]  + ds.WindowCenter[0]) / 2, ds.WindowWidth[0] )
 kernel = np.ones((2,2))
-closing = cv2.morphologyEx(th_img, cv2.MORPH_ERODE, kernel)
+closing = cv2.morphologyEx(th_img, cv2.MORPH_CLOSE, kernel)
 roi_img = getROI(closing)
 rotated_img, angle = rotateFemur(roi_img)
 cropped_img, (extBot, extBot2) = getPointsFemur(rotated_img, angle)
@@ -294,6 +298,6 @@ num_rows, num_cols = img.shape[:2]
 rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
 img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
 '''
-
-plt.imshow(img2)
+print(angle)
+plt.imshow(img_norm)
 plt.show()
