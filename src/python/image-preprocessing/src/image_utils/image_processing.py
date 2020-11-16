@@ -94,12 +94,28 @@ def getROI(img):
     half_column = img.shape[1] / 2
     for i in range(img.shape[0]-1):
         for j in range(img.shape[1]-1):
-            if j> half_column:
+            if j > half_column:
+                img2[i][j] = 0
+    return img2
+
+def getROI2(img):
+    """
+    Crops the ROI of the CT image
+
+    :param originalImage: image to be cropped
+    """
+
+    img2 = img.copy()
+    half_column = img.shape[1] / 2
+    for i in range(img.shape[0]-1):
+        for j in range(img.shape[1]-1):
+            if j < half_column:
                 img2[i][j] = 0
     return img2
 
 
-def rotateFemur(img):
+
+def rotateFemur(img, half):
     """
     Rotates image in a way which Femur bone is pararel to the margins of the image
     
@@ -120,7 +136,8 @@ def rotateFemur(img):
 # it positive
     else:
         angle = -angle  
-    print(angle)
+    if half == "right":
+        angle = -angle
 # rotate the image to deskew it
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
@@ -158,7 +175,6 @@ def rotate_rotula(img):
 # it positive
     else:
         angle = -angle  
-    print(angle)
 # rotate the image to deskew it
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
