@@ -94,7 +94,7 @@ def getROI(img):
     half_column = img.shape[1] / 2
     for i in range(img.shape[0]-1):
         for j in range(img.shape[1]-1):
-            if j > half_column:
+            if j > half_column or i > 350:
                 img2[i][j] = 0
     return img2
 
@@ -115,7 +115,7 @@ def getROI2(img):
 
 
 
-def rotateFemur(img, half):
+def rotateFemur(img, half = "left"):
     """
     Rotates image in a way which Femur bone is pararel to the margins of the image
     
@@ -194,3 +194,27 @@ def rotate_rotula(img):
 
     return rotated, (tf2[0][0], tf2[1][0])
 
+
+
+def setAlphaChannel(img, mask):
+    """
+    Converts an normal image into a RGBA image
+
+    :param img: Input image
+    """
+
+    mask = [pixel * 255 for pixel in mask]
+    rgba_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
+    rgba_img[:, :, 3] = mask
+    return rgba_img
+
+
+def remove_rotula(th_img, femur_contour):
+    removed_img = th_img.copy()
+    north = tuple(femur_contour[femur_contour[:, :, 1].argmax()][0])
+    for i in range(th_img.shape[0]):
+        for j in range(th_img.shape[1]):
+            if i < north[1]:
+                removed_img[i][j] = 0
+
+    return removed_img

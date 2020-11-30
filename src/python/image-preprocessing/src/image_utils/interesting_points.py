@@ -8,7 +8,7 @@ import imutils
 from pydicom.data import get_testdata_files
 from pydicom.pixel_data_handlers.util import apply_modality_lut
 from pydicom.pixel_data_handlers.util import apply_voi_lut
-from image_utils import dicom_utils
+from image_utils import dicom_utils, image_processing
 
 
 def getLineEquation(point1, point2) :
@@ -121,3 +121,85 @@ def getPointsFemur(img, angle):
     cv2.circle(rotated, (tf2[0][0][0], tf2[0][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     return rotated, (tf2[0][0], tf2[1][0])
+
+
+def getDeepestPointTrochlea(th_img, half = "right"):
+    im_floodfill = th_img.copy()
+    h, w = th_img.shape[:2]
+    mask = np.zeros((h+2, w+2), np.uint8)
+    cv2.floodFill(im_floodfill, mask, (0,0), 255)
+    im_floodfill_inv = cv2.bitwise_not(im_floodfill)
+    im_out = th_img | im_floodfill_inv
+    im_out_2 = im_out.copy()
+    im_out[im_out < 127] = 0
+    im_out[im_out > 127] = 1
+    rotated_femur, angle = image_processing.rotateFemur(im_out)
+    im_aux = rotated_femur.copy()
+    contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    no_rotula = image_processing.remove_rotula(rotated_femur, sorted_contours[1])
+    extLeft = tuple(sorted_contours[0][sorted_contours[0][:, :, 0].argmin()][0])
+    extRight = tuple(sorted_contours[0][sorted_contours[0][:, :, 0].argmax()][0])
+    center = (int)  ((extLeft[0] + extRight[0]) / 2)
+    aux_no_rotula = no_rotula.copy()
+    aux_no_rotula[:, center] = 0
+    rotated_femur = image_processing.getROI(aux_no_rotula)
+    contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    left_femur = sorted_contours[0]
+    right_femur = sorted_contours[1]
+    north_west = tuple(left_femur[left_femur[:, :, 1].argmin()][0])
+    north_east = tuple(right_femur[right_femur[:, :, 1].argmin()][0])
+    south_west = tuple(left_femur[left_femur[:, :, 1].argmax()][0])
+    south_east = tuple(right_femur[right_femur[:, :, 1].argmax()][0])
+
+    if north_west[0] > north_east[0]:
+        aux_north = north_east
+        aux_south = south_east
+        north_east = north_west
+        south_east = south_west
+        north_west = aux_north
+        south_west = aux_south
+
+    medium_y = (int) ((north_east[1] + south_east[1]) * 0.5) 
+    x_point = 0
+    y_point = 0
+    ROI_image = no_rotula.copy()
+    ROI_image[:, north_west[0]] = 1
+    ROI_image[:, north_east[0]] = 1
+    for i in range(ROI_image.shape[0]):
+        for j in range(ROI_image.shape[1]):
+            if j > north_west[0] and j < north_east[0] and i < north_west[1] + 30:
+                ROI_image[i][j] = ROI_image[i][j]
+            else :
+                ROI_image[i][j] = 0
+    
+    for i in range(ROI_image.shape[0]):
+        for j in range(ROI_image.shape[1]):
+            if i > x_point :
+                if ROI_image[i][j] == 1:
+                    if ROI_image[i-1][j] == 0:
+                        if ROI_image[i+1][j] == 1:
+                            x_point = i
+                            y_point = j
+                            
+    im_aux[im_aux == 1] = 255
+    im_aux = cv2.cvtColor(im_out_2, cv2.COLOR_GRAY2BGR)
+    im_aux = cv2.circle(im_aux, (y_point,x_point), radius=0, color=(0, 0, 255), thickness=10)
+    transform_points = np.array( [ [ [ x_point, y_point ] ]  ])
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(th_img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    tf2 = cv2.transform(transform_points, M)
+    print(x_point,y_point)
+    print(tf2)
+    return rotated_femur
+
+
+
+
+    
+
+
+

@@ -9,14 +9,17 @@ from pydicom.data import get_testdata_files
 from pydicom.pixel_data_handlers.util import apply_modality_lut
 from pydicom.pixel_data_handlers.util import apply_voi_lut
 from image_utils import dicom_utils,image_processing,interesting_points
+import SimpleITK as sitk
+from skimage import exposure # for histogram equalization
+
 
 
 
 def get_points_left(ds):
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
     th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[1] , ds.WindowWidth[0])
-
     roi_img = image_processing.getROI(th_img)
+    roi_img2 = roi_img.copy()
     rotated_img, angle = image_processing.rotateFemur(roi_img, "left")
     _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, -angle)
     img_2d = ds.pixel_array.astype(float)
@@ -31,11 +34,13 @@ def get_points_left(ds):
     cv2.circle(img2, (extBot2[0], extBot2[1]), radius=0, color=(0, 0, 255), thickness=-1)
 
     _ , (extLeft, extRight) = image_processing.rotate_rotula(roi_img)
-
+   # x,y = interesting_points.getDeepestPointTrochlea(th_img)
+    #print(x,y)
+    #cv2.circle(img2, (y, x), radius=0, color=(0, 0, 255), thickness=-1)
     cv2.circle(img2, (extLeft[0], extLeft[1]), radius=0, color=(0, 0, 255), thickness=-1)
     cv2.circle(img2, (extRight[0], extRight[1]), radius=0, color=(0, 0, 255), thickness=-1)
 
-    return img2
+    return img2,roi_img2
 
 
 def get_points_right(ds, img_left):
@@ -73,13 +78,19 @@ def get_points_right(ds, img_left):
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
-img = get_points_left(ds)
+img,th_img = get_points_left(ds)
 img2 = get_points_right(ds, img)
+img3 = dicom_utils.transformToHu(ds,ds.pixel_array)
+img4 = image_processing.setAlphaChannel(img,th_img)
+
 
 '''
 num_rows, num_cols = img.shape[:2]
 rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
 img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
 '''
-plt.imshow(img2)
+
+roi_img = interesting_points.getDeepestPointTrochlea(th_img)
+
+plt.imshow(roi_img)
 plt.show()
