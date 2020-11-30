@@ -185,16 +185,17 @@ def getDeepestPointTrochlea(th_img, half = "right"):
                             
     im_aux[im_aux == 1] = 255
     im_aux = cv2.cvtColor(im_out_2, cv2.COLOR_GRAY2BGR)
-    im_aux = cv2.circle(im_aux, (y_point,x_point), radius=0, color=(0, 0, 255), thickness=10)
-    transform_points = np.array( [ [ [ x_point, y_point ] ]  ])
+    transform_points = np.array( [ [ [ y_point, x_point ] ]  ])
     center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
-    rotated = cv2.warpAffine(th_img, M, (w, h),
-    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
     tf2 = cv2.transform(transform_points, M)
+    im_aux = cv2.circle(im_aux, (tf2[0][0][0],tf2[0][0][1]), radius=0, color=(255, 0, 255), thickness=10)
+    no_rotula[no_rotula == 1] = 255
+    no_rotula = cv2.cvtColor(no_rotula, cv2.COLOR_GRAY2BGR)
+    no_rotula = cv2.circle(no_rotula, (y_point, x_point), radius=0, color=(0, 0, 255), thickness=10)
     print(x_point,y_point)
     print(tf2)
-    return rotated_femur
+    return im_aux, tf2[0][0]
 
 
 

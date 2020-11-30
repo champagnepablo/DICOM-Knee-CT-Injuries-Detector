@@ -141,11 +141,11 @@ def rotateFemur(img, half = "left"):
 # rotate the image to deskew it
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
   #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
-    return rotated, angle
+    return rotated, -angle
 
 
 
