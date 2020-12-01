@@ -41,9 +41,9 @@ def normalizeImage(img, window_center, window_width):
             if img[i,j] <= op1 :
                 normalized_image[i,j] = 0
             elif img[i,j] > op2 :
-                normalized_image[i,j] = 1
+                normalized_image[i,j] = 255
             else :
-                normalized_image[i,j] = (img[i,j]-window_center-0.5)/(window_width-1) +0.5
+                normalized_image[i,j] = (int) (((img[i,j]-window_center-0.5)/(window_width-1) +0.5) * 255)
     return normalized_image
 
 

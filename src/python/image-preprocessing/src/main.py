@@ -18,6 +18,26 @@ from skimage import exposure # for histogram equalization
 def get_points_left(ds):
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
     th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[0] , ds.WindowWidth[0])
+
+    norm_img = dicom_utils.normalizeImage(img,  ds.WindowCenter[0], ds.WindowWidth[0])
+    blurred = cv2.GaussianBlur(norm_img, (3,3),0)
+    im_th = image_processing.new_method_segmentation(blurred)
+    im_th_2 = image_processing.new_method_segmentation(norm_img)
+
+    im_th[im_th > 0] = 1
+    im_th_2[im_th_2 > 0] = 1
+
+    kernel = np.ones((3,3), dtype = np.uint8)
+    closing = cv2.morphologyEx(im_th, cv2.MORPH_CLOSE, kernel)
+
+    diff =  cv2.bitwise_or(closing, im_th_2)
+    diff = diff.astype(np.uint8)
+    im_floodfill = diff.copy()
+    h, w = diff.shape[:2]
+    mask = np.zeros((h+2, w+2), np.uint8)
+    cv2.floodFill(im_floodfill, mask, (0,0), 255)
+    im_floodfill_inv = cv2.bitwise_not(im_floodfill)
+    im_out = diff | im_floodfill_inv
     roi_img = image_processing.getROI(th_img)
     roi_img2 = roi_img.copy()
     rotated_img, angle = image_processing.rotateFemur(roi_img, "left")
@@ -43,7 +63,7 @@ def get_points_left(ds):
     cv2.circle(img2, (extLeft[0], extLeft[1]), radius=0, color=(0, 255, 0), thickness=2)
     cv2.circle(img2, (extRight[0], extRight[1]), radius=0, color=(0, 255, 0), thickness=2)
 
-    return img2,rotated_img
+    return img2,th_img
 
 
 def get_points_right(ds, img_left):
@@ -79,12 +99,17 @@ def get_points_right(ds, img_left):
 
 
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
-ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba4.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 #plt.imshow(ds.pixel_array, cmap=plt.cm.bone)
 img, th_img = get_points_left(ds)
 img2 = get_points_right(ds, img)
 img3 = dicom_utils.transformToHu(ds,ds.pixel_array)
-#img4 = image_processing.setAlphaChannel(img,th_img)
+
+th_img2 = image_processing.thresholdCTImage(img3,ds.WindowCenter[0] , ds.WindowWidth[0])
+
+
+
+
 
 
 '''
@@ -95,5 +120,5 @@ img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
 
 
 
-plt.imshow(img2)
+plt.imshow(th_img2)
 plt.show()

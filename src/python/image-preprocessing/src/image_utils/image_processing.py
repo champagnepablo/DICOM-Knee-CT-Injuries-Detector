@@ -218,3 +218,32 @@ def remove_rotula(th_img, femur_contour):
                 removed_img[i][j] = 0
 
     return removed_img
+
+
+def new_method_segmentation(img):
+    v_min = np.amin(img)
+    v_max = np.amax(img)
+    t_new = (v_max + v_min) // 2
+    t_old = 0
+    background_img = np.zeros((img.shape[0], img.shape[1]))
+    foreground_img = np.zeros((img.shape[0], img.shape[1]))
+    while (t_new != t_old):
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                if img[i][j] < t_new :
+                    background_img[i][j] = img[i][j]
+                else :
+                    foreground_img[i][j] = img[i][j]
+        mean_back = np.sum(np.sum(background_img))
+        mean_fore = np.sum(np.sum(np.sum(foreground_img)))
+        non_zero_back = np.count_nonzero(background_img)
+        non_zero_fore = np.count_nonzero(foreground_img)
+
+        mean_back = mean_back // non_zero_back
+        mean_fore = mean_fore // non_zero_fore
+
+        t_old = t_new
+        t_new = (mean_fore + mean_fore) // 2
+    
+
+    return foreground_img
