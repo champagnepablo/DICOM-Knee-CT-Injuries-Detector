@@ -41,7 +41,6 @@ def getLowestPointsFemur(originalImage, tresholdedImage):
     m,b =getLineEquation(p1,p2)
     point1 = (int) (m * 0 + b)
     point2 = (int) (m * bgrImage.shape[1] + b)
-    print(point2)
     cv2.circle(bgrImage, p1, 1, (0, 50, 255), -1)
     cv2.circle(bgrImage, p2, 1, (0, 50, 255), -1)
     cv2.line(bgrImage, (0, point1), (bgrImage.shape[1], point2), (255,80,0), 1)
@@ -113,7 +112,7 @@ def getPointsFemur(img, angle):
     leftBot = tuple(left_femur[left_femur[:,:,1].argmax()][0])
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
     transform_points = np.array( [ [ [ extBot[0], extBot[1] ] ],  [ [ leftBot[0], leftBot[1] ] ]  ])
@@ -124,26 +123,27 @@ def getPointsFemur(img, angle):
 
 
 def getDeepestPointTrochlea(th_img, half = "right"):
-    im_floodfill = th_img.copy()
-    h, w = th_img.shape[:2]
-    mask = np.zeros((h+2, w+2), np.uint8)
-    cv2.floodFill(im_floodfill, mask, (0,0), 255)
-    im_floodfill_inv = cv2.bitwise_not(im_floodfill)
-    im_out = th_img | im_floodfill_inv
-    im_out_2 = im_out.copy()
-    im_out[im_out < 127] = 0
-    im_out[im_out > 127] = 1
-    rotated_femur, angle = image_processing.rotateFemur(im_out)
+    rotated_femur, angle = image_processing.rotateFemur(th_img, half)
+
     im_aux = rotated_femur.copy()
     contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    aux_no_rotula = rotated_femur.copy()
     sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
-    no_rotula = image_processing.remove_rotula(rotated_femur, sorted_contours[1])
     extLeft = tuple(sorted_contours[0][sorted_contours[0][:, :, 0].argmin()][0])
     extRight = tuple(sorted_contours[0][sorted_contours[0][:, :, 0].argmax()][0])
+    extTop = tuple(sorted_contours[0][sorted_contours[0][:, :, 1].argmin()][0])
+    no_rotula = aux_no_rotula.copy()
+    for i in  range(aux_no_rotula.shape[0]-1):
+        for j in range(aux_no_rotula.shape[1]-1):
+            if extTop[1] > i :
+                aux_no_rotula[i][j] = 0   #remove rotula
     center = (int)  ((extLeft[0] + extRight[0]) / 2)
-    aux_no_rotula = no_rotula.copy()
     aux_no_rotula[:, center] = 0
-    rotated_femur = image_processing.getROI(aux_no_rotula)
+
+    if half == "left":
+        rotated_femur = image_processing.getROI(aux_no_rotula)
+    else:
+        rotated_femur = image_processing.getROI2(aux_no_rotula)
     contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
     left_femur = sorted_contours[0]
@@ -173,29 +173,28 @@ def getDeepestPointTrochlea(th_img, half = "right"):
                 ROI_image[i][j] = ROI_image[i][j]
             else :
                 ROI_image[i][j] = 0
-    
     for i in range(ROI_image.shape[0]):
         for j in range(ROI_image.shape[1]):
             if i > x_point :
                 if ROI_image[i][j] == 1:
                     if ROI_image[i-1][j] == 0:
                         if ROI_image[i+1][j] == 1:
-                            x_point = i
-                            y_point = j
+                            if cv2.pointPolygonTest(sorted_contours[0], (j,i), False) == 0 :
+                                x_point = i
+                                y_point = j
                             
     im_aux[im_aux == 1] = 255
-    im_aux = cv2.cvtColor(im_out_2, cv2.COLOR_GRAY2BGR)
+    im_aux = cv2.cvtColor(im_aux, cv2.COLOR_GRAY2BGR)
     transform_points = np.array( [ [ [ y_point, x_point ] ]  ])
+    h, w = im_aux.shape[:2]
     center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
     tf2 = cv2.transform(transform_points, M)
     im_aux = cv2.circle(im_aux, (tf2[0][0][0],tf2[0][0][1]), radius=0, color=(255, 0, 255), thickness=10)
     no_rotula[no_rotula == 1] = 255
     no_rotula = cv2.cvtColor(no_rotula, cv2.COLOR_GRAY2BGR)
     no_rotula = cv2.circle(no_rotula, (y_point, x_point), radius=0, color=(0, 0, 255), thickness=10)
-    print(x_point,y_point)
-    print(tf2)
-    return im_aux, tf2[0][0]
+    return th_img, tf2[0][0]
 
 
 

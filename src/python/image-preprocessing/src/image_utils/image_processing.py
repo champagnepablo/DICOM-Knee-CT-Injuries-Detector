@@ -109,7 +109,7 @@ def getROI2(img):
     half_column = img.shape[1] / 2
     for i in range(img.shape[0]-1):
         for j in range(img.shape[1]-1):
-            if j < half_column:
+            if j < half_column or i > 350:
                 img2[i][j] = 0
     return img2
 
@@ -128,7 +128,6 @@ def rotateFemur(img, half = "left"):
     biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
     rect = cv2.minAreaRect(biggest_contour)
     angle = rect[2]
-
     if angle < -45:
         angle = (90 + angle)
 
@@ -136,12 +135,12 @@ def rotateFemur(img, half = "left"):
 # it positive
     else:
         angle = -angle  
-    if half == "right":
-        angle = -angle
 # rotate the image to deskew it
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+    if half == "right":
+        angle = -angle
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
   #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
@@ -247,3 +246,46 @@ def new_method_segmentation(img):
     
 
     return foreground_img
+
+def thresholdAlternative(img, WindowCenter, WindowWidth):
+    norm_img = dicom_utils.normalizeImage255(img,  WindowCenter, WindowWidth)
+    blurred = cv2.GaussianBlur(norm_img, (5,5),0)
+    im_th = new_method_segmentation(blurred)
+    im_th_2 = new_method_segmentation(norm_img)
+    im_th[im_th > 0] = 1
+    
+    im_th_2[im_th_2 > 0] = 1
+
+    kernel = np.ones((5,3), dtype = np.uint8)
+    closing = cv2.morphologyEx(im_th, cv2.MORPH_CLOSE, kernel)
+
+    diff =  cv2.bitwise_or(closing, im_th_2)
+    diff = diff.astype(np.uint8)
+    im_floodfill = diff.copy()
+    h, w = diff.shape[:2]
+    mask = np.zeros((h+2, w+2), np.uint8)
+    cv2.floodFill(im_floodfill, mask, (74,291), 255)
+    im_floodfill_inv = cv2.bitwise_not(im_floodfill)
+    im_out = diff | im_floodfill_inv
+    return im_th
+
+
+def floodfillContour(contourImage):
+    h, w = contourImage.shape[:2]
+    flood_mask = np.zeros((h+2, w+2), dtype=np.uint8)
+    connectivity = 8
+    flood_fill_flags = (connectivity | cv2.FLOODFILL_FIXED_RANGE | cv2.FLOODFILL_MASK_ONLY | 255 << 8) 
+
+    # Copy the image.
+    im_floodfill = contourImage.copy()
+
+    # Floodfill from point inside arena, not inside a black dot
+    cv2.floodFill(im_floodfill, flood_mask, (h//2 + 20, w//2 + 20), 255, None, None, flood_fill_flags)
+
+    borders = []
+    for i in range(len(contourImage)):
+        borders.append([B-A for A,B in zip(contourImage[i], flood_mask[i])])
+
+    borders = np.asarray(borders)
+    borders = cv2.bitwise_not(borders)
+    return flood_mask
