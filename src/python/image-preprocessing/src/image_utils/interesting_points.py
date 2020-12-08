@@ -124,7 +124,8 @@ def getPointsFemur(img, angle):
 
 def getDeepestPointTrochlea(th_img, half = "right"):
     rotated_femur, angle = image_processing.rotateFemur(th_img, half)
-
+    plt.imshow(rotated_femur)
+    plt.show()
     im_aux = rotated_femur.copy()
     contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     aux_no_rotula = rotated_femur.copy()
@@ -194,7 +195,7 @@ def getDeepestPointTrochlea(th_img, half = "right"):
     no_rotula[no_rotula == 1] = 255
     no_rotula = cv2.cvtColor(no_rotula, cv2.COLOR_GRAY2BGR)
     no_rotula = cv2.circle(no_rotula, (y_point, x_point), radius=0, color=(0, 0, 255), thickness=10)
-    return th_img, tf2[0][0]
+    return ROI_image, tf2[0][0]
 
 
 

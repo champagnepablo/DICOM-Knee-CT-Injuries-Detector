@@ -20,7 +20,8 @@ def get_points_left(ds):
     th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[0] , ds.WindowWidth[0])
     alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
     alt_th = alt_th.astype(np.uint8)
-
+    plt.imshow(alt_th)
+    plt.show()
     roi_img2 = image_processing.getROI(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
     roi_img = image_processing.getROI(th_img)
@@ -49,7 +50,7 @@ def get_points_left(ds):
     cv2.circle(img2, (extLeft[0], extLeft[1]), radius=0, color=(0, 255, 0), thickness=2)
     cv2.circle(img2, (extRight[0], extRight[1]), radius=0, color=(0, 255, 0), thickness=2)
 
-    return img2,alt_th
+    return img2,extBot, extBot2, throclea_points
 
 
 def get_points_right(ds, img_left):
@@ -79,12 +80,27 @@ def get_points_right(ds, img_left):
     cv2.circle(img_left, (extLeft[0], extLeft[1]), radius=0, color=(0, 0, 255), thickness=2)
     cv2.circle(img_left, (extRight[0], extRight[1]), radius=0, color=(0, 0, 255), thickness=2)
 
-    return img_left, rotated_img
+
+    return img_left, extBot, extBot2, throclea_points
 
 
 
-
-
+def get_point_tibia_left(img):
+    img_tibia = dicom_utils.transformToHu(ds,ds.pixel_array)
+    img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, ds.WindowCenter[0], ds.WindowWidth[0])
+    th_img = image_processing.thresholdAlternative(img_tibia,ds.WindowCenter[0] , ds.WindowWidth[0])
+    left_image = image_processing.getROI(th_img)
+    left_image = left_image.astype(np.uint8)
+    rotated_img, angle = image_processing.rotateFemur(left_image, "left")
+    contours, _ = cv2.findContours(rotated_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    north_west = tuple(sorted_contours[0][sorted_contours[0][:, :, 1].argmin()][0])
+    transform_points = np.array( [ [ [ north_west[0], north_west[1] ] ]  ])
+    h, w = rotated_img.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    tf2 = cv2.transform(transform_points, M)
+    return tf2
 
 
 
@@ -92,8 +108,17 @@ def get_points_right(ds, img_left):
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
 ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 
+print(type(ds.WindowWidth))
 img_tibia = dicom_utils.transformToHu(ds,ds.pixel_array)
-th_img = image_processing.thresholdAlternative(img,ds.WindowCenter[0] , ds.WindowWidth[0])
+img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, ds.WindowCenter[0], ds.WindowWidth[0])
+
+
+th_img = image_processing.thresholdAlternative(img_tibia_norm, ds2.WindowCenter[0], ds2.WindowWidth[0])
+
+
+
+
+
 left_image = image_processing.getROI(th_img)
 left_image = left_image.astype(np.uint8)
 rotated_img, angle = image_processing.rotateFemur(left_image, "left")
@@ -107,20 +132,40 @@ M = cv2.getRotationMatrix2D(center, angle, 1.0)
 tf2 = cv2.transform(transform_points, M)
 
 
-img, th_img = get_points_left(ds2)
-img2,th_img2 = get_points_right(ds2, img)
-
-img_femur = dicom_utils.transformToHu(ds,ds.pixel_array)
-
-
-
-'''
-num_rows, num_cols = img.shape[:2]
-rotation_matrix = cv2.getRotationMatrix2D((num_cols/2, num_rows/2), -12, 1)
-img_rotation = cv2.warpAffine(img, rotation_matrix, (num_cols, num_rows))
-'''
+img_tibia_norm_rgb = cv2.cvtColor(img_tibia_norm.astype(np.uint8), cv2.COLOR_GRAY2BGRA)
+img_tibia_norm = cv2.bitwise_not(img_tibia_norm)
+img_tibia_norm_rgb[:,:,3] = img_tibia_norm
+img, femur_left, femur_right, trochlea = get_points_left(ds2)
+img2,_,_,_ = get_points_right(ds2, img)
 
 
-plt.imshow(img)
+img_femur = dicom_utils.transformToHu(ds2,ds2.pixel_array)
+img = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
+overlay_img = img + img_tibia_norm_rgb
+
+tibia = get_point_tibia_left(ds)[0][0]
+
+m_femur, b_femur = dicom_utils.getFunctionPoints(dicom_utils.mmTranslationPoint(ds.PixelSpacing, femur_left), dicom_utils.mmTranslationPoint(ds.PixelSpacing,femur_right))
+
+m_throclea, b_throclea = dicom_utils.getPerpendicularFunction(m_femur, trochlea)
+m_tibia , b_tibia = dicom_utils.getPerpendicularFunction(m_femur, tibia)
+
+d = dicom_utils.getDistanceParalelLines(m_throclea, b_throclea, b_tibia)
+print(ds.PixelSpacing)
+print(d)
+
+cv2.line(img2,(femur_left[0],femur_left[1]),(femur_right[0],femur_right[1]),(255,255,255),1)
+
+y_throclea = m_throclea * trochlea[0] + b_throclea
+y_throclea = (int) (y_throclea)
+
+y_tibia = m_tibia * tibia[0] + b_tibia
+y_tibia = (int) (y_tibia)
+
+cv2.line(img2,(trochlea[0],y_throclea),(trochlea[0],trochlea[1]),(255,255,255),1)
+cv2.line(img2,(tibia[0],y_tibia),(tibia[0],tibia[1]),(255,255,255),1)
+
+
+plt.imshow(img2)
 
 plt.show()

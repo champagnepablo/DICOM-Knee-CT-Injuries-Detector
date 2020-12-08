@@ -17,6 +17,9 @@ def transformToHu(medical_image, image):
     :param medical_image: the dicom image 
     :param image: matrix with image to be processed
     """
+    if (medical_image == None) :
+        raise Exception("Non valid Image passed")
+ 
 
     intercept = medical_image.RescaleIntercept
     slope = medical_image.RescaleSlope
@@ -32,6 +35,12 @@ def normalizeImage255(img, window_center, window_width):
     :param window_center: Window center of the DICOM file
     param window_width: Window width of the DICOM file
     """
+
+    if (window_center == None):
+        raise ValueError("Invalid window_center ")
+
+    if (window_width == None):
+        raise ValueError("Invalid window_width ")
 
     normalized_image = np.zeros((img.shape[0],img.shape[1]), dtype = float)
     op1 = window_center - 0.5 - (window_width-1)/2
@@ -54,6 +63,12 @@ def normalizeImage(img, window_center, window_width):
     :param window_center: Window center of the DICOM file
     param window_width: Window width of the DICOM file
     """
+
+    if (window_center == None):
+        raise ValueError("Invalid window_center ")
+
+    if (window_width == None):
+        raise ValueError("Invalid window_width ")
 
     normalized_image = np.zeros((img.shape[0],img.shape[1]), dtype = float)
     op1 = window_center - 0.5 - (window_width-1)/2
@@ -102,3 +117,43 @@ def magnitude(img):
             magnitude = magnitude + pow(img[i,j],2)
     magnitude = math.sqrt(magnitude)
     return magnitude
+
+def mmTranslationPoint(pixel_translation, point):
+    x = point[0] * pixel_translation[0]
+    y = point[1] * pixel_translation[1]
+    return [x,y]
+
+def mmDistanceTwoPoints(pixel_translation, point1, point2):
+    """
+    Calculates distance in mm given two points (x1,y1) (x2,y2) and a pixel-milimeter translation
+    Pre-conditions: pixel_translation must be the same value in both points
+    """
+
+    x1 = point1[0] * pixel_translation[0]
+    x2 = point2[0] * pixel_translation[0]
+
+    y1 = point1[1] * pixel_translation[1]
+    y2 = point2[1] * pixel_translation[1]
+
+    result = math.sqrt( ((x1 - x2) ** 2) + ((y1 - y2) ** 2))
+
+    return result
+
+
+
+def getFunctionPoints(point1, point2):
+    m = (point2[1] - point1[1]) / (point2[0] - point1[0])
+    b = point1[1] - (point1[0] * m)
+    return m,b
+
+
+def getPerpendicularFunction(m, point):
+    m_p = - 1 / m
+    b = point[1] - (m_p * point[1])
+    return m_p, b
+
+def getDistanceParalelLines(m,b1,b2):
+    c1 = b1-b2
+    c2 = math.sqrt((m ** 2) + 1)
+    c = c1 / c2
+    return abs(c)

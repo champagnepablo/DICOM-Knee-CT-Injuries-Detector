@@ -121,21 +121,7 @@ def rotateFemur(img, half = "left"):
     
     :param img: image to be rotated
     """
-
-    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
-
-    biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
-    rect = cv2.minAreaRect(biggest_contour)
-    angle = rect[2]
-    if angle < -45:
-        angle = (90 + angle)
-
-# otherwise, just take the inverse of the angle to make
-# it positive
-    else:
-        angle = -angle  
-# rotate the image to deskew it
+    angle = getAngle(img)
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
     if half == "right":
@@ -143,10 +129,36 @@ def rotateFemur(img, half = "left"):
     M = cv2.getRotationMatrix2D(center, angle, 1.0)
     rotated = cv2.warpAffine(img, M, (w, h),
     flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    angle2 = getAngle(rotated)
+    if abs(angle2) != 0:
+        rotated = adjustRotating(rotated, -angle)    
   #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
     return rotated, -angle
 
+def getAngle(img):
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    biggest_contour = max(contour_sizes, key=lambda x: x[0])[1]
+    rect = cv2.minAreaRect(biggest_contour)
+    angle = rect[2]
+    if angle < -45:
+        angle = (90 + angle)
+    else:
+        angle = -angle
+    return angle
 
+
+def adjustRotating(img, angle):
+    (h, w) = img.shape[:2]
+    center = (w // 2, h // 2)
+    angle = 2 * angle
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    return rotated
+
+  #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
+    return rotated, -angle
 
 def rotate_rotula(img):
     """
