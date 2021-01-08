@@ -1,0 +1,46 @@
+{
+    "patients": [
+        {
+            "patient_id": 1,
+            "first_name": "Pedro",
+            "last_name": "Sanchez",
+            "age": 24,
+            "sex": "M",
+            "img_femur": {
+                "file_femur": "",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": 2,
+            "first_name": "Joaqu\u00edn",
+            "last_name": "Valeiro Pena",
+            "age": 19,
+            "sex": "M",
+            "img_femur": {
+                "file_femur": "",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        }
+    ]
+}

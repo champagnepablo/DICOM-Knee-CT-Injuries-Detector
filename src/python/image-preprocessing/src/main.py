@@ -20,8 +20,6 @@ def get_points_left(ds):
     th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[0] , ds.WindowWidth[0])
     alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
     alt_th = alt_th.astype(np.uint8)
-    plt.imshow(alt_th)
-    plt.show()
     roi_img2 = image_processing.getROI(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
     roi_img = image_processing.getROI(th_img)
@@ -77,8 +75,8 @@ def get_points_right(ds, img_left):
 
     _ , (extLeft, extRight) = image_processing.rotate_rotula(roi_img)
 
-    cv2.circle(img_left, (extLeft[0], extLeft[1]), radius=0, color=(0, 0, 255), thickness=2)
-    cv2.circle(img_left, (extRight[0], extRight[1]), radius=0, color=(0, 0, 255), thickness=2)
+    cv2.circle(img_left, (extLeft[0], extLeft[1]), radius=0, color=(0, 255, 0), thickness=2)
+    cv2.circle(img_left, (extRight[0], extRight[1]), radius=0, color=(0, 255, 0), thickness=2)
 
 
     return img_left, extBot, extBot2, throclea_points
@@ -108,15 +106,23 @@ def get_point_tibia_left(img):
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
 ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 
-print(type(ds.WindowWidth))
 img_tibia = dicom_utils.transformToHu(ds,ds.pixel_array)
+img_femur = dicom_utils.transformToHu(ds2,ds2.pixel_array)
+
 img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, ds.WindowCenter[0], ds.WindowWidth[0])
+img_femur_norm = dicom_utils.normalizeImage255(img_femur, ds2.WindowCenter[0], ds2.WindowWidth[0])
+
 
 
 th_img = image_processing.thresholdAlternative(img_tibia_norm, ds2.WindowCenter[0], ds2.WindowWidth[0])
+th_img_fm = image_processing.thresholdAlternative(img_femur, ds2.WindowCenter[0], ds2.WindowWidth[0])
 
-
-
+f = plt.figure()
+f.add_subplot(1,2, 1)
+plt.imshow(img_femur, cmap='gray')
+f.add_subplot(1,2, 2)
+plt.imshow(th_img_fm, cmap='gray')
+plt.show(block=True)
 
 
 left_image = image_processing.getROI(th_img)
@@ -151,10 +157,8 @@ m_throclea, b_throclea = dicom_utils.getPerpendicularFunction(m_femur, trochlea)
 m_tibia , b_tibia = dicom_utils.getPerpendicularFunction(m_femur, tibia)
 
 d = dicom_utils.getDistanceParalelLines(m_throclea, b_throclea, b_tibia)
-print(ds.PixelSpacing)
-print(d)
-
-cv2.line(img2,(femur_left[0],femur_left[1]),(femur_right[0],femur_right[1]),(255,255,255),1)
+print("La distancia TA-GT es : "+ (str) (d) +" mm.")
+#cv2.line(img2,(femur_left[0],femur_left[1]),(femur_right[0],femur_right[1]),(255,255,255),1)
 
 y_throclea = m_throclea * trochlea[0] + b_throclea
 y_throclea = (int) (y_throclea)
@@ -162,9 +166,8 @@ y_throclea = (int) (y_throclea)
 y_tibia = m_tibia * tibia[0] + b_tibia
 y_tibia = (int) (y_tibia)
 
-cv2.line(img2,(trochlea[0],y_throclea),(trochlea[0],trochlea[1]),(255,255,255),1)
-cv2.line(img2,(tibia[0],y_tibia),(tibia[0],tibia[1]),(255,255,255),1)
-
+#cv2.line(img2,(trochlea[0],y_throclea),(trochlea[0],trochlea[1]),(255,255,255),1)
+#cv2.line(img2,(tibia[0],y_tibia),(tibia[0],tibia[1]),(255,255,255),1)
 
 plt.imshow(img2)
 

@@ -124,8 +124,6 @@ def getPointsFemur(img, angle):
 
 def getDeepestPointTrochlea(th_img, half = "right"):
     rotated_femur, angle = image_processing.rotateFemur(th_img, half)
-    plt.imshow(rotated_femur)
-    plt.show()
     im_aux = rotated_femur.copy()
     contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     aux_no_rotula = rotated_femur.copy()
