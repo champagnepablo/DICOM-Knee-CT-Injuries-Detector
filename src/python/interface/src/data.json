@@ -22,19 +22,19 @@
             }
         },
         {
-            "patient_id": 2,
-            "first_name": "Joaqu\u00edn",
-            "last_name": "Valeiro Pena",
-            "age": 19,
-            "sex": "M",
+            "patient_id": 10,
+            "first_name": "asas",
+            "last_name": "aaaa",
+            "age": "11",
+            "sex": "Mujer",
             "img_femur": {
-                "file_femur": "",
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba3.dcm",
                 "coordinates_trochlea": "",
                 "coordinates_condiles": "",
                 "coordinates_rotula": ""
             },
             "img_tibia": {
-                "file_tibia": "",
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba6.dcm",
                 "coordinates_tibia": ""
             },
             "results": {
@@ -44,39 +44,18 @@
         },
         {
             "patient_id": 10,
-            "first_name": "Maria",
-            "last_name": "Martinez",
-            "age": "30",
-            "sex": "M",
+            "first_name": "Toris",
+            "last_name": "Baptista",
+            "age": "25",
+            "sex": "Hombre",
             "img_femur": {
-                "file_femur": "",
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
                 "coordinates_trochlea": "",
                 "coordinates_condiles": "",
                 "coordinates_rotula": ""
             },
             "img_tibia": {
-                "file_tibia": "",
-                "coordinates_tibia": ""
-            },
-            "results": {
-                "rb": "",
-                "ta_gt": ""
-            }
-        },
-        {
-            "patient_id": 10,
-            "first_name": "Maria",
-            "last_name": "Martinez",
-            "age": "30",
-            "sex": "M",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm",
-                "coordinates_trochlea": "",
-                "coordinates_condiles": "",
-                "coordinates_rotula": ""
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm",
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
                 "coordinates_tibia": ""
             },
             "results": {

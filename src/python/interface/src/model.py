@@ -4,7 +4,6 @@ sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
 
-print(sys.path)
 from PatientHistorial import Patient
 from MedicalImage import FemurRotulaImage, TibiaImage
 def write_json(data, filename='data.json'): 
@@ -84,6 +83,10 @@ def create_patient(patient ):
         write_json(data)
         return True
 
+def get_patients():
+    with open('data.json') as data_file:
+        data = json.load(data_file)
+        return data
 
 
 def find_patient(id):
@@ -91,7 +94,7 @@ def find_patient(id):
     patient = None
     for i in data['patients']:
         if i['patient_id'] == id:
-            patient = i
+            patient = id
     return patient
 
 def remove_patient(id):
@@ -143,8 +146,8 @@ def set_sex(id, sex):
 
 #create_patient(1, "Pablo", "Valeiro Pena",24,"M")
 #create_patient(2, "Joaquín", "Valeiro Pena",19,"M")
-find_patient(1)
-patient = Patient("Maria", "Martinez", "30", "M", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm" )
-create_patient(patient)
-#remove_patient(2)
+#find_patient(1)
+#patient = Patient("Maria", "Martinez", "30", "M", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm" )
+#create_patient(patient)
+#remove_patient(10)
 #set_name(1,"Pedro", "Sanchez")
