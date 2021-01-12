@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../')
+sys.path.append('../../src')
 import pydicom
 import math
 import random as rng
@@ -20,6 +20,7 @@ class MedicalImage:
     def __init__(self,dcmfile):
         ds = pydicom.dcmread(dcmfile)
         self.originalImage = ds.pixel_array
+        self.fileName = dcmfile
         if type(ds.WindowCenter) == pydicom.multival.MultiValue:
              self.WindowCenter = ds.WindowCenter[0]
         else:
@@ -61,6 +62,7 @@ class FemurRotulaImage(MedicalImage):
     def __init__(self, dcmfile):
         ds = pydicom.dcmread(dcmfile)
         self.originalImage = ds.pixel_array
+        self.fileName = dcmfile
         if type(ds.WindowCenter) == pydicom.multival.MultiValue:
              self.WindowCenter = ds.WindowCenter[0]
         else:
@@ -82,6 +84,7 @@ class TibiaImage(MedicalImage):
     def __init__(self, dcmfile):
         ds = pydicom.dcmread(dcmfile)
         self.originalImage = ds.pixel_array
+        self.fileName = dcmfile
         if type(ds.WindowCenter) == pydicom.multival.MultiValue:
              self.WindowCenter = ds.WindowCenter[0]
         else:

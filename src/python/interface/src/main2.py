@@ -49,14 +49,12 @@ class View:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + dialog.get_filename())
             buffer = self.pathf1.get_buffer()
             buffer.set_text(dialog.get_filename())
         elif response == Gtk.ResponseType.CANCEL:
-            print("Cancel clicked")
-
+             print("Cancel clicked")
         dialog.destroy()
+        
 
     def browse_file_2(self, button):
         dialog = Gtk.FileChooserDialog(
@@ -73,14 +71,13 @@ class View:
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + dialog.get_filename())
             buffer = self.pathf2.get_buffer()
             buffer.set_text(dialog.get_filename())
         elif response == Gtk.ResponseType.CANCEL:
-            print("Cancel clicked")
-
+             print("Cancel clicked")
         dialog.destroy()
+        
+
 
     def add_filters(self, dialog):
         filter_text = Gtk.FileFilter()

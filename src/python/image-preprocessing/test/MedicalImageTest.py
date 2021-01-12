@@ -1,6 +1,6 @@
 import unittest
 import sys
-sys.path.append('../src')
+sys.path.insert(1,'../src')
 from model.MedicalImage import MedicalImage
 import pydicom
 class MedicalImageTest(unittest.TestCase):

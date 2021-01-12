@@ -1,5 +1,12 @@
 import json
+import sys
+sys.path.append('../../image-preprocessing/src/model')
+sys.path.insert(1, '../../image-preprocessing/src/model')
+sys.path.insert(1, '../../image-preprocessing/src/')
 
+print(sys.path)
+from PatientHistorial import Patient
+from MedicalImage import FemurRotulaImage, TibiaImage
 def write_json(data, filename='data.json'): 
     with open(filename,'w') as f: 
         json.dump(data, f, indent=4) 
@@ -44,6 +51,40 @@ def create_patient(patient_id, first_name = None, last_name = None, age = None, 
             temp.append(new_patient)
         write_json(data)
         return True
+
+def create_patient(patient ):
+    if (True == False):
+        return False
+    else :
+        with open('data.json') as json_file: 
+            data = json.load(json_file) 
+            temp = data['patients']
+            new_patient = {
+                    'patient_id' : 10,
+                    'first_name' : patient.firstName,
+                    'last_name'  : patient.name,
+                    'age': patient.age,
+                    'sex': patient.sex,
+                    'img_femur': {
+                        'file_femur': patient.femurRotulaImage.fileName,
+                        'coordinates_trochlea':'',
+                        'coordinates_condiles':'' ,
+                        'coordinates_rotula': ''
+                    },
+                    'img_tibia': {
+                        'file_tibia': patient.tibiaImage.fileName,
+                        'coordinates_tibia': ''
+                    },
+                    'results': {
+                        'rb': '',
+                        'ta_gt': ''
+                    }
+                }
+            temp.append(new_patient)
+        write_json(data)
+        return True
+
+
 
 def find_patient(id):
     data = json.loads(open("data.json").read())
@@ -101,7 +142,9 @@ def set_sex(id, sex):
 
 
 #create_patient(1, "Pablo", "Valeiro Pena",24,"M")
-create_patient(2, "Joaquín", "Valeiro Pena",19,"M")
+#create_patient(2, "Joaquín", "Valeiro Pena",19,"M")
 find_patient(1)
+patient = Patient("Maria", "Martinez", "30", "M", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm", "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba.dcm" )
+create_patient(patient)
 #remove_patient(2)
 #set_name(1,"Pedro", "Sanchez")
