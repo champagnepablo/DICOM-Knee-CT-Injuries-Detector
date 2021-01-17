@@ -103,6 +103,7 @@ def get_point_tibia_left(img):
 
 
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
+'''
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
 ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 
@@ -172,3 +173,5 @@ y_tibia = (int) (y_tibia)
 plt.imshow(img2)
 
 plt.show()
+
+'''

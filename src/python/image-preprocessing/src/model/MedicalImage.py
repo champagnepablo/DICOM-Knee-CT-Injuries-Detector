@@ -61,6 +61,7 @@ class MedicalImage:
 class FemurRotulaImage(MedicalImage):
     def __init__(self, dcmfile):
         ds = pydicom.dcmread(dcmfile)
+        self.ds = ds
         self.originalImage = ds.pixel_array
         self.fileName = dcmfile
         if type(ds.WindowCenter) == pydicom.multival.MultiValue:
@@ -83,6 +84,7 @@ class FemurRotulaImage(MedicalImage):
 class TibiaImage(MedicalImage):
     def __init__(self, dcmfile):
         ds = pydicom.dcmread(dcmfile)
+        self.ds = ds
         self.originalImage = ds.pixel_array
         self.fileName = dcmfile
         if type(ds.WindowCenter) == pydicom.multival.MultiValue:

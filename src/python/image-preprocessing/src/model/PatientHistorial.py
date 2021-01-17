@@ -18,7 +18,8 @@ from MedicalImage import FemurRotulaImage, TibiaImage
 
 
 class Patient:
-    def __init__(self, firstName, name, age, sex, dcmfile1, dcmfile2):
+    def __init__(self, id, firstName, name, age, sex, dcmfile1, dcmfile2):
+        self.id = id
         self.firstName = firstName
         self.name = name
         self.age = age

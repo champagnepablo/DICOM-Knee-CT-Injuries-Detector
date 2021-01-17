@@ -59,7 +59,7 @@ def create_patient(patient ):
             data = json.load(json_file) 
             temp = data['patients']
             new_patient = {
-                    'patient_id' : 10,
+                    'patient_id' : patient.id,
                     'first_name' : patient.firstName,
                     'last_name'  : patient.name,
                     'age': patient.age,
@@ -100,8 +100,10 @@ def find_patient(id):
 def remove_patient(id):
     with open('data.json') as data_file:
         data = json.load(data_file)
-        for i in range(len(list(data['patients']))):
+        for i in range(len(list(data['patients'])) -1):
             if data['patients'][i]['patient_id'] == id:
+                print("removed")
+                print(i)
                 del data['patients'][i] 
     with open('data.json', 'w') as data_file:
         data = json.dump(data, data_file, indent=4)
@@ -141,6 +143,8 @@ def set_sex(id, sex):
                 i['sex'] = sex
     with open('data.json', 'w') as data_file:
         data = json.dump(data, data_file, indent=4)
+
+        
 
 
 
