@@ -1,19 +1,19 @@
 {
     "patients": [
         {
-            "patient_id": "4a",
-            "first_name": "Javier ",
-            "last_name": "Fernandez",
-            "age": "88",
-            "sex": "Hombre",
+            "patient_id": "wewqesas",
+            "first_name": "asbuqaskbj",
+            "last_name": "jskdsdkwd",
+            "age": "11",
+            "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba6.dcm",
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
                 "coordinates_trochlea": "",
                 "coordinates_condiles": "",
                 "coordinates_rotula": ""
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
                 "coordinates_tibia": ""
             },
             "results": {
@@ -22,19 +22,19 @@
             }
         },
         {
-            "patient_id": "23e",
+            "patient_id": "121a",
             "first_name": "asas",
-            "last_name": "asas",
-            "age": "21",
-            "sex": "Hombre",
+            "last_name": "sdsds",
+            "age": "11",
+            "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
                 "coordinates_trochlea": "",
                 "coordinates_condiles": "",
                 "coordinates_rotula": ""
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba6.dcm",
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
                 "coordinates_tibia": ""
             },
             "results": {
@@ -43,10 +43,10 @@
             }
         },
         {
-            "patient_id": "09a",
-            "first_name": "Pablo ",
-            "last_name": "Valeiro Pena",
-            "age": "22",
+            "patient_id": "qqq1",
+            "first_name": "qas",
+            "last_name": "111",
+            "age": "25",
             "sex": "Hombre",
             "img_femur": {
                 "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
@@ -64,9 +64,30 @@
             }
         },
         {
-            "patient_id": "11q",
-            "first_name": "pp",
-            "last_name": "saa",
+            "patient_id": "qqq1",
+            "first_name": "asasb jh",
+            "last_name": "wsdnkals ",
+            "age": "111",
+            "sex": "Hombre",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "111q",
+            "first_name": "asas",
+            "last_name": "sdsd",
             "age": "11",
             "sex": "Hombre",
             "img_femur": {
@@ -85,10 +106,283 @@
             }
         },
         {
-            "patient_id": "1121212q",
+            "patient_id": "qaa",
             "first_name": "asas",
-            "last_name": "ksdnsnkdlsdn ",
-            "age": "65",
+            "last_name": "asas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "qsqa",
+            "first_name": "qqsa",
+            "last_name": "asasa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "qsqs",
+            "first_name": "asasas",
+            "last_name": "asasasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "qwsqw",
+            "first_name": "aqq",
+            "last_name": "aaaaa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "asas",
+            "first_name": "aasasas",
+            "last_name": "asasa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba6.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "asdsad",
+            "first_name": "sadsd",
+            "last_name": "sdasd",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "addsad",
+            "first_name": "sadsadd",
+            "last_name": "asasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba5.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "asas",
+            "first_name": "asasa",
+            "last_name": "qasasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "11qa",
+            "first_name": "1qsasa",
+            "last_name": "asasa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "qqsa",
+            "first_name": "asasas",
+            "last_name": "asasa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "assdsa",
+            "first_name": "dsd",
+            "last_name": "s",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "1asq",
+            "first_name": "111",
+            "last_name": "asasq",
+            "age": "111",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba6.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "w",
+            "first_name": "qsq",
+            "last_name": "e",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "asas",
+            "first_name": "11",
+            "last_name": "asas",
+            "age": "11",
             "sex": "Hombre",
             "img_femur": {
                 "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
@@ -106,10 +400,10 @@
             }
         },
         {
-            "patient_id": "129812y198qa",
-            "first_name": "Pablo",
-            "last_name": "Valeiro",
-            "age": "2221",
+            "patient_id": "aSAS",
+            "first_name": "asas",
+            "last_name": "aqsq",
+            "age": "11",
             "sex": "Mujer",
             "img_femur": {
                 "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
@@ -127,10 +421,10 @@
             }
         },
         {
-            "patient_id": "1298h98w",
-            "first_name": "asnoaisnoi",
-            "last_name": "sndsndsnd",
-            "age": "29",
+            "patient_id": "adsad",
+            "first_name": "sdsd",
+            "last_name": "dsdsads",
+            "age": "11",
             "sex": "Mujer",
             "img_femur": {
                 "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
@@ -148,9 +442,30 @@
             }
         },
         {
-            "patient_id": "wewqesas",
-            "first_name": "asbuqaskbj",
-            "last_name": "jskdsdkwd",
+            "patient_id": "wadwda",
+            "first_name": "qqwwq",
+            "last_name": "sqs",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea": "",
+                "coordinates_condiles": "",
+                "coordinates_rotula": ""
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia": ""
+            },
+            "results": {
+                "rb": "",
+                "ta_gt": ""
+            }
+        },
+        {
+            "patient_id": "aqsasa",
+            "first_name": "qsqsqs",
+            "last_name": "1",
             "age": "11",
             "sex": "Mujer",
             "img_femur": {

@@ -3,6 +3,7 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
+from gi.repository.GdkPixbuf import Pixbuf
 builder = Gtk.Builder()
 builder.add_from_file("interface.glade")
 import cv2
@@ -22,7 +23,7 @@ from PatientHistorial import Patient
 from MedicalImage import FemurRotulaImage, TibiaImage
 import meaures
 import model
-
+from image_utils import dicom_utils
 class View:
     def __init__(self):
         self.home_page = builder.get_object("home-page")
@@ -156,9 +157,37 @@ class View:
         self.patient_added_confirmation.hide()
 
     def do_ta_gt(self,button):
+        selection = builder.get_object("tagtd-options").get_active_text()
+        print(selection)
         print("Doing ta-gt")
         img, _, _, _ = meaures.get_points_left(self.current_patient.femurRotulaImage.ds)
-        cv2.imshow("Image", img)
+        cv2.namedWindow("image", cv2.WINDOW_GUI_EXPANDED)
+        cv2.moveWindow("image", 40,30)
+      #  cv2.imshow("Image", img)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        cv2.imwrite('image.png',img)
+        #window = builder.get_object("tagt-panel")
+        window = builder.get_object("tagt-result")
+        tagt_img = builder.get_object("tagt-img")
+        im = np.array(img).flatten()
+        dni = builder.get_object("tagtr-dni")
+        dni.set_text(self.current_patient.id)
+        fst_name = builder.get_object("tagtr-fstname")
+        fst_name.set_text(self.current_patient.firstName)
+        name = builder.get_object("tagtr-name")
+        name.set_text(self.current_patient.name)
+        age = builder.get_object("tagtr-age")
+        age.set_text(str(self.current_patient.age))
+        sex = builder.get_object("tagtr-sex")
+        sex.set_text(self.current_patient.sex)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file("image.png")
+        img_frame = Gtk.Image.new_from_pixbuf(pixbuf)
+        tagt_img.set_from_file("image.png")
+        window.show()
+
+    def tagt_details_button(self,button):
+        window = builder.get_object("tagt-details-window")
+        window.show()
     
     def confirm_patient_added_dialog(self, button):
         self.choose_action_window.hide()
@@ -237,7 +266,16 @@ class View:
             cv2.line(copy, self.line2[0][0], self.line2[0][1], (36,255,12), 2)
         if  (self.line3) != [] :
             cv2.line(copy, self.line3[0][0], self.line3[0][1], (36,255,12), 2)
+        screen_res = 1980, 1080 
+        scale_width = screen_res[0] / copy.shape[1]
+        scale_height = screen_res[1] / copy.shape[0]
+        scale = min(scale_width, scale_height)
+        window_width = int(copy.shape[1] * scale)
+        window_height = int(copy.shape[0] * scale)
+        cv2.namedWindow("image", cv2.WINDOW_GUI_EXPANDED)
+        cv2.moveWindow("image", 40,30)
         cv2.imshow('image',copy)
+       
         self.reset1 = True
         self.line1 = []
         cv2.namedWindow('image')

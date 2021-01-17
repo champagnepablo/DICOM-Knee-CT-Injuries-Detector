@@ -100,8 +100,9 @@ def find_patient(id):
 def remove_patient(id):
     with open('data.json') as data_file:
         data = json.load(data_file)
-        for i in range(len(list(data['patients'])) -1):
-            if data['patients'][i]['patient_id'] == id:
+        list_patients = list(data['patients'])
+        for i in range(len(list(data['patients'])) ):
+            if list_patients[i]['patient_id'] == id:
                 print("removed")
                 print(i)
                 del data['patients'][i] 
