@@ -135,6 +135,28 @@ def rotateFemur(img, half = "left"):
   #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
     return rotated, -angle
 
+
+
+def rotateRotula(img, half = "left"):
+    """
+    Rotates image in a way which Femur bone is pararel to the margins of the image
+    
+    :param img: image to be rotated
+    """
+    angle = getAngle(img)
+    (h, w) = img.shape[:2]
+    center = (w // 2, h // 2)
+    if half == "right":
+        angle = -angle
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    angle2 = getAngleRotula(rotated)
+    if abs(angle2) != 0:
+        rotated = adjustRotating(rotated, -angle)    
+  #  cv2.drawContours(img, [biggest_contour], 0, (0,255,0), 3)
+    return rotated, -angle
+
 def getAngle(img):
     contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
@@ -146,6 +168,21 @@ def getAngle(img):
     else:
         angle = -angle
     return angle
+
+def getAngleRotula(img):
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    biggest_contour = contour_sizes[0][1][1]
+    rect = cv2.minAreaRect(biggest_contour)
+    angle = rect[2]
+    if angle < -45:
+        angle = (90 + angle)
+    else:
+        angle = -angle
+    return angle
+
+
 
 
 def adjustRotating(img, angle):

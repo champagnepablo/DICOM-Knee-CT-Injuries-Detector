@@ -80,6 +80,47 @@ def getTransvesalPointRotula(originalImage, thresholdedImage, femurSlope):
 
     return originalImage
 
+def getPointsRotula(img, angle):
+    """
+    Finds the lowest points of a femur bone in a CT DICOM image
+
+    @param originalImage: non-procesated image
+    @param angle: angle of the femur bone
+    """
+
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    c = max(contour_sizes, key=lambda x: x[0])[1]
+    extLeft = tuple(c[c[:, :, 0].argmin()][0])
+    extRight = tuple(c[c[:, :, 0].argmax()][0])
+    extTop = tuple(c[c[:, :, 1].argmin()][0])
+    extBot = tuple(c[c[:, :, 1].argmax()][0])
+    center = (int)  ((extLeft[0] + extRight[0]) / 2)
+    img[:, center] = 0
+    for i in  range(img.shape[0]-1):
+        for j in range(img.shape[1]-1):
+            if extTop[1] < i :
+                img[i][j] = 0   #remove rotula
+    plt.imshow(img)
+    plt.show()
+    contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    img = cv2.cvtColor(img.astype('float32'), cv2.COLOR_GRAY2BGR)
+    contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
+    c = max(contour_sizes, key=lambda x: x[0])[1]
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    left_femur = sorted_contours[1]
+    extBot = tuple(c[c[:, :, 1].argmax()][0])
+    leftBot = tuple(left_femur[left_femur[:,:,1].argmax()][0])
+    (h, w) = img.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+    rotated = cv2.warpAffine(img, M, (w, h),
+    flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE) 
+    transform_points = np.array( [ [ [ extBot[0], extBot[1] ] ],  [ [ leftBot[0], leftBot[1] ] ]  ])
+    tf2 = cv2.transform(transform_points, M)
+    cv2.circle(rotated, (tf2[0][0][0], tf2[0][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
+    cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
+    return rotated, (tf2[0][0], tf2[1][0])
 
 def getPointsFemur(img, angle):
     """
@@ -195,7 +236,21 @@ def getDeepestPointTrochlea(th_img, half = "right"):
     no_rotula = cv2.circle(no_rotula, (y_point, x_point), radius=0, color=(0, 0, 255), thickness=10)
     return ROI_image, tf2[0][0]
 
+def getPointsRotula(th_img, half = "left"):
+    rotated_rotula, angle = image_processing.rotateRotula(th_img, "left")
 
+    contours, _ = cv2.findContours(rotated_rotula, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours = sorted(contours, key = cv2.contourArea, reverse= True)
+    extLeft = tuple(sorted_contours[1][sorted_contours[1][:, :, 0].argmin()][0])
+    extRight = tuple(sorted_contours[1][sorted_contours[1][:, :, 0].argmax()][0])
+    transform_points = np.array( [ [ [ extLeft[0], extLeft[1] ] ]  ])
+    transform_points2 = np.array( [ [ [ extRight[0], extRight[1] ] ]  ])
+    h, w = th_img.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    tf2 = cv2.transform(transform_points, M)    
+    tf3 = cv2.transform(transform_points2, M)    
+    return tf2[0][0],tf3[0][0]
 
 
 '''

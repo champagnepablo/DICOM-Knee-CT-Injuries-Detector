@@ -15,6 +15,7 @@ from PIL import Image
 from matplotlib import cm
 import sys
 import json
+import os
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -32,6 +33,9 @@ class View:
         self.patients_list_window = builder.get_object("patients-list")
         self.choose_action_window = builder.get_object("choose-action-window")
         self.patient_added_confirmation = builder.get_object("patient-added-confirmation")
+        self.measurements_details_window = None
+        self.tagt_details_window = builder.get_object("tagt-details-window")
+        self.print_lines_br_window = builder.get_object("print-lines-br-window")
         self.pathf1 = builder.get_object("np-tv-p1")
         self.pathf2 = builder.get_object("np-tv-p2")
         self.path_b1 = builder.get_object("np-button-p1")
@@ -158,18 +162,15 @@ class View:
 
     def do_ta_gt(self,button):
         selection = builder.get_object("tagtd-options").get_active_text()
+        self.tagt_details_window.hide()
         print(selection)
         print("Doing ta-gt")
         img, _, _, _ = meaures.get_points_left(self.current_patient.femurRotulaImage.ds)
-        cv2.namedWindow("image", cv2.WINDOW_GUI_EXPANDED)
-        cv2.moveWindow("image", 40,30)
       #  cv2.imshow("Image", img)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         cv2.imwrite('image.png',img)
         #window = builder.get_object("tagt-panel")
-        window = builder.get_object("tagt-result")
+        self.measurements_details_window = builder.get_object("tagt-result")
         tagt_img = builder.get_object("tagt-img")
-        im = np.array(img).flatten()
         dni = builder.get_object("tagtr-dni")
         dni.set_text(self.current_patient.id)
         fst_name = builder.get_object("tagtr-fstname")
@@ -180,14 +181,26 @@ class View:
         age.set_text(str(self.current_patient.age))
         sex = builder.get_object("tagtr-sex")
         sex.set_text(self.current_patient.sex)
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file("image.png")
-        img_frame = Gtk.Image.new_from_pixbuf(pixbuf)
         tagt_img.set_from_file("image.png")
-        window.show()
+        self.measurements_details_window.show()
+        if os.path.exists("image.png"):
+            os.remove("image.png")
 
     def tagt_details_button(self,button):
         window = builder.get_object("tagt-details-window")
+        self.choose_action_window.hide()    
         window.show()
+
+    def do_other_measurements_button(self,button):
+        self.measurements_details_window.hide()
+        self.measurements_details_window = None
+        self.choose_action_window.show()
+
+    def store_bd_button(self,button):
+        print("funciona")
+        
+    def print_lines_br_window_button(self,button):
+        self.print_lines_br_window.show()
     
     def confirm_patient_added_dialog(self, button):
         self.choose_action_window.hide()
