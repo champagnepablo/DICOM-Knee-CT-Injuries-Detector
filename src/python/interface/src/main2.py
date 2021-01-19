@@ -16,6 +16,8 @@ from matplotlib import cm
 import sys
 import json
 import os
+import pydicom
+
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -201,6 +203,41 @@ class View:
         
     def print_lines_br_window_button(self,button):
         self.print_lines_br_window.show()
+
+    def patient_details_button(self,button):
+        selection = builder.get_object("tree-list").get_selection()
+        selection.set_mode(Gtk.SelectionMode.BROWSE)
+        (modelo, paths) = selection.get_selected_rows()
+        if len(paths)==1:
+            for path in paths:
+                tree_iter = modelo.get_iter(path)
+                self.rowselected = modelo.get_value(tree_iter,0)
+        patient = model.get_patient(self.rowselected)
+        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
+        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
+        img_femur = dicom_utils.transformToHu(ds, ds.pixel_array)
+        img_femur = cv2.resize(img_femur, (300,200))
+        img_tibia = dicom_utils.transformToHu(ds, ds.pixel_array)
+        img_tibia = cv2.resize(img_tibia, (300,200))
+        cv2.imwrite('image_femur.png',img_femur)
+        cv2.imwrite('image_tibia.png',img_tibia)
+        femurimg = builder.get_object("pd-femur-image")
+        tibiaimg = builder.get_object("pd-tibia-image")
+        dni = builder.get_object("tagtr-dni1")
+        dni.set_text(patient.id)
+        fst_name = builder.get_object("tagtr-fstname1")
+        fst_name.set_text(patient.firstName)
+        name = builder.get_object("tagtr-name1")
+        name.set_text(patient.name)
+        age = builder.get_object("tagtr-age1")
+        age.set_text(str(patient.age))
+        sex = builder.get_object("tagtr-sex")
+        sex.set_text(patient.sex)
+        femurimg.set_from_file("image_femur.png")
+        tibiaimg.set_from_file("image_tibia.png")
+        window = builder.get_object("patient-details-window")
+        window.show()
+
     
     def confirm_patient_added_dialog(self, button):
         self.choose_action_window.hide()
