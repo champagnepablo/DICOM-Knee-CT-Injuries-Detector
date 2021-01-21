@@ -160,8 +160,10 @@ def getPointsFemur(img, angle):
     tf2 = cv2.transform(transform_points, M)
     cv2.circle(rotated, (tf2[0][0][0], tf2[0][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
-    return rotated, (tf2[0][0], tf2[1][0])
-
+    if (tf2[0][0][0] > tf2[1][0][0]):
+        return rotated, (tf2[1][0], tf2[0][0])
+    else:
+        return rotated, (tf2[0][0], tf2[1][0])
 
 def getDeepestPointTrochlea(th_img, half = "right"):
     rotated_femur, angle = image_processing.rotateFemur(th_img, half)

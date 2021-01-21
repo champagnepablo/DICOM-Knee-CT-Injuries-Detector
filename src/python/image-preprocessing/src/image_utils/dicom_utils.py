@@ -149,11 +149,12 @@ def getFunctionPoints(point1, point2):
 
 def getPerpendicularFunction(m, point):
     m_p = - 1 / m
-    b = point[1] - (m_p * point[1])
+    b = point[1] - (m_p * point[0])
     return m_p, b
 
 def getDistanceParalelLines(m,b1,b2):
+
     c1 = b1-b2
-    c2 = math.sqrt((m ** 2) + 1)
+    c2 = math.sqrt(2*(m **2))
     c = c1 / c2
     return abs(c)

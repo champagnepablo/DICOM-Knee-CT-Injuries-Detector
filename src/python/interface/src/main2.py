@@ -17,7 +17,6 @@ import sys
 import json
 import os
 import pydicom
-
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -25,7 +24,7 @@ sys.path.insert(1, '../../image-preprocessing/src/')
 from PatientHistorial import Patient
 from MedicalImage import FemurRotulaImage, TibiaImage
 import meaures
-import model
+import model, controller
 from image_utils import dicom_utils
 class View:
     def __init__(self):
@@ -175,6 +174,35 @@ class View:
         tagt_img = builder.get_object("tagt-img")
         dni = builder.get_object("tagtr-dni")
         dni.set_text(self.current_patient.id)
+        patient = model.get_patient(self.current_patient.id)
+        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
+        ds2 = pydicom.dcmread(patient.tibiaImage.fileName)
+        if self.half_selected == "Mitad izquierda" and self.measure_selected == "tagt":
+            img, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
+            tibia = meaures.get_point_tibia_left(ds2)
+            d = meaures.ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
+            text = builder.get_object("tagtr-text")
+            text.set_text("El resultado de la medida TA-GT es: " + str(d) + " mm")
+        elif self.half_selected == "Mitad derecha" and self.measure_selected == "tagt":
+            img2, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
+            img, femur_left, femur_right, trochlea = meaures.get_points_right(ds, img)
+            tibia = meaures.get_point_tibia_right(ds2)
+            d = meaures.ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
+            text = builder.get_object("tagtr-text")
+            text.set_text("El resultado de la medida TA-GT es: " + str(d) + " mm")
+        elif self.half_selected == "Mitad derecha" and self.measure_selected == "br":
+            img2, femur_left, femur_right, trochlea = meaures.get_points_right(ds,img)
+            rotula_left, rotula_right = meaures.get_points_rotula_right(ds)
+            d = meaures.basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right)
+            text = builder.get_object("tagtr-text")
+            text.set_text("El resultado de la medida Básica Rotuliana es: " + str(d) + "º")
+        elif self.half_selected == "Mitad izquierda" and self.measure_selected == "br":
+            img2, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
+            rotula_left, rotula_right = meaures.get_points_rotula_left(ds)
+            tibia = meaures.get_point_tibia_right(ds2)
+            d = meaures.basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right)
+            text = builder.get_object("tagtr-text")
+            text.set_text("El resultado de la medida Básica Rotuliana es: " + str(d) + "º")
         fst_name = builder.get_object("tagtr-fstname")
         fst_name.set_text(self.current_patient.firstName)
         name = builder.get_object("tagtr-name")
@@ -190,7 +218,18 @@ class View:
 
     def tagt_details_button(self,button):
         window = builder.get_object("tagt-details-window")
-        self.choose_action_window.hide()    
+        self.choose_action_window.hide() 
+        builder.get_object("tagtd-text").set_text("Seleccione las opciones TA-GT deseadas")   
+        self.half_selected = builder.get_object("tagtd-options").get_active_text()
+        self.measure_selected = "tagt"
+        window.show()
+
+    def br_details_button(self,button):
+        window = builder.get_object("tagt-details-window")
+        self.choose_action_window.hide()
+        builder.get_object("tagtd-text").set_text("Seleccione las opciones Básica Rotuliana deseadas")       
+        self.half_selected = builder.get_object("tagtd-options").get_active_text()
+        self.measure_selected = "br"
         window.show()
 
     def do_other_measurements_button(self,button):
@@ -213,11 +252,12 @@ class View:
                 tree_iter = modelo.get_iter(path)
                 self.rowselected = modelo.get_value(tree_iter,0)
         patient = model.get_patient(self.rowselected)
+        self.current_patient = patient
         ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
-        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
+        ds2 = pydicom.dcmread(patient.tibiaImage.fileName)
         img_femur = dicom_utils.transformToHu(ds, ds.pixel_array)
         img_femur = cv2.resize(img_femur, (300,200))
-        img_tibia = dicom_utils.transformToHu(ds, ds.pixel_array)
+        img_tibia = dicom_utils.transformToHu(ds2, ds2.pixel_array)
         img_tibia = cv2.resize(img_tibia, (300,200))
         cv2.imwrite('image_femur.png',img_femur)
         cv2.imwrite('image_tibia.png',img_tibia)
@@ -309,7 +349,7 @@ class View:
     
     def set_line1(self,button):
         cv2.destroyAllWindows()
-        copy = cv2.imread('messi.jpg')
+        copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
         self.clone = copy
         print(self.line2)
         if  (self.line2) != [] :
@@ -332,7 +372,7 @@ class View:
         cv2.setMouseCallback('image', self.extract_coordinates)
 
     def set_line2(self,button):
-        copy = cv2.imread('messi.jpg')
+        copy = copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
         self.clone = copy
         if  (self.line1) != [] :
             cv2.line(copy, self.line1[0][0], self.line1[0][1], (36,255,12), 2)
@@ -346,7 +386,7 @@ class View:
 
     def set_line3(self,button):
         cv2.destroyAllWindows()
-        copy = cv2.imread('messi.jpg')
+        copy = copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
         if  (self.line1) != [] :
             cv2.line(copy, self.line1[0][0], self.line1[0][1], (36,255,12), 2)
         if  (self.line2) != [] :
@@ -382,7 +422,20 @@ class View:
     def show_ta_gt(self, button):
         return 0
 
-
+    def confirm_refine_lines_button(self, button):
+        cv2.destroyAllWindows()
+        print(self.line1[0][0], self.line2[0], self.line3)
+        femur_left = self.line1[0][0]
+        femur_right = self.line1[0][1]
+        builder.get_object("print-lines-window").hide()
+        builder.get_object("print-lines-window").hide()
+        d = controller.refine_ta_gt(self.current_patient.femurRotulaImage.ds, (femur_left, femur_right), self.line2, self.line3)
+        builder.get_object("patient-details-window").hide()
+        builder.get_object("pd-tagtrl").set_text(str(d))
+        builder.get_object("patient-details-window").show()
+        print(d)
+        
+        
 
 
 

@@ -141,6 +141,81 @@ def get_patient(id):
             patient = Patient(patient_id, fst_name, last_name, age, sex, femurFile, tibiaFile)
     return patient
 
+def get_trochlea_points(id, half = "left"):
+    data = json.loads(open("data.json").read())
+    points = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points = i['img_femur']['coordinate_trochlea_left']
+            if half == "right":
+                points = i['img_femur']['coordinate_trochlea_right']
+            
+    return points
+
+def get_condiles_points(id, half = "left"):
+    data = json.loads(open("data.json").read())
+    points_left = None
+    points_right = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points_left = i['img_femur']['coordinate_condiles_left']['left']
+                points_right = i['img_femur']['coordinate_condiles_left']['right']
+            if half == "right":
+                points_left = i['img_femur']['coordinate_condiles_right']['left']
+                points_right = i['img_femur']['coordinate_condiles_right']['right']
+            
+    return points_left, points_right
+
+ def get_rotula_points(id, half = "left"):
+    data = json.loads(open("data.json").read())
+    points_left = None
+    points_right = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points_left = i['img_femur']['coordinate_rotula_left']['left']
+                points_right = i['img_femur']['coordinate_rotula_left']['right']
+            if half == "right":
+                points_left = i['img_femur']['coordinate_rotula_right']['left']
+                points_right = i['img_femur']['coordinate_rotula_right']['right']
+            
+    return points_left, points_right   
+
+def get_tibia_points(id, half = "left"):
+    data = json.loads(open("data.json").read())
+    points = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points = i['img_tibia']['coordinate_tibia_left']
+            if half == "right":
+                points = i['img_tibia']['coordinate_tibia_right']
+    return points
+
+def get_tagt_result(id, half= "left"):
+    data = json.loads(open("data.json").read())
+    result = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points = i['results']['ta_gt_left']
+            if half == "right":
+                points = i['results']['ta_gt_right']
+    return points 
+
+def get_br_result(id, half= "left"):
+    data = json.loads(open("data.json").read())
+    result = None
+    for i in data['patients']:
+        if i['patient_id'] == id:
+            if half == "left":
+                points = i['results']['rb_left']
+            if half == "right":
+                points = i['results']['rb_right']
+    return points 
+
 def remove_patient(id):
     with open('data.json') as data_file:
         data = json.load(data_file)
@@ -193,6 +268,21 @@ def set_points_trochlea(id, points, half = "left"):
         data = json.dump(data, data_file, indent=4)
     return changed 
 
+def set_points_tibia(id, points, half = "left"):
+    changed = False 
+    with open('data.json') as data_file:
+        data = json.load(data_file)
+        for i in data['patients']:
+            if i['patient_id'] == id:
+                changed = True
+                if half == "left":
+                    i["img_tibia"]['coordinates_tibia_left'] = points
+                else:
+                    i["img_femur"]['coordinates_tibia_right'] = points
+    with open('data.json', 'w') as data_file:
+        data = json.dump(data, data_file, indent=4)
+    return changed 
+
 def set_points_condiles(id, points_left, points_right, half = "left"):
     changed = False 
     with open('data.json') as data_file:
@@ -210,9 +300,54 @@ def set_points_condiles(id, points_left, points_right, half = "left"):
         data = json.dump(data, data_file, indent=4)
     return changed 
 
+def set_points_rotula(id, points_left, points_right, half = "left"):
+    changed = False 
+    with open('data.json') as data_file:
+        data = json.load(data_file)
+        for i in data['patients']:
+            if i['patient_id'] == id:
+                changed = True
+                if half == "left":
+                    i["img_femur"]['coordinates_rotula_left']['left'] = points_left
+                    i["img_femur"]['coordinates_rotula_left']['right'] = points_right
+                else:
+                    i["img_femur"]['coordinates_rotula_right']['left'] = points_left
+                    i["img_femur"]['coordinates_rotula_right']['right'] = points_right
+    with open('data.json', 'w') as data_file:
+        data = json.dump(data, data_file, indent=4)
+    return changed 
+
+def set_tagt_result(id, result, half = "left"):
+    changed = False 
+    with open('data.json') as data_file:
+        data = json.load(data_file)
+        for i in data['patients']:
+            if i['patient_id'] == id:
+                changed = True
+                if half == "left":
+                    i["results"]['ta_gt_left'] = result
+                else:
+                    i["results"]['ta_gt_right'] = result
+    with open('data.json', 'w') as data_file:
+        data = json.dump(data, data_file, indent=4)
+    return changed 
+
+def set_br_result(id, result, half = "left"):
+    changed = False 
+    with open('data.json') as data_file:
+        data = json.load(data_file)
+        for i in data['patients']:
+            if i['patient_id'] == id:
+                changed = True
+                if half == "left":
+                    i["results"]['rb_left'] = result
+                else:
+                    i["results"]['rb_right'] = result
+    with open('data.json', 'w') as data_file:
+        data = json.dump(data, data_file, indent=4)
+    return changed 
 
 def set_sex(id, sex):
-    
     with open('data.json') as data_file:
         data = json.load(data_file)
         for i in data['patients']:
