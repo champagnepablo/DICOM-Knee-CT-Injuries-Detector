@@ -434,9 +434,35 @@ class View:
         builder.get_object("pd-tagtrl").set_text(str(d))
         builder.get_object("patient-details-window").show()
         print(d)
-        
-        
 
+
+    def show_images_study(self, button):
+        filenames = os.listdir("prueba")
+        self.series_list = []
+        for files in filenames:
+            self.series_list.append("prueba/" + files)
+        self.series_iterator = 0
+        img = builder.get_object("si-dcmimage")
+        img.set_from_file(self.series_list[self.series_iterator])
+        builder.get_object("show-images").show()
+
+    def show_previous_image(self, button):
+        if self.series_iterator == 0:
+            self.series_iterator = len(self.series_list) -1
+        else :
+            self.series_iterator = self.series_iterator -1
+        img = builder.get_object("si-dcmimage")
+        img.set_from_file(self.series_list[self.series_iterator])
+        
+        
+        
+    def show_next_image(self, button):
+        if self.series_iterator == len(self.series_list) -1:
+            self.series_iterator = 0
+        else :
+            self.series_iterator = self.series_iterator + 1
+        img = builder.get_object("si-dcmimage")
+        img.set_from_file(self.series_list[self.series_iterator])
 
 
 

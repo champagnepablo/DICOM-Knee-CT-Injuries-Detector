@@ -203,9 +203,9 @@ def basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right):
     return angle
 
 
-
+'''
 ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia2.dcm')
-ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/femur.dcm')
+ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
 tibia = get_point_tibia_left(ds)
 hu =dicom_utils.transformToHu(ds2, ds2.pixel_array)
 hu2 =dicom_utils.transformToHu(ds, ds.pixel_array)
@@ -225,7 +225,7 @@ d2 = ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
 print(d2)
 plt.imshow(img)
 plt.show()
-
+'''
 '''
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 

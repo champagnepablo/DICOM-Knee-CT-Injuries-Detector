@@ -118,49 +118,10 @@
             }
         },
         {
-            "patient_id": "2130982812T",
-            "first_name": "Jos\u00e9 Luis",
-            "last_name": "Garc\u00eda Jim\u00e9nez",
-            "age": "67",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "9238293289",
-            "first_name": "Martin",
-            "last_name": "Fernandez Fernadez",
-            "age": "75",
+            "patient_id": "232443w",
+            "first_name": "asaskas",
+            "last_name": "sdssa",
+            "age": "45",
             "sex": "Hombre",
             "img_femur": {
                 "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
