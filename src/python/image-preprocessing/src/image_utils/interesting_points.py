@@ -101,8 +101,6 @@ def getPointsRotula(img, angle):
         for j in range(img.shape[1]-1):
             if extTop[1] < i :
                 img[i][j] = 0   #remove rotula
-    plt.imshow(img)
-    plt.show()
     contours, _ = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     img = cv2.cvtColor(img.astype('float32'), cv2.COLOR_GRAY2BGR)
     contour_sizes = [(cv2.contourArea(contour), contour) for contour in contours]
@@ -122,7 +120,7 @@ def getPointsRotula(img, angle):
     cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     return rotated, (tf2[0][0], tf2[1][0])
 
-def getPointsFemur(img, angle):
+def getPointsFemur(img, not_rotated_img, angle):
     """
     Finds the lowest points of a femur bone in a CT DICOM image
 
@@ -160,12 +158,17 @@ def getPointsFemur(img, angle):
     tf2 = cv2.transform(transform_points, M)
     cv2.circle(rotated, (tf2[0][0][0], tf2[0][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
     cv2.circle(rotated, ( tf2[1][0][0], tf2[1][0][1]), radius=0, color=(0, 0, 255), thickness=-1)
+    contours_not_rotated, _ = cv2.findContours(not_rotated_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours_nr = sorted(contours_not_rotated, key = cv2.contourArea, reverse= True)
+    if cv2.pointPolygonTest(sorted_contours_nr[0], (tf2[0][0][0], tf2[0][0][1]), False) != 0 and cv2.pointPolygonTest(sorted_contours_nr[1], (tf2[0][0][0], tf2[0][0][1]), False) != 0:
+            M = cv2.getRotationMatrix2D(center, angle, 1.0)
+            tf2 = cv2.transform(transform_points, M)
     if (tf2[0][0][0] > tf2[1][0][0]):
         return rotated, (tf2[1][0], tf2[0][0])
     else:
         return rotated, (tf2[0][0], tf2[1][0])
 
-def getDeepestPointTrochlea(th_img, half = "right"):
+def getDeepestPointTrochlea(th_img,half = "right"):
     rotated_femur, angle = image_processing.rotateFemur(th_img, half)
     im_aux = rotated_femur.copy()
     contours, _ = cv2.findContours(rotated_femur, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
@@ -232,6 +235,11 @@ def getDeepestPointTrochlea(th_img, half = "right"):
     center = (w // 2, h // 2)
     M = cv2.getRotationMatrix2D(center, angle, 1.0)
     tf2 = cv2.transform(transform_points, M)
+    contours_not_rotated, _ = cv2.findContours(th_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    sorted_contours_nr = sorted(contours_not_rotated, key = cv2.contourArea, reverse= True)
+    if cv2.pointPolygonTest(sorted_contours_nr[0], (tf2[0][0][0], tf2[0][0][1]), False) != 0 and cv2.pointPolygonTest(sorted_contours_nr[1], (tf2[0][0][0], tf2[0][0][1]), False) != 0:
+            M = cv2.getRotationMatrix2D(center, -angle, 1.0)
+            tf2 = cv2.transform(transform_points, M)
     im_aux = cv2.circle(im_aux, (tf2[0][0][0],tf2[0][0][1]), radius=0, color=(255, 0, 255), thickness=10)
     no_rotula[no_rotula == 1] = 255
     no_rotula = cv2.cvtColor(no_rotula, cv2.COLOR_GRAY2BGR)

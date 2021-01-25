@@ -8,6 +8,8 @@ import imutils
 from pydicom.data import get_testdata_files
 from pydicom.pixel_data_handlers.util import apply_modality_lut
 from pydicom.pixel_data_handlers.util import apply_voi_lut
+from pydicom.pixel_data_handlers.util import apply_color_lut
+
 from image_utils import dicom_utils,image_processing,interesting_points
 import SimpleITK as sitk
 from skimage import exposure # for histogram equalization
@@ -17,8 +19,16 @@ from skimage import exposure # for histogram equalization
 
 def get_points_left(ds):
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
-    th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[0] , ds.WindowWidth[0])
-    alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
+    th_img = image_processing.thresholdCTImage(img,windowCenter , windowWidth)
+    alt_th = image_processing.thresholdAlternative(img,windowCenter, windowWidth)
     alt_th = alt_th.astype(np.uint8)
     roi_img2 = image_processing.getROI(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
@@ -30,7 +40,7 @@ def get_points_left(ds):
     tr_im, throclea_points = interesting_points.getDeepestPointTrochlea(roi_img2, "left")
 
     rotated_img, angle = image_processing.rotateFemur(roi_img2, "left")
-    _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, -angle)
+    _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, roi_img2, -angle,)
     img_2d = ds.pixel_array.astype(float)
 
     ## Step 2. Rescaling grey scale between 0-255
@@ -54,14 +64,22 @@ def get_points_left(ds):
 
 def get_points_right(ds, img_left):
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
-    th_img = image_processing.thresholdCTImage(img,ds.WindowCenter[0] , ds.WindowWidth[0])
-    alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
+    th_img = image_processing.thresholdCTImage(img,windowCenter , windowWidth)
+    alt_th = image_processing.thresholdAlternative(img,windowCenter, windowWidth)
     roi_img2 = image_processing.getROI2(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
     tr_im, throclea_points = interesting_points.getDeepestPointTrochlea(roi_img2)
     roi_img = image_processing.getROI2(th_img)
     rotated_img, angle = image_processing.rotateFemur(roi_img2, "right")
-    _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, -angle)
+    _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, roi_img2, -angle)
     img_2d = ds.pixel_array.astype(float)
 
     ## Step 2. Rescaling grey scale between 0-255
@@ -84,8 +102,16 @@ def get_points_right(ds, img_left):
     return img_left, extBot, extBot2, throclea_points
 
 def get_points_rotula_left(ds):
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
-    alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
+    alt_th = image_processing.thresholdAlternative(img, windowCenter, windowWidth)
     alt_th = alt_th.astype(np.uint8)
     roi_img2 = image_processing.getROI(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
@@ -93,8 +119,16 @@ def get_points_rotula_left(ds):
     return points1,points2
 
 def get_points_rotula_right(ds):
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
-    alt_th = image_processing.thresholdAlternative(img,ds.WindowCenter[0], ds.WindowWidth[0])
+    alt_th = image_processing.thresholdAlternative(img, windowCenter, windowWidth)
     alt_th = alt_th.astype(np.uint8)
     roi_img2 = image_processing.getROI2(alt_th)
     roi_img2 = roi_img2.astype(np.uint8)
@@ -102,9 +136,17 @@ def get_points_rotula_right(ds):
     return points1,points2
 
 def get_point_tibia_left(ds):
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
     img_tibia = dicom_utils.transformToHu(ds,ds.pixel_array)
-    img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, ds.WindowCenter[0], ds.WindowWidth[0])
-    th_img = image_processing.thresholdAlternative(img_tibia,ds.WindowCenter[0] , ds.WindowWidth[0])
+    img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, windowCenter, windowWidth)
+    th_img = image_processing.thresholdAlternative(img_tibia, windowCenter , windowWidth)
     left_image = image_processing.getROI(th_img)
     left_image = left_image.astype(np.uint8)
     rotated_img, angle = image_processing.rotateFemur(left_image, "left")
@@ -120,9 +162,17 @@ def get_point_tibia_left(ds):
     return points
 
 def get_point_tibia_right(ds):
+    if type(ds.WindowWidth) == pydicom.multival.MultiValue:
+        windowWidth = ds.WindowWidth[0]
+    else:
+        windowWidth = ds.WindowWidth
+    if type(ds.WindowCenter) == pydicom.multival.MultiValue:
+        windowCenter = ds.WindowCenter[0]
+    else:
+        windowCenter = ds.WindowCenter
     img_tibia = dicom_utils.transformToHu(ds,ds.pixel_array)
-    img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, ds.WindowCenter[0], ds.WindowWidth[0])
-    th_img = image_processing.thresholdAlternative(img_tibia,ds.WindowCenter[0] , ds.WindowWidth[0])
+    img_tibia_norm = dicom_utils.normalizeImage255(img_tibia, windowCenter, windowWidth)
+    th_img = image_processing.thresholdAlternative(img_tibia, windowCenter , windowWidth)
     left_image = image_processing.getROI2(th_img)
     left_image = left_image.astype(np.uint8)
     rotated_img, angle = image_processing.rotateFemur(left_image, "right")
@@ -142,7 +192,6 @@ def ta_gt_measures(ds, femur_left,femur_right, trochlea, tibia):
     m_throclea, b_throclea = dicom_utils.getPerpendicularFunction(m_femur , trochlea)
     m_tibia , b_tibia = dicom_utils.getPerpendicularFunction(m_femur, tibia)
     d = dicom_utils.getDistanceParalelLines(m_throclea, b_throclea, b_tibia)
-    print(d/ds.PixelSpacing[0])
     return d/ds.PixelSpacing[0]
 
 def basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right):
@@ -153,35 +202,30 @@ def basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right):
     angle = angle * 180 / np.pi
     return angle
 
-'''
-ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
-ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
+
+
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia2.dcm')
+ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/femur.dcm')
 tibia = get_point_tibia_left(ds)
 hu =dicom_utils.transformToHu(ds2, ds2.pixel_array)
 hu2 =dicom_utils.transformToHu(ds, ds.pixel_array)
 img, femur_left, femur_right, trochlea = get_points_left(ds2)
 d = ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
-print(trochlea,tibia)
-
+print(femur_right,trochlea)
+print(d)
 tibia = get_point_tibia_right(ds)
 
 
 hu =dicom_utils.transformToHu(ds2, ds2.pixel_array)
 hu2 =dicom_utils.transformToHu(ds, ds.pixel_array)
 
-img, femur_left, femur_right, trochlea = get_points_right(ds2, hu)
-alt_th = image_processing.thresholdAlternative(hu,ds.WindowCenter[0], ds.WindowWidth[0])
-
-alt_th2 = image_processing.thresholdAlternative(hu2,ds.WindowCenter[0], ds.WindowWidth[0])
-th = alt_th + alt_th2 
-print(trochlea,tibia)
+_, femur_left, femur_right, trochlea = get_points_right(ds2, hu)
 
 d2 = ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
-
-plt.imshow(th)
+print(d2)
+plt.imshow(img)
 plt.show()
 
-'''
 '''
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
 

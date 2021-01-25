@@ -168,7 +168,7 @@ def get_condiles_points(id, half = "left"):
             
     return points_left, points_right
 
- def get_rotula_points(id, half = "left"):
+def get_rotula_points(id, half = "left"):
     data = json.loads(open("data.json").read())
     points_left = None
     points_right = None
