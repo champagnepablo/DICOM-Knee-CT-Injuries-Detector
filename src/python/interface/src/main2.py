@@ -17,6 +17,7 @@ import sys
 import json
 import os
 import pydicom
+import math
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -464,9 +465,54 @@ class View:
         img = builder.get_object("si-dcmimage")
         img.set_from_file(self.series_list[self.series_iterator])
 
+    def motion_notify(self, widget, event):
+        print(event.x, event.y)
+        img = builder.get_object("rf-img")
+        img2 = cv2.imread('prueba.png')
+        cv2.circle(img2, (30, 100), radius=0, color=(255, 0, 0), thickness=5)
+        cv2.imwrite('prueba.png', img2)
+        img.set_from_file('prueba.png')
 
 
 
+    def refine_measures(self, button):
+        window = builder.get_object("refine-measure")
+        img = builder.get_object("rf-img")
+        img2 = cv2.imread('messi.jpg')
+        eventbox = builder.get_object('rm-event')
+        print(img2.shape)
+        eventbox.connect("button-press-event", self.motion_notify)
+        img.set_from_file('messi.jpg')
+        window.show()
+
+
+
+    def expose(self, area, context):
+        context.scale(area.get_allocated_width(), area.get_allocated_height())    
+        context.set_source_rgb(0.5, 0.5, 0.7)
+        context.fill() 
+        context.paint()
+        
+
+    def on_drawing_area_button_press(self, widget, event):
+        print ("Mouse clicked... at ", event.x, ", ", event.y)
+        self.clicks.append([event.x, event.y])
+        drawing_area.queue_draw()
+
+        return True
+
+    def on_drawing_area_draw(self, drawing_area, cairo_context):
+        cairo_context.scale(drawing_area.get_allocated_width(), drawing_area.get_allocated_height())    
+        cairo_context.set_source_rgb(0.5, 0.5, 0.7)
+        cairo_context.fill() 
+        cairo_context.paint()
+        cairo_context.move_to(50, 50)
+        for point in self.clicks:
+            cairo_context.line_to(point[0], point[1])
+
+        cairo_context.stroke()
+
+        return False
 bienvenida = builder.get_object("home-page")
 bienvenida.connect("delete-event", Gtk.main_quit)
 builder.connect_signals(View())
