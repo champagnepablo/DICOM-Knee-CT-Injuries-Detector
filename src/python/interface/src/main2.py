@@ -53,7 +53,7 @@ class View:
         self.reset1 = False 
         self.reset2 = False
         self.reset3 = False
-        self.interesting_points = [[ (10,30), (50, 200) ], [ (67, 43), (200, 154) ]]
+        self.interesting_points = [[ (10,30), (50, 200) ], [ (67, 43), (200, 154) ], [ (152, 101), (45, 104) ]]
 
 
 
@@ -91,7 +91,7 @@ class View:
 
     def browse_file_2(self, button):
         dialog = Gtk.FileChooserDialog(
-            title="Please choose a file", parent=None, action=Gtk.FileChooserAction.OPEN
+            title="Please choose a file", parent=None, action=Gtk.FileChooserAction.SELECT_FOLDER
         )
         dialog.add_buttons(
             Gtk.STOCK_CANCEL,
@@ -100,7 +100,6 @@ class View:
             Gtk.ResponseType.OK,
         )
 
-        self.add_filters(dialog)
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
@@ -111,6 +110,25 @@ class View:
              print("Cancel clicked")
         dialog.destroy()
         
+    def on_folder_clicked(self, button):
+        dialog = Gtk.FileChooserDialog(
+            title="Please choose a folder",
+            parent=self,
+            action=Gtk.FileChooserAction.SELECT_FOLDER,
+        )
+        dialog.add_buttons(
+            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, "Select", Gtk.ResponseType.OK
+        )
+        dialog.set_default_size(800, 400)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("Select clicked")
+            print("Folder selected: " + dialog.get_filename())
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+
+        dialog.destroy()
 
 
     def add_filters(self, dialog):
@@ -150,12 +168,20 @@ class View:
         sex = builder.get_object("np-sex")
         path1 = builder.get_object("np-tv-p1")
         path2 = builder.get_object("np-tv-p2")
-        new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
-        model.create_patient(new_patient)
-        self.current_patient = new_patient
-        self.new_patient_data.hide()
-        self.update_list()
-        self.choose_action_window.show()
+        if controller.check_patient_data(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), self.pathf2_text) == False:
+            builder.get_object("check-data-patient").show()
+        else:
+            new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
+            model.create_patient(new_patient)
+            self.current_patient = new_patient
+            self.new_patient_data.hide()
+            self.update_list()
+            self.choose_action_window.show()
+
+    def check_patient_data_window_confirm(self, button):
+        builder.get_object("check-data-patient").hide()
+
+
 
     def added_new_patient_window(self,button):
         self.choose_action_window.hide()
@@ -172,6 +198,7 @@ class View:
         img, _, _, _ = meaures.get_points_left(self.current_patient.femurRotulaImage.ds)
       #  cv2.imshow("Image", img)
         cv2.imwrite('image.png',img)
+        
         #window = builder.get_object("tagt-panel")
         self.measurements_details_window = builder.get_object("tagt-result")
         tagt_img = builder.get_object("tagt-img")
@@ -495,43 +522,59 @@ class View:
             
         return candidate_points, point_selected
     
+    def print_lines_left_click(self, img):
+        for points in self.interesting_points:
+            cv2.circle(img, (points[0][0], points[0][1]), radius = 0, color = (255, 0, 0) , thickness = 3)
+            cv2.circle(img, (points[1][0], points[1][1]), radius = 0, color = (255, 0, 0) , thickness = 3)
+            cv2.line(img, points[0], points[1], color = (255, 0, 0), thickness = 1) 
+        return img
+
+    def print_lines_selection(self, img, x, y):
+        nearest_points, point_selected = self.get_nearest_point(x, y)
+        self.nearest_points = nearest_points
+        self.point_selected = point_selected
+        for points in self.interesting_points:
+            if nearest_points[0] == points[0] and nearest_points[1] == points[1]:
+                cv2.circle(img, (points[0][0], points[0][1]), radius = 0, color = (0, 255, 0) , thickness = 3)
+                cv2.circle(img, (points[1][0], points[1][1]), radius = 0, color = (0, 255, 0) , thickness = 3)
+                cv2.line(img, points[0], points[1], color = (0, 255, 0), thickness = 1)
+                cv2.circle(img, (point_selected[0], point_selected[1]), radius = 0, color = (0, 0, 255) , thickness = 3)
+            else:
+                cv2.circle(img, (points[0][0], points[0][1]), radius = 0, color = (255, 0, 0) , thickness = 3)
+                cv2.circle(img, (points[1][0], points[1][1]), radius = 0, color = (255, 0, 0) , thickness = 3)
+                cv2.line(img, points[0], points[1], color = (255, 0, 0), thickness = 1) 
+        return img
+
+    def move_point(self, x,y,):
+        for points in self.interesting_points:
+            if points[0] == self.point_selected:
+                points[0] = (x, y)
+            elif points[1] == self.point_selected:
+                points[1] = (x, y)
+
+
+
+
 
     def motion_notify(self, widget, event):
         print(event.x, event.y)
         x = int (event.x)
         y = int (event.y)
-        if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
-            print("right click")
-        nearest_points, point_selected = self.get_nearest_point(x, y)
-        print("El punto mas cercano a " + str(x),str(y) + "es: " + str(nearest_points[0]), str(nearest_points[1]))
+        print(self.is_line_selected)
         img = builder.get_object("rf-img")
         img2 = cv2.imread('prueba.jpeg')
-        for points in self.interesting_points:
-            if points[0] == nearest_points[0] and points[1] == nearest_points[1]:
-                if (points == self.line_selected):
-                    if (points[0] == self.point_selected):
-                        points[0] = (x,y)
-                        cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 0, 255), thickness=5)
-                        cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
-                        cv2.line(img2,  points[0], points[1],  color=(0, 255, 0), thickness=1) 
-                        
-                    elif (points[1] == self.point_selected):
-                        points[1] = (x,y)
-                        cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 0, 255), thickness=5)
-                        cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
-                        cv2.line(img2,  points[0], points[1],  color=(0, 255, 0), thickness=1) 
-                else:
-                    cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 255, 0), thickness=5)
-                    cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
-                    cv2.circle(img2 , point_selected, radius=0, color = (0,0, 255), thickness=5)
-                    cv2.line(img2, points[0], points[1],  color=(0, 255, 0), thickness=1) 
-            else:
-                cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(255, 0, 0), thickness=5)
-                cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(255, 0, 0), thickness=5)
-                cv2.line(img2, points[0], points[1],  color=(255, 0, 0), thickness=1) 
+        if self.is_line_selected == True and event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
+            self.is_line_selected = not  (self.is_line_selected)
+            img2 = self.print_lines_selection(img2, x, y)
+        elif self.is_line_selected == False and event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
+            self.is_line_selected = not  (self.is_line_selected)
+            img2 = self.print_lines_left_click(img2)
+        elif  event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:
+            self.move_point(x, y)
+            img2 = self.print_lines_selection(img2, x, y)
+        else: 
+            img2 = self.print_lines_left_click(img2)
         cv2.imwrite('prueba2.png', img2)
-        self.point_selected = point_selected
-        self.line_selected = nearest_points
         img.set_from_file('prueba2.png')
 
 
@@ -551,33 +594,9 @@ class View:
 
 
 
-    def expose(self, area, context):
-        context.scale(area.get_allocated_width(), area.get_allocated_height())    
-        context.set_source_rgb(0.5, 0.5, 0.7)
-        context.fill() 
-        context.paint()
-        
 
-    def on_drawing_area_button_press(self, widget, event):
-        print ("Mouse clicked... at ", event.x, ", ", event.y)
-        self.clicks.append([event.x, event.y])
-        drawing_area.queue_draw()
-
-        return True
-
-    def on_drawing_area_draw(self, drawing_area, cairo_context):
-        cairo_context.scale(drawing_area.get_allocated_width(), drawing_area.get_allocated_height())    
-        cairo_context.set_source_rgb(0.5, 0.5, 0.7)
-        cairo_context.fill() 
-        cairo_context.paint()
-        cairo_context.move_to(50, 50)
-        for point in self.clicks:
-            cairo_context.line_to(point[0], point[1])
-
-        cairo_context.stroke()
-
-        return False
 bienvenida = builder.get_object("home-page")
+bienvenida.set_title("Sistema de cálculo automático DICOM")
 bienvenida.connect("delete-event", Gtk.main_quit)
 builder.connect_signals(View())
 bienvenida.show_all()

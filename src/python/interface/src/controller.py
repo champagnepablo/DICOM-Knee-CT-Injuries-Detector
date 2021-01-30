@@ -62,6 +62,24 @@ def set_tagt_result(id, result, half):
 def set_br_result(id, result, half):
     return model.set_br_result(id, result, half)
 
+def check_patient_data(id, name, last_name, age, path):
+    if id == "":
+        return False
+    if name == "":
+        return False
+    if last_name == "":
+        return False
+    try :
+        an_integer = int(age)
+    except ValueError:
+        return False
+    if path == "":
+        return False
+    return True
+        
+
+
+
 
 
         

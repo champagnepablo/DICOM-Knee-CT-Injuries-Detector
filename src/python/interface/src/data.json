@@ -155,6 +155,45 @@
                 "ta_gt_left": "",
                 "ta_gt_right": ""
             }
+        },
+        {
+            "patient_id": "asasasas",
+            "first_name": "asasasas",
+            "last_name": "asasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
         }
     ]
 }

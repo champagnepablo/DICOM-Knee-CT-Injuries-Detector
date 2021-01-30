@@ -36,9 +36,19 @@ def listdir(dir):
         if files.endswith('.dcm'):
             filePath = path + "/" + files
             ds = pydicom.dcmread(filePath)
-            hu = dicom_utils.transformToHu(ds, ds.pixel_array)
+            img_2d = ds.pixel_array.astype(float)
+            ## Step 2. Rescaling grey scale between 0-255
+            img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
+            ## Step 3. Convert to uint
+            img_2d_scaled = np.uint8(img_2d_scaled)
+            scale_percent = 150 # percent of original size
+            width = int(img_2d_scaled.shape[1] * scale_percent / 100)
+            height = int(img_2d_scaled.shape[0] * scale_percent / 100)
+            dim = (width, height)
+            img_2d_scaled = cv2.resize(img_2d_scaled, dim, interpolation = cv2.INTER_AREA)
+            img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
             filename = os.path.splitext(files)[0] + '.png'
-            cv2.imwrite("prueba/" + filename, hu)
+            cv2.imwrite("prueba/" + filename, img2)
 
 
 listdir(path)
