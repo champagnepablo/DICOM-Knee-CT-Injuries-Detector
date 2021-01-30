@@ -53,6 +53,8 @@ class View:
         self.reset1 = False 
         self.reset2 = False
         self.reset3 = False
+        self.interesting_points = [[ (10,30), (50, 200) ], [ (67, 43), (200, 154) ]]
+
 
 
 
@@ -465,13 +467,72 @@ class View:
         img = builder.get_object("si-dcmimage")
         img.set_from_file(self.series_list[self.series_iterator])
 
+    def get_nearest_point(self, x, y):
+        min_distance = -1
+        candidate_points = None
+        point_selected = None
+        for points in self.interesting_points:
+            d1 = math.sqrt( ((x - points[0][0]) **2)  + ((y - points[0][1]) **2))
+            d2 = math.sqrt( ((x - points[1][0]) **2)  + ((y - points[1][1]) **2))
+            if min_distance == -1:
+                if d1 < d2:
+                    min_distance = d1
+                    point_selected = points[0]
+                elif d2 < d1: 
+                    min_distance = d2
+                    point_selected = points[1]
+                candidate_points = points
+            elif min_distance > d1:
+                min_distance = d1
+                point_selected = points[0]
+                candidate_points = points
+            elif min_distance > d2:
+                min_distance = d2
+                candidate_points = points
+                point_selected = points[1]
+
+
+            
+        return candidate_points, point_selected
+    
+
     def motion_notify(self, widget, event):
         print(event.x, event.y)
+        x = int (event.x)
+        y = int (event.y)
+        if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
+            print("right click")
+        nearest_points, point_selected = self.get_nearest_point(x, y)
+        print("El punto mas cercano a " + str(x),str(y) + "es: " + str(nearest_points[0]), str(nearest_points[1]))
         img = builder.get_object("rf-img")
-        img2 = cv2.imread('prueba.png')
-        cv2.circle(img2, (30, 100), radius=0, color=(255, 0, 0), thickness=5)
-        cv2.imwrite('prueba.png', img2)
-        img.set_from_file('prueba.png')
+        img2 = cv2.imread('prueba.jpeg')
+        for points in self.interesting_points:
+            if points[0] == nearest_points[0] and points[1] == nearest_points[1]:
+                if (points == self.line_selected):
+                    if (points[0] == self.point_selected):
+                        points[0] = (x,y)
+                        cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 0, 255), thickness=5)
+                        cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
+                        cv2.line(img2,  points[0], points[1],  color=(0, 255, 0), thickness=1) 
+                        
+                    elif (points[1] == self.point_selected):
+                        points[1] = (x,y)
+                        cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 0, 255), thickness=5)
+                        cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
+                        cv2.line(img2,  points[0], points[1],  color=(0, 255, 0), thickness=1) 
+                else:
+                    cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(0, 255, 0), thickness=5)
+                    cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(0, 255, 0), thickness=5)
+                    cv2.circle(img2 , point_selected, radius=0, color = (0,0, 255), thickness=5)
+                    cv2.line(img2, points[0], points[1],  color=(0, 255, 0), thickness=1) 
+            else:
+                cv2.circle(img2, (points[0][0], points[0][1]), radius=0, color=(255, 0, 0), thickness=5)
+                cv2.circle(img2, (points[1][0], points[1][1]), radius=0, color=(255, 0, 0), thickness=5)
+                cv2.line(img2, points[0], points[1],  color=(255, 0, 0), thickness=1) 
+        cv2.imwrite('prueba2.png', img2)
+        self.point_selected = point_selected
+        self.line_selected = nearest_points
+        img.set_from_file('prueba2.png')
 
 
 
@@ -483,6 +544,9 @@ class View:
         print(img2.shape)
         eventbox.connect("button-press-event", self.motion_notify)
         img.set_from_file('messi.jpg')
+        self.line_selected = None
+        self.point_selected = None
+        self.is_line_selected = False
         window.show()
 
 
