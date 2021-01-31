@@ -352,11 +352,6 @@ Pulsa el botón "Nuevo paciente" para subir los archivos .dcm y poder realizar
 medidas en las imágenes. Busca el botón "Listado de pacientes" para acceder al 
 listado de pacientes ya almacenado en el sistema. Pulsa el botón "Salir" para salir 
 del sistema</property>
-                <attributes>
-                  <attribute name="foreground" value="#34346565a4a4"/>
-                  <attribute name="background" value="#eeeeeeeeecec"/>
-                  <attribute name="underline-color" value="#34346565a4a4"/>
-                </attributes>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -452,7 +447,7 @@ del sistema</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="browse_file_2" swapped="no"/>
+                    <signal name="clicked" handler="on_folder_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
@@ -1005,7 +1000,8 @@ Rotuliana:</property>
     <property name="can_focus">False</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
-    <property name="default_width">600</property>
+    <property name="window_position">center</property>
+    <property name="default_width">512</property>
     <property name="default_height">500</property>
     <child type="titlebar">
       <placeholder/>
@@ -1016,11 +1012,12 @@ Rotuliana:</property>
         <property name="can_focus">False</property>
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
-        <property name="column_homogeneous">True</property>
         <child>
           <object class="GtkScrolledWindow">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTreeView" id="tree-list">
@@ -1049,14 +1046,17 @@ Rotuliana:</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="valign">start</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
             <property name="column_spacing">34</property>
-            <property name="column_homogeneous">True</property>
             <child>
               <object class="GtkButton" id="new-patient-pl-button">
                 <property name="label" translatable="yes">Añadir paciente</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
                 <signal name="clicked" handler="new_patient_button" swapped="no"/>
               </object>
               <packing>
@@ -1070,6 +1070,8 @@ Rotuliana:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
                 <signal name="clicked" handler="patient_details_button" swapped="no"/>
               </object>
               <packing>
@@ -1083,6 +1085,8 @@ Rotuliana:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
                 <signal name="clicked" handler="delete_patient" swapped="no"/>
               </object>
               <packing>
@@ -1390,7 +1394,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
     <property name="can_focus">False</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
-    <property name="window_position">mouse</property>
+    <property name="window_position">center</property>
     <property name="has_resize_grip">True</property>
     <child type="titlebar">
       <placeholder/>
@@ -1481,33 +1485,51 @@ y realizar de nuevo el cálculo TA-GT.</property>
                 <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
-                  <object class="GtkButton">
-                    <property name="label" translatable="yes">Seleccionar esta imagen</property>
+                  <object class="GtkLabel" id="si-text">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="halign">end</property>
-                    <property name="valign">center</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="si-cancel">
-                    <property name="label" translatable="yes">Cancelar</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="halign">start</property>
-                    <property name="valign">center</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">label</property>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="column_homogeneous">True</property>
+                    <child>
+                      <object class="GtkButton" id="si-accep">
+                        <property name="label" translatable="yes">Aceptar</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="si-cancel">
+                        <property name="label" translatable="yes">Cancelar..</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
                   </packing>
                 </child>
               </object>

@@ -62,58 +62,13 @@ class View:
 
     def new_patient_button(self,button):
         self.new_patient_data.show()
+        self.new_patient_data.set_title("Añadir nuevo paciente")
         self.home_page.hide()
         self.patients_list_window.hide()
-
-   
-    def browse_file_1(self, button):
-        dialog = Gtk.FileChooserDialog(
-            title="Please choose a file", parent=None, action=Gtk.FileChooserAction.OPEN
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN,
-            Gtk.ResponseType.OK,
-        )
-
-        self.add_filters(dialog)
-
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            buffer = self.pathf1.get_buffer()
-            self.pathf1_text = dialog.get_filename()
-            buffer.set_text(dialog.get_filename())
-        elif response == Gtk.ResponseType.CANCEL:
-             print("Cancel clicked")
-        dialog.destroy()
-        
-
-    def browse_file_2(self, button):
-        dialog = Gtk.FileChooserDialog(
-            title="Please choose a file", parent=None, action=Gtk.FileChooserAction.SELECT_FOLDER
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN,
-            Gtk.ResponseType.OK,
-        )
-
-
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            buffer = self.pathf2.get_buffer()
-            self.pathf2_text = dialog.get_filename()
-            buffer.set_text(dialog.get_filename())
-        elif response == Gtk.ResponseType.CANCEL:
-             print("Cancel clicked")
-        dialog.destroy()
         
     def on_folder_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
             title="Please choose a folder",
-            parent=self,
             action=Gtk.FileChooserAction.SELECT_FOLDER,
         )
         dialog.add_buttons(
@@ -125,6 +80,9 @@ class View:
         if response == Gtk.ResponseType.OK:
             print("Select clicked")
             print("Folder selected: " + dialog.get_filename())
+            buffer = self.pathf2.get_buffer()
+            self.pathf2_text = dialog.get_filename()
+            buffer.set_text(dialog.get_filename())
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
 
@@ -161,22 +119,26 @@ class View:
         self.home_page.show()
 
     def confirm_new_patient_button(self, button):
-        id = builder.get_object("np-dni")
-        name = builder.get_object("np-fstname")
-        last_name = builder.get_object("np-name")
-        age = builder.get_object("np-age")
-        sex = builder.get_object("np-sex")
-        path1 = builder.get_object("np-tv-p1")
-        path2 = builder.get_object("np-tv-p2")
-        if controller.check_patient_data(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), self.pathf2_text) == False:
+        self.id = builder.get_object("np-dni")
+        self.name = builder.get_object("np-fstname")
+        self.last_name = builder.get_object("np-name")
+        self.age = builder.get_object("np-age")
+        self.sex = builder.get_object("np-sex")
+        self.path2 = builder.get_object("np-tv-p2")
+        if controller.check_patient_data(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age.get_text(), self.pathf2_text) == False:
             builder.get_object("check-data-patient").show()
         else:
-            new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
-            model.create_patient(new_patient)
-            self.current_patient = new_patient
+          #  new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
+          #  model.create_patient(new_patient)
+        #    self.current_patient = new_patient
             self.new_patient_data.hide()
             self.update_list()
-            self.choose_action_window.show()
+            controller.exportSerieToPng(self.pathf2_text)
+            self.series_image = builder.get_object("show-images")
+            self.dcm_images_selected = 0
+            self.show_images_study()
+            self.new_patient_data.hide()
+            self.series_image.show()
 
     def check_patient_data_window_confirm(self, button):
         builder.get_object("check-data-patient").hide()
@@ -466,15 +428,29 @@ class View:
         print(d)
 
 
-    def show_images_study(self, button):
+    def show_images_study(self):
+        label = builder.get_object("si-text")
+        if self.dcm_images_selected == 0:
+            label.set_text("Escoja la imagen que muestre el fémur de manera óptima")
+        if self.dcm_images_selected == 1:
+            label.set_text("Escoja la imagen que muestre la tibia de manera óptima")
         filenames = os.listdir("prueba")
         self.series_list = []
         for files in filenames:
             self.series_list.append("prueba/" + files)
+            print(files)
+        self.series_list = sorted(self.series_list)
         self.series_iterator = 0
         img = builder.get_object("si-dcmimage")
         img.set_from_file(self.series_list[self.series_iterator])
         builder.get_object("show-images").show()
+        builder.get_object("show-images").set_title("Estudio de imágenes")
+
+
+        def selectDcmFile(self,button):
+            if self.dcm_images_selected == 0:
+                self.femur_file = "ok"
+
 
     def show_previous_image(self, button):
         if self.series_iterator == 0:
@@ -482,6 +458,7 @@ class View:
         else :
             self.series_iterator = self.series_iterator -1
         img = builder.get_object("si-dcmimage")
+
         img.set_from_file(self.series_list[self.series_iterator])
         
         

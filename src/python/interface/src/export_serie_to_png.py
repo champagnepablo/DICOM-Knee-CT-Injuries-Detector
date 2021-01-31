@@ -51,4 +51,3 @@ def listdir(dir):
             cv2.imwrite("prueba/" + filename, img2)
 
 
-listdir(path)

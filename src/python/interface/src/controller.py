@@ -13,6 +13,9 @@ from PIL import Image
 from matplotlib import cm
 import sys
 import json
+import os.path
+from os import path
+import export_serie_to_png
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -62,7 +65,7 @@ def set_tagt_result(id, result, half):
 def set_br_result(id, result, half):
     return model.set_br_result(id, result, half)
 
-def check_patient_data(id, name, last_name, age, path):
+def check_patient_data(id, name, last_name, age, pathserie):
     if id == "":
         return False
     if name == "":
@@ -73,10 +76,13 @@ def check_patient_data(id, name, last_name, age, path):
         an_integer = int(age)
     except ValueError:
         return False
-    if path == "":
+    if pathserie == "" or path.isdir(pathserie) == False:
         return False
     return True
         
+def exportSerieToPng(dir):
+    export_serie_to_png.listdir(dir)
+
 
 
 
