@@ -18,6 +18,8 @@ import json
 import os
 import pydicom
 import math
+import string
+
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -438,7 +440,6 @@ class View:
         self.series_list = []
         for files in filenames:
             self.series_list.append("prueba/" + files)
-            print(files)
         self.series_list = sorted(self.series_list)
         self.series_iterator = 0
         img = builder.get_object("si-dcmimage")
@@ -447,9 +448,62 @@ class View:
         builder.get_object("show-images").set_title("Estudio de imágenes")
 
 
-        def selectDcmFile(self,button):
-            if self.dcm_images_selected == 0:
-                self.femur_file = "ok"
+    def selectDcmFile(self,button):
+        if self.dcm_images_selected == 0:
+            path_dcm = self.series_list[self.series_iterator]
+            self.femurDcm = controller.pngPathToDCM(path_dcm,  self.pathf2_text)
+            builder.get_object("si-text").set_text("Escoja la imagen que muestre la tibia de manera óptima")
+            self.dcm_images_selected = 1
+        elif self.dcm_images_selected == 1:
+            path_dcm = self.series_list[self.series_iterator]
+            self.tibiaDcm = controller.pngPathToDCM(path_dcm, self.pathf2_text)
+            new_patient = Patient(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age.get_text(), self.sex.get_active_text(), self.femurDcm, self.tibiaDcm)
+            controller.create_patient(new_patient)
+            self.current_patient = new_patient
+            controller.removePngSeries()
+            self.showPatientMenu()
+            builder.get_object("show-images").hide()
+
+
+    def cancelSelectDcmFile(self,button):
+        if self.dcm_images_selected == 0:
+            builder.get_object("show-images").hide()
+            builder.get_object("new-patient").show()
+        elif self.dcm_images_selected == 1:
+            builder.get_object("si-text").set_text("Escoja la imagen que muestre el fémur de manera óptima") 
+            self.femurDcm = ""
+            self.dcm_images_selected = 0
+
+    def showPatientMenu(self):
+        window = builder.get_object("patient-details-window")
+        window.set_title(self.current_patient.firstName + " " + self.current_patient.name)
+        builder.get_object("pd-dni").set_text(self.current_patient.id)
+        builder.get_object("pd-fstname").set_text(self.current_patient.firstName)
+        builder.get_object("pd-name").set_text(self.current_patient.name)
+        builder.get_object("pd-age").set_text(self.current_patient.age)
+        builder.get_object("pd-sex").set_text(self.current_patient.sex)
+        img_femur = builder.get_object("pd-femur-image")
+        img1 = controller.exportDStoPNG(self.current_patient.femurRotulaImage.ds)
+        img2 = controller.exportDStoPNG(self.current_patient.tibiaImage.ds)
+        img1 = cv2.resize(img1, (256,256))
+        img2 = cv2.resize(img2, (256,256))
+        im_v = cv2.vconcat([img1, img2])
+        cv2.imwrite("femur.png", im_v)
+
+        img_femur.set_from_file("femur.png")
+        window.show()
+        os.remove("femur.png")
+
+    def show_measures_menu(self,button):
+        builder.get_object("measures-options").show()
+
+    def hide_measures_menu(self,button):
+        builder.get_object("measures-options").hide()
+        
+
+
+
+
 
 
     def show_previous_image(self, button):

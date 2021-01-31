@@ -50,4 +50,13 @@ def listdir(dir):
             filename = os.path.splitext(files)[0] + '.png'
             cv2.imwrite("prueba/" + filename, img2)
 
+def exportDStoPNG(ds):
+        img_2d = ds.pixel_array.astype(float)
+        img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
+        ## Step 3. Convert to uint
+        img_2d_scaled = np.uint8(img_2d_scaled)
+        img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
+        return img2
+
+
 

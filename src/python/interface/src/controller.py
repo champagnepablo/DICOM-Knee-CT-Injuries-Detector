@@ -83,7 +83,19 @@ def check_patient_data(id, name, last_name, age, pathserie):
 def exportSerieToPng(dir):
     export_serie_to_png.listdir(dir)
 
+def pngPathToDCM(file, path):
+    path_dcm = file.replace('.png', '.dcm')
+    path_dcm = path_dcm.replace('prueba/',  path + '/')
+    return path_dcm
 
+def removePngSeries():
+    filenames = os.listdir("prueba/")
+    for files in filenames:
+        path = "prueba/" + files
+        os.remove(path)
+
+def exportDStoPNG(ds):
+    return export_serie_to_png.exportDStoPNG(ds)
 
 
 

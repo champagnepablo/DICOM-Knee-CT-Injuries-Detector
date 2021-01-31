@@ -383,6 +383,118 @@ del sistema</property>
       </object>
     </child>
   </object>
+  <object class="GtkWindow" id="measures-options">
+    <property name="can_focus">False</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
+    <property name="window_position">center</property>
+    <property name="default_width">250</property>
+    <property name="default_height">250</property>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkGrid">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="label" translatable="yes">Seleccione la medida que desea realizar:</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="column_homogeneous">True</property>
+            <child>
+              <object class="GtkComboBoxText" id="mo-measure">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="active">0</property>
+                <items>
+                  <item id="0" translatable="yes">TA-GT</item>
+                  <item id="1" translatable="yes">Básica Rotuliana</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="mo-half">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="active">0</property>
+                <items>
+                  <item translatable="yes">Izquierda</item>
+                  <item translatable="yes">Derecha</item>
+                </items>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkGrid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="column_homogeneous">True</property>
+            <child>
+              <object class="GtkButton" id="mo-cancel">
+                <property name="label" translatable="yes">Cancelar</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">start</property>
+                <signal name="clicked" handler="hide_measures_menu" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="mo-accept">
+                <property name="label" translatable="yes">Aceptar</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">end</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkWindow" id="new-patient">
     <property name="can_focus">False</property>
     <property name="hexpand">True</property>
@@ -712,6 +824,9 @@ del sistema</property>
   </object>
   <object class="GtkWindow" id="patient-details-window">
     <property name="can_focus">False</property>
+    <property name="hexpand">True</property>
+    <property name="vexpand">True</property>
+    <property name="window_position">center-always</property>
     <property name="default_width">600</property>
     <property name="default_height">500</property>
     <child type="titlebar">
@@ -721,6 +836,8 @@ del sistema</property>
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
         <property name="row_homogeneous">True</property>
         <property name="column_homogeneous">True</property>
         <child>
@@ -728,8 +845,7 @@ del sistema</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
-            <property name="row_homogeneous">True</property>
-            <property name="column_homogeneous">True</property>
+            <property name="valign">center</property>
             <child>
               <object class="GtkGrid">
                 <property name="visible">True</property>
@@ -737,7 +853,6 @@ del sistema</property>
                 <property name="valign">center</property>
                 <property name="row_spacing">15</property>
                 <property name="column_spacing">5</property>
-                <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
                   <object class="GtkLabel">
@@ -751,7 +866,7 @@ del sistema</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="tagtr-dni1">
+                  <object class="GtkLabel" id="pd-dni">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">label</property>
@@ -773,7 +888,7 @@ del sistema</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="tagtr-fstname1">
+                  <object class="GtkLabel" id="pd-fstname">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">label</property>
@@ -795,7 +910,7 @@ del sistema</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="tagtr-name1">
+                  <object class="GtkLabel" id="pd-name">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">label</property>
@@ -817,7 +932,7 @@ del sistema</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="tagtr-age1">
+                  <object class="GtkLabel" id="pd-age">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">label</property>
@@ -839,7 +954,7 @@ del sistema</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="tagtr-sex1">
+                  <object class="GtkLabel" id="pd-sex">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">label</property>
@@ -904,17 +1019,16 @@ Rotuliana:</property>
               <object class="GtkGrid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
                 <property name="valign">end</property>
                 <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="tagtr-bt-rf1">
-                    <property name="label" translatable="yes">Refinar medidas</property>
+                    <property name="label" translatable="yes">Realizar medidas</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="print_lines_window" swapped="no"/>
+                    <signal name="clicked" handler="show_measures_menu" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>
@@ -923,7 +1037,7 @@ Rotuliana:</property>
                 </child>
                 <child>
                   <object class="GtkButton" id="tagtr-bt-other1">
-                    <property name="label" translatable="yes">Realizar otras medidas...</property>
+                    <property name="label" translatable="yes">Ir al listado de pacientes</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -949,28 +1063,17 @@ Rotuliana:</property>
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="row_homogeneous">True</property>
-            <property name="column_homogeneous">True</property>
             <child>
               <object class="GtkImage" id="pd-femur-image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkImage" id="pd-tibia-image">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="stock">gtk-missing-image</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
               </packing>
             </child>
           </object>
@@ -1508,6 +1611,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="selectDcmFile" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1520,6 +1624,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="cancelSelectDcmFile" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
