@@ -338,3 +338,29 @@ def floodfillContour(contourImage):
     borders = np.asarray(borders)
     borders = cv2.bitwise_not(borders)
     return flood_mask
+
+
+def getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia):
+    m, _ = dicom_utils.getFunctionPoints(femur_left, femur_right)
+    m2, b2 = dicom_utils.getPerpendicularFunction(m, trochlea)
+    m3, b3 = dicom_utils.getPerpendicularFunction(m, tibia)
+    x_trochlea = int ((femur_left[1] + 20 - b2) / m2)
+    x_tibia = int ((femur_left[1] + 20 - b3) / m3)
+    cv2.line(img, (femur_left[0], femur_left[1]), (femur_right[0], femur_right[1]), color=(255,255,255), thickness=1)
+    cv2.line(img,  (x_trochlea, femur_left[1] + 20), (trochlea[0], trochlea[1]),  color=(255,255,255), thickness=1)
+    cv2.line(img,  (x_tibia, femur_left[1] + 20), (tibia[0], tibia[1]),  color=(255,255,255), thickness=1)
+    return img, [(femur_left, femur_right), (x_trochlea, femur_left[1] + 20),  (x_tibia, femur_left[1] + 20), (tibia[0], tibia[1])]
+
+def getDrawedImageBR(img, femur_left, femur_right, rotula_left, rotula_right):
+    m, _ = dicom_utils.getFunctionPoints(femur_left, femur_right)
+    b_paralel = rotula_left[1] - m * rotula_left[0]
+    y_paralel =int (m * rotula_right[0] + b_paralel)
+    cv2.line(img, (femur_left[0], femur_left[1]), (femur_right[0], femur_right[1]), color=(255,255,255), thickness=1)
+    cv2.line(img, (rotula_left[0], rotula_left[1]), (rotula_right[0], rotula_right[1]), color=(255,255,255), thickness=1)
+    return img, [(femur_left, femur_right), (rotula_left, rotula_right)]
+
+
+
+
+
+

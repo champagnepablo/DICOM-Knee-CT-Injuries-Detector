@@ -24,7 +24,7 @@ from PatientHistorial import Patient
 from MedicalImage import FemurRotulaImage, TibiaImage
 import meaures
 import model
-from image_utils import dicom_utils
+from image_utils import dicom_utils, image_processing
 
 
 
@@ -96,6 +96,38 @@ def removePngSeries():
 
 def exportDStoPNG(ds):
     return export_serie_to_png.exportDStoPNG(ds)
+
+def getMeasures(measure, half, patient):
+    if measure == "TA-GT":
+        if half == "Izquierda":
+            femur_left, femur_right, trochlea = meaures.get_points_left(patient.femurRotulaImage.ds)
+            tibia = meaures.get_point_tibia_left(patient.tibiaImage.ds)
+        elif half == "Derecha":
+            femur_left, femur_right, trochlea = meaures.get_points_right(patient.femurRotulaImage.ds)
+            tibia = meaures.get_point_tibia_right(patient.tibiaImage.ds)
+        d = meaures.ta_gt_measures(patient.femurRotulaImage.ds, femur_left, femur_right, trochlea, tibia)
+        ds = patient.femurRotulaImage.originalImage + patient.tibiaImage.originalImage
+        img = export_serie_to_png.exportDStoPNG(ds)
+        img, lines = image_processing.getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia)
+        return d, img, lines
+    elif measure == "Básica Rotuliana":
+        if half == "Izquierda":
+            femur_left, femur_right, trochlea = meaures.get_points_left(patient.femurRotulaImage.ds)
+            rotula = meaures.get_points_rotula_left(patient.femurRotulaImage.ds)
+            angle = meaures.basic_rotulian(patient.femurRotulaImage.ds, femur_left, femur_right, rotula[0], rotula[1])
+            img = export_serie_to_png.exportDStoPNG(patient.femurRotulaImage.originalImage)
+            img = image_processing.getDrawedImageBR(img, femur_left, femur_right,rotula[0], rotula[1])
+            return angle, img
+        elif half == "Derecha":
+            femur_left, femur_right, trochlea = meaures.get_points_right(patient.femurRotulaImage.ds)
+            rotula = meaures.get_points_rotula_right(patient.femurRotulaImage.ds)
+            angle = meaures.basic_rotulian(patient.femurRotulaImage.ds, femur_left, femur_right, rotula[0], rotula[1])
+            img = export_serie_to_png.exportDStoPNG(patient.femurRotulaImage.originalImage)
+            img, lines = image_processing.getDrawedImageBR(img, femur_left, femur_right, rotula[0], rotula[1])
+            return angle, img, lines
+
+
+
 
 
 

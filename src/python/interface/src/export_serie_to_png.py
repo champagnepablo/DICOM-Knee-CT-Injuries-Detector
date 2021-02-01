@@ -25,7 +25,6 @@ from image_utils import dicom_utils
 
 import os
 
-path = "/home/pablo/Descargas/segundo envío/4546475 TAGT/serie completa"
 
 
 def listdir(dir):
@@ -34,8 +33,8 @@ def listdir(dir):
         os.mkdir("prueba")
     for files in filenames:
         if files.endswith('.dcm'):
-            filePath = path + "/" + files
-            ds = pydicom.dcmread(filePath)
+            path = dir + '/' + files
+            ds = pydicom.dcmread(path)
             img_2d = ds.pixel_array.astype(float)
             ## Step 2. Rescaling grey scale between 0-255
             img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
@@ -51,7 +50,7 @@ def listdir(dir):
             cv2.imwrite("prueba/" + filename, img2)
 
 def exportDStoPNG(ds):
-        img_2d = ds.pixel_array.astype(float)
+        img_2d = ds.astype(float)
         img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
         ## Step 3. Convert to uint
         img_2d_scaled = np.uint8(img_2d_scaled)

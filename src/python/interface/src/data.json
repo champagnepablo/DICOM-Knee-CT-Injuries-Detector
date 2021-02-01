@@ -1,364 +1,13 @@
 {
     "patients": [
         {
-            "patient_id": "233229R",
-            "first_name": "Pablo",
-            "last_name": "Valeiro Pena",
-            "age": "24",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "73642312D",
-            "first_name": "Mar\u00eda",
-            "last_name": "P\u00e9rez Rodriguez",
-            "age": "31",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2130982812T",
-            "first_name": "Jos\u00e9 Luis",
-            "last_name": "Garc\u00eda Jim\u00e9nez",
-            "age": "67",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "232443w",
-            "first_name": "asaskas",
-            "last_name": "sdssa",
-            "age": "45",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "asasasas",
-            "first_name": "asasasas",
-            "last_name": "asasas",
-            "age": "11",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2122",
-            "first_name": "asoasasl",
-            "last_name": "aslasas",
-            "age": "11",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2122",
-            "first_name": "asoasasl",
-            "last_name": "aslasas",
-            "age": "11",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2122",
-            "first_name": "asoasasl",
-            "last_name": "aslasas",
-            "age": "11",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
             "patient_id": "121212",
-            "first_name": "asqsas",
-            "last_name": "assasasas",
-            "age": "56",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "213312",
-            "first_name": "asasas",
-            "last_name": "asasasa",
-            "age": "92",
+            "first_name": "qwqwqww",
+            "last_name": "qwqwqwqw",
+            "age": "11",
             "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
                 "coordinates_trochlea_left": "",
                 "coordinates_trochlea_right": "",
                 "coordinates_condiles_left": {
@@ -379,592 +28,7 @@
                 }
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "121212",
-            "first_name": "Pablo ",
-            "last_name": "Valeiro",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "1212",
-            "first_name": "sasasas",
-            "last_name": "pasans",
-            "age": "22",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "q12122",
-            "first_name": "Maris",
-            "last_name": "Lopez Rodriguez",
-            "age": "98",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "122121",
-            "first_name": "sasasasa",
-            "last_name": "sasasasas",
-            "age": "111",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img140.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img251.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "1322",
-            "first_name": "asasas",
-            "last_name": "sasas",
-            "age": "34",
-            "sex": "Hombre",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img46.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img48.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "121312",
-            "first_name": "Pablo Valeiro ",
-            "last_name": "assas",
-            "age": "232",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "131212",
-            "first_name": "asasa",
-            "last_name": "asas",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img102.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img12.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "212212",
-            "first_name": "asasas",
-            "last_name": "ASASA",
-            "age": "43",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img102.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img11.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "1313213",
-            "first_name": "asasa",
-            "last_name": "asasas",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img108.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img11.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "121212",
-            "first_name": "Pablo",
-            "last_name": "asasa",
-            "age": "21",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img100.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img11.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "12129",
-            "first_name": "pasasas",
-            "last_name": "asasasas",
-            "age": "43",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2323",
-            "first_name": "sddsds",
-            "last_name": "asdsas",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "12121a",
-            "first_name": "asas",
-            "last_name": "asasas",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "qwass",
-            "first_name": "Pablo",
-            "last_name": "skddnsdn",
-            "age": "12",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_tibia_left": "",
-                "coordinates_tibia_right": ""
-            },
-            "results": {
-                "rb_left": "",
-                "rb_right": "",
-                "ta_gt_left": "",
-                "ta_gt_right": ""
-            }
-        },
-        {
-            "patient_id": "2331",
-            "first_name": "qwqwwqw",
-            "last_name": "qwqw",
-            "age": "45",
-            "sex": "Mujer",
-            "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
-                "coordinates_trochlea_left": "",
-                "coordinates_trochlea_right": "",
-                "coordinates_condiles_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_condiles_right": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_left": {
-                    "left": "",
-                    "right": ""
-                },
-                "coordinates_rotula_right": {
-                    "left": "",
-                    "right": ""
-                }
-            },
-            "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
                 "coordinates_tibia_left": "",
                 "coordinates_tibia_right": ""
             },
@@ -977,12 +41,12 @@
         },
         {
             "patient_id": "1221212",
-            "first_name": "assss",
+            "first_name": "qasassa",
             "last_name": "asasasas",
-            "age": "12",
+            "age": "11",
             "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img100.dcm",
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
                 "coordinates_trochlea_left": "",
                 "coordinates_trochlea_right": "",
                 "coordinates_condiles_left": {
@@ -1003,7 +67,7 @@
                 }
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img11.dcm",
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
                 "coordinates_tibia_left": "",
                 "coordinates_tibia_right": ""
             },
@@ -1015,13 +79,247 @@
             }
         },
         {
-            "patient_id": "2121",
-            "first_name": "aspasp",
-            "last_name": "assaas asasas",
+            "patient_id": "121212",
+            "first_name": "pasnasn",
+            "last_name": "sdasas",
+            "age": "121",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "1212121",
+            "first_name": "wqwqwqw",
+            "last_name": "qwqwqw",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212",
+            "first_name": "osnwsn",
+            "last_name": "121212",
+            "age": "34",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "0982238239",
+            "first_name": "apsasas ",
+            "last_name": "sdsds",
+            "age": "982",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212",
+            "first_name": "PAb",
+            "last_name": "skdsd",
+            "age": "32",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "233212121",
+            "first_name": "Pablo Valeiro ",
+            "last_name": "sdsds",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212",
+            "first_name": "ldsasas",
+            "last_name": "apsaps",
             "age": "43",
             "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img102.dcm",
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
                 "coordinates_trochlea_left": "",
                 "coordinates_trochlea_right": "",
                 "coordinates_condiles_left": {
@@ -1042,7 +340,7 @@
                 }
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img16.dcm",
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
                 "coordinates_tibia_left": "",
                 "coordinates_tibia_right": ""
             },
@@ -1054,13 +352,13 @@
             }
         },
         {
-            "patient_id": "12121",
-            "first_name": "asasas",
-            "last_name": "asasa",
-            "age": "54",
+            "patient_id": "weqwewe",
+            "first_name": "pasoaso",
+            "last_name": "adnasna assasasas ",
+            "age": "43",
             "sex": "Mujer",
             "img_femur": {
-                "file_femur": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
                 "coordinates_trochlea_left": "",
                 "coordinates_trochlea_right": "",
                 "coordinates_condiles_left": {
@@ -1081,7 +379,280 @@
                 }
             },
             "img_tibia": {
-                "file_tibia": "/home/pablo/Descargas/segundo env\u00edo/4546475 TAGT/serie completa/serie completa 4546475 TAGT.Seq13.Ser404.Img1.dcm",
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "12121212a",
+            "first_name": "asasasas",
+            "last_name": "asasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "1221212",
+            "first_name": "asasasasa",
+            "last_name": "sasasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "asasas",
+            "first_name": "asasas",
+            "last_name": "asasas",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212",
+            "first_name": "qwoqwqn",
+            "last_name": "asasas sasasas ",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "12212",
+            "first_name": "qsasasas",
+            "last_name": "asasas asasa",
+            "age": "11",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212qw",
+            "first_name": "asasas",
+            "last_name": "asasas asasas",
+            "age": "232",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "asasas",
+            "first_name": "asasa ",
+            "last_name": "asas ",
+            "age": "34",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
                 "coordinates_tibia_left": "",
                 "coordinates_tibia_right": ""
             },

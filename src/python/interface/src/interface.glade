@@ -480,6 +480,7 @@ del sistema</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="halign">end</property>
+                <signal name="clicked" handler="accept_measure_menu" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -1451,6 +1452,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
   </object>
   <object class="GtkWindow" id="refine-measure">
     <property name="can_focus">False</property>
+    <property name="window_position">center-always</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -1723,6 +1725,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
   </object>
   <object class="GtkWindow" id="tagt-result">
     <property name="can_focus">False</property>
+    <property name="window_position">center-always</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -1890,7 +1893,7 @@ y realizar de nuevo el cálculo TA-GT.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <signal name="clicked" handler="print_lines_window" swapped="no"/>
+                    <signal name="clicked" handler="refine_measures" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">0</property>

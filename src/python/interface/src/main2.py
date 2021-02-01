@@ -483,8 +483,8 @@ class View:
         builder.get_object("pd-age").set_text(self.current_patient.age)
         builder.get_object("pd-sex").set_text(self.current_patient.sex)
         img_femur = builder.get_object("pd-femur-image")
-        img1 = controller.exportDStoPNG(self.current_patient.femurRotulaImage.ds)
-        img2 = controller.exportDStoPNG(self.current_patient.tibiaImage.ds)
+        img1 = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage)
+        img2 = controller.exportDStoPNG(self.current_patient.tibiaImage.originalImage)
         img1 = cv2.resize(img1, (256,256))
         img2 = cv2.resize(img2, (256,256))
         im_v = cv2.vconcat([img1, img2])
@@ -499,6 +499,24 @@ class View:
 
     def hide_measures_menu(self,button):
         builder.get_object("measures-options").hide()
+
+    def accept_measure_menu(self, button):
+        self.measure_selected = builder.get_object("mo-measure").get_active_text()
+        self.half_selected = builder.get_object("mo-half").get_active_text()
+        self.show_measures_window()
+
+    def show_measures_window(self):
+        d, img,lines = controller.getMeasures(self.measure_selected, self.half_selected, self.current_patient)
+        builder.get_object("patient-details-window").hide()
+        image_window = builder.get_object("tagt-img")
+        text_window = builder.get_object("tagtr-text")
+        cv2.imwrite("result.png", img)
+        image_window.set_from_file("result.png")
+        text_window.set_text(str(d))
+        builder.get_object("measures-options").hide()
+        builder.get_object("tagt-result").show()
+        print(lines)
+   
         
 
 

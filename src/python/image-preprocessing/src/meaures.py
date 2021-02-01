@@ -41,28 +41,10 @@ def get_points_left(ds):
 
     rotated_img, angle = image_processing.rotateFemur(roi_img2, "left")
     _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, roi_img2, -angle,)
-    img_2d = ds.pixel_array.astype(float)
-
-    ## Step 2. Rescaling grey scale between 0-255
-    img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
-
-    ## Step 3. Convert to uint
-    img_2d_scaled = np.uint8(img_2d_scaled)
-    img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
-    cv2.circle(img2, (extBot[0], extBot[1]), radius=0, color=(0, 0, 255), thickness=2)
-    cv2.circle(img2, (extBot2[0], extBot2[1]), radius=0, color=(0, 0, 255), thickness=2)
-    _ , (extLeft, extRight) = image_processing.rotate_rotula(roi_img)
-   # x,y = interesting_points.getDeepestPointTrochlea(th_img)
-
-    #cv2.circle(img2, (y, x), radius=0, color=(0, 0, 255), thickness=-1)
-    cv2.circle(img2, (throclea_points[0], throclea_points[1]), radius=0, color=(255, 0, 0), thickness=2)
-    cv2.circle(img2, (extLeft[0], extLeft[1]), radius=0, color=(0, 255, 0), thickness=2)
-    cv2.circle(img2, (extRight[0], extRight[1]), radius=0, color=(0, 255, 0), thickness=2)
-
-    return img2,extBot, extBot2, throclea_points
+    return extBot, extBot2, throclea_points
 
 
-def get_points_right(ds, img_left):
+def get_points_right(ds):
     img = dicom_utils.transformToHu(ds,ds.pixel_array)
     if type(ds.WindowWidth) == pydicom.multival.MultiValue:
         windowWidth = ds.WindowWidth[0]
@@ -80,26 +62,9 @@ def get_points_right(ds, img_left):
     roi_img = image_processing.getROI2(th_img)
     rotated_img, angle = image_processing.rotateFemur(roi_img2, "right")
     _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, roi_img2, -angle)
-    img_2d = ds.pixel_array.astype(float)
-
-    ## Step 2. Rescaling grey scale between 0-255
-    img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
-
-    ## Step 3. Convert to uint
-    img_2d_scaled = np.uint8(img_2d_scaled)
-    img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
-
-    cv2.circle(img_left, (extBot[0], extBot[1]), radius=0, color=(0, 0, 255), thickness=2)
-    cv2.circle(img_left, (extBot2[0], extBot2[1]), radius=0, color=(0, 0, 255), thickness=2)
-    cv2.circle(img_left, (throclea_points[0], throclea_points[1]), radius=0, color=(255, 0, 0), thickness=2)
-
-    _ , (extLeft, extRight) = image_processing.rotate_rotula(roi_img)
-
-    cv2.circle(img_left, (extLeft[0], extLeft[1]), radius=0, color=(0, 255, 0), thickness=2)
-    cv2.circle(img_left, (extRight[0], extRight[1]), radius=0, color=(0, 255, 0), thickness=2)
 
     
-    return img_left, extBot, extBot2, throclea_points
+    return  extBot, extBot2, throclea_points
 
 def get_points_rotula_left(ds):
     if type(ds.WindowWidth) == pydicom.multival.MultiValue:
@@ -159,7 +124,7 @@ def get_point_tibia_left(ds):
     M = cv2.getRotationMatrix2D(center, angle, 1.0)
     tf2 = cv2.transform(transform_points, M)
     points = [north_west[0], north_west[1]]
-    return points
+    return tf2[0][0]
 
 def get_point_tibia_right(ds):
     if type(ds.WindowWidth) == pydicom.multival.MultiValue:
@@ -204,27 +169,49 @@ def basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right):
 
 
 '''
-ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia2.dcm')
+ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
 ds2=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/prueba2.dcm')
+
+
 tibia = get_point_tibia_left(ds)
 hu =dicom_utils.transformToHu(ds2, ds2.pixel_array)
 hu2 =dicom_utils.transformToHu(ds, ds.pixel_array)
 img, femur_left, femur_right, trochlea = get_points_left(ds2)
 d = ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
-print(femur_right,trochlea)
-print(d)
+
+rotula = get_points_rotula_left(ds2)
+
+
+img_2d = ds.pixel_array + ds2.pixel_array
+img_2d = img_2d.astype(float)
+
+## Step 2. Rescaling grey scale between 0-255
+img_2d_scaled = (np.maximum(img_2d,0) / img_2d.max()) * 255.0
+
+## Step 3. Convert to uint
+img_2d_scaled = np.uint8(img_2d_scaled)
+img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
+
+#img2 = image_processing.getDrawedImageTAGT(img2, femur_left, femur_right, trochlea, tibia)
+
+img2 = image_processing.getDrawedImageBR(img2, femur_left, femur_right, rotula[0], rotula[1])
+
+# x,y = interesting_points.getDeepestPointTrochlea(th_img)
+plt.imshow(img2)
+plt.show()
+
+
 tibia = get_point_tibia_right(ds)
-
-
-hu =dicom_utils.transformToHu(ds2, ds2.pixel_array)
-hu2 =dicom_utils.transformToHu(ds, ds.pixel_array)
+'''
+'''
+'''
+'''
 
 _, femur_left, femur_right, trochlea = get_points_right(ds2, hu)
 
 d2 = ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
 print(d2)
-plt.imshow(img)
-plt.show()
+
 '''
 '''
 #ds=pydicom.dcmread('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/serie/4859838 serie completa.Seq4.Ser4.Img100.dcm')
