@@ -106,6 +106,7 @@ def getMeasures(measure, half, patient):
             femur_left, femur_right, trochlea = meaures.get_points_right(patient.femurRotulaImage.ds)
             tibia = meaures.get_point_tibia_right(patient.tibiaImage.ds)
         d = meaures.ta_gt_measures(patient.femurRotulaImage.ds, femur_left, femur_right, trochlea, tibia)
+        d = float(round(d, 2))
         ds = patient.femurRotulaImage.originalImage + patient.tibiaImage.originalImage
         img = export_serie_to_png.exportDStoPNG(ds)
         img, lines = image_processing.getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia)
@@ -115,19 +116,42 @@ def getMeasures(measure, half, patient):
             femur_left, femur_right, trochlea = meaures.get_points_left(patient.femurRotulaImage.ds)
             rotula = meaures.get_points_rotula_left(patient.femurRotulaImage.ds)
             angle = meaures.basic_rotulian(patient.femurRotulaImage.ds, femur_left, femur_right, rotula[0], rotula[1])
+            angle = float(round(angle, 2))
             img = export_serie_to_png.exportDStoPNG(patient.femurRotulaImage.originalImage)
-            img = image_processing.getDrawedImageBR(img, femur_left, femur_right,rotula[0], rotula[1])
-            return angle, img
+            img, lines = image_processing.getDrawedImageBR(img, femur_left, femur_right,rotula[0], rotula[1])
+            return angle, img,lines
         elif half == "Derecha":
             femur_left, femur_right, trochlea = meaures.get_points_right(patient.femurRotulaImage.ds)
             rotula = meaures.get_points_rotula_right(patient.femurRotulaImage.ds)
             angle = meaures.basic_rotulian(patient.femurRotulaImage.ds, femur_left, femur_right, rotula[0], rotula[1])
+            angle = float(round(angle, 2))            
             img = export_serie_to_png.exportDStoPNG(patient.femurRotulaImage.originalImage)
             img, lines = image_processing.getDrawedImageBR(img, femur_left, femur_right, rotula[0], rotula[1])
             return angle, img, lines
 
 
-
+def refineMeasure(measure, lines, patient):
+    if measure == "TA-GT":
+        femur_left = lines[0][0]
+        femur_right = lines[0][1]
+        trochlea = lines[1][1]
+        tibia = lines[2][1]
+        d = meaures.ta_gt_measures(patient.femurRotulaImage.ds, femur_left, femur_right, trochlea, tibia)
+        d = float(round(d, 2))
+        ds = patient.femurRotulaImage.originalImage + patient.tibiaImage.originalImage
+        img = export_serie_to_png.exportDStoPNG(ds)
+        img, lines = image_processing.getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia)
+        return d, img
+    elif measure == "Básica Rotuliana":
+        femur_left = lines[0][0]
+        femur_right = lines[0][1]
+        rotula_left = lines[1][0]
+        rotula_right = lines[1][1]
+        angle = meaures.basic_rotulian(patient.femurRotulaImage.ds, femur_left, femur_right, rotula_left, rotula_right)
+        angle = float(round(angle, 2))
+        img = export_serie_to_png.exportDStoPNG(patient.femurRotulaImage.originalImage)
+        img, lines = image_processing.getDrawedImageBR(img, femur_left, femur_right, rotula_left, rotula_right)
+        return angle. img
 
 
 

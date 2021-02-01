@@ -662,6 +662,708 @@
                 "ta_gt_left": "",
                 "ta_gt_right": ""
             }
+        },
+        {
+            "patient_id": "o1qw",
+            "first_name": "paass",
+            "last_name": "asas asas ",
+            "age": "21",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212",
+            "first_name": "sassasas",
+            "last_name": "asasass",
+            "age": "34",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "asasas",
+            "first_name": "asasas ",
+            "last_name": "asas as asbas",
+            "age": "54",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "asasasas ",
+            "first_name": "paspaspas ",
+            "last_name": "skdadskasas ",
+            "age": "43",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212 ",
+            "first_name": "assasasas",
+            "last_name": "assasas ",
+            "age": "32",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "1212",
+            "first_name": "assa",
+            "last_name": "asasas asas",
+            "age": "12",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "293238",
+            "first_name": "sasasasas asasasasa",
+            "last_name": "assasasasasa",
+            "age": "12121",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "asasa",
+            "first_name": "asasas ",
+            "last_name": "asasa",
+            "age": "654",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "1212121",
+            "first_name": "aaasas ",
+            "last_name": "asasas",
+            "age": "54",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "12212",
+            "first_name": "PAsasas ",
+            "last_name": "asasas asas",
+            "age": "43",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "213122",
+            "first_name": "sasas",
+            "last_name": "sdsdsd dgregfr",
+            "age": "65",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "121212 ",
+            "first_name": "asasas",
+            "last_name": "asas aasq",
+            "age": "54",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "123123",
+            "first_name": "asasas",
+            "last_name": "asas",
+            "age": "42",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "23131",
+            "first_name": "pablo",
+            "last_name": "valeiro pena",
+            "age": "432",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "1321213",
+            "first_name": "asasas",
+            "last_name": "asasas ttvfrc",
+            "age": "21",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "12312",
+            "first_name": "asasasas",
+            "last_name": "asasafe rgrfrg",
+            "age": "543",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "5334234323",
+            "first_name": "asasas",
+            "last_name": "asasass dfef4ef",
+            "age": "21",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "232323",
+            "first_name": "apsas",
+            "last_name": "sdsded",
+            "age": "43",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
         }
     ]
 }

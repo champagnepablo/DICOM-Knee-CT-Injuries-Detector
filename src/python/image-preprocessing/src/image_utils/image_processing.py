@@ -349,15 +349,14 @@ def getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia):
     cv2.line(img, (femur_left[0], femur_left[1]), (femur_right[0], femur_right[1]), color=(255,255,255), thickness=1)
     cv2.line(img,  (x_trochlea, femur_left[1] + 20), (trochlea[0], trochlea[1]),  color=(255,255,255), thickness=1)
     cv2.line(img,  (x_tibia, femur_left[1] + 20), (tibia[0], tibia[1]),  color=(255,255,255), thickness=1)
-    return img, [(femur_left, femur_right), (x_trochlea, femur_left[1] + 20),  (x_tibia, femur_left[1] + 20), (tibia[0], tibia[1])]
+    lines = [[(femur_left[0], femur_left[1]), (femur_right[0], femur_right[1])], [(x_trochlea, femur_left[1] + 20), (trochlea[0], trochlea[1])], [(x_tibia, femur_left[1] + 20), (tibia[0], tibia[1])]]
+    return img, lines
 
 def getDrawedImageBR(img, femur_left, femur_right, rotula_left, rotula_right):
-    m, _ = dicom_utils.getFunctionPoints(femur_left, femur_right)
-    b_paralel = rotula_left[1] - m * rotula_left[0]
-    y_paralel =int (m * rotula_right[0] + b_paralel)
     cv2.line(img, (femur_left[0], femur_left[1]), (femur_right[0], femur_right[1]), color=(255,255,255), thickness=1)
     cv2.line(img, (rotula_left[0], rotula_left[1]), (rotula_right[0], rotula_right[1]), color=(255,255,255), thickness=1)
-    return img, [(femur_left, femur_right), (rotula_left, rotula_right)]
+    lines = [[(femur_left[0], femur_left[1]), (femur_right[0], femur_right[1])], [(rotula_left[0], rotula_left[1]), (rotula_right[0], rotula_right[1])]]
+    return img, lines
 
 
 

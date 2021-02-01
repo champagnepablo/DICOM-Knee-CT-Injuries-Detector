@@ -64,6 +64,7 @@ class View:
 
     def new_patient_button(self,button):
         self.new_patient_data.show()
+        self.new_patient_data.connect("delete-event", Gtk.main_quit)
         self.new_patient_data.set_title("Añadir nuevo paciente")
         self.home_page.hide()
         self.patients_list_window.hide()
@@ -515,7 +516,7 @@ class View:
         text_window.set_text(str(d))
         builder.get_object("measures-options").hide()
         builder.get_object("tagt-result").show()
-        print(lines)
+        self.interesting_points = lines
    
         
 
@@ -611,7 +612,7 @@ class View:
         y = int (event.y)
         print(self.is_line_selected)
         img = builder.get_object("rf-img")
-        img2 = cv2.imread('prueba.jpeg')
+        img2 = cv2.imread('refine.png')
         if self.is_line_selected == True and event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
             self.is_line_selected = not  (self.is_line_selected)
             img2 = self.print_lines_selection(img2, x, y)
@@ -623,23 +624,40 @@ class View:
             img2 = self.print_lines_selection(img2, x, y)
         else: 
             img2 = self.print_lines_left_click(img2)
-        cv2.imwrite('prueba2.png', img2)
-        img.set_from_file('prueba2.png')
+        cv2.imwrite('refine2.png', img2)
+        img.set_from_file('refine2.png')
 
 
 
     def refine_measures(self, button):
         window = builder.get_object("refine-measure")
-        img = builder.get_object("rf-img")
-        img2 = cv2.imread('messi.jpg')
+        img_window = builder.get_object("rf-img")
+        if self.measure_selected == "TA-GT":
+            img = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage + self.current_patient.tibiaImage.originalImage)
+            cv2.imwrite("refine.png", img)
+            img_window.set_from_file('refine.png')
+        elif self.measure_selected == "Básica Rotuliana":
+            img = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage)
+            cv2.imwrite("refine.png", img)
+            img_window.set_from_file('refine.png')
         eventbox = builder.get_object('rm-event')
-        print(img2.shape)
         eventbox.connect("button-press-event", self.motion_notify)
-        img.set_from_file('messi.jpg')
         self.line_selected = None
         self.point_selected = None
         self.is_line_selected = False
         window.show()
+
+    def confirm_refine(self,button):
+        d, img = controller.refineMeasure(self.measure_selected, self.interesting_points, self.current_patient)
+        builder.get_object("refine-measure").hide()
+        image_window = builder.get_object("tagt-img")
+        text_window = builder.get_object("tagtr-text")
+        cv2.imwrite("result.png", img)
+        image_window.set_from_file("result.png")
+        text_window.set_text(str(d))
+        builder.get_object("measures-options").hide()
+        builder.get_object("tagt-result").show()
+
 
 
 
