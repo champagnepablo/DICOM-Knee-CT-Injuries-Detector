@@ -35,8 +35,6 @@ class View:
         self.new_patient_bt = builder.get_object("hp-b-im")
         self.new_patient_data = builder.get_object("new-patient")
         self.patients_list_window = builder.get_object("patients-list")
-        self.choose_action_window = builder.get_object("choose-action-window")
-        self.patient_added_confirmation = builder.get_object("patient-added-confirmation")
         self.measurements_details_window = None
         self.tagt_details_window = builder.get_object("tagt-details-window")
         self.print_lines_br_window = builder.get_object("print-lines-br-window")
@@ -47,14 +45,6 @@ class View:
         self.pathf2_text = ""
         self.pathf1_text = ""
         self.coordinates_list = []
-        self.original_image = cv2.imread('messi.jpg')
-        self.clone = self.original_image.copy()
-        self.line1 = []
-        self.line2 = []
-        self.line3 = []
-        self.reset1 = False 
-        self.reset2 = False
-        self.reset3 = False
         self.interesting_points = [[ (10,30), (50, 200) ], [ (67, 43), (200, 154) ], [ (152, 101), (45, 104) ]]
 
 
@@ -238,160 +228,9 @@ class View:
     def print_lines_br_window_button(self,button):
         self.print_lines_br_window.show()
 
-    def patient_details_button(self,button):
-        selection = builder.get_object("tree-list").get_selection()
-        selection.set_mode(Gtk.SelectionMode.BROWSE)
-        (modelo, paths) = selection.get_selected_rows()
-        if len(paths)==1:
-            for path in paths:
-                tree_iter = modelo.get_iter(path)
-                self.rowselected = modelo.get_value(tree_iter,0)
-        patient = model.get_patient(self.rowselected)
-        self.current_patient = patient
-        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
-        ds2 = pydicom.dcmread(patient.tibiaImage.fileName)
-        img_femur = dicom_utils.transformToHu(ds, ds.pixel_array)
-        img_femur = cv2.resize(img_femur, (300,200))
-        img_tibia = dicom_utils.transformToHu(ds2, ds2.pixel_array)
-        img_tibia = cv2.resize(img_tibia, (300,200))
-        cv2.imwrite('image_femur.png',img_femur)
-        cv2.imwrite('image_tibia.png',img_tibia)
-        femurimg = builder.get_object("pd-femur-image")
-        tibiaimg = builder.get_object("pd-tibia-image")
-        dni = builder.get_object("tagtr-dni1")
-        dni.set_text(patient.id)
-        fst_name = builder.get_object("tagtr-fstname1")
-        fst_name.set_text(patient.firstName)
-        name = builder.get_object("tagtr-name1")
-        name.set_text(patient.name)
-        age = builder.get_object("tagtr-age1")
-        age.set_text(str(patient.age))
-        sex = builder.get_object("tagtr-sex")
-        sex.set_text(patient.sex)
-        femurimg.set_from_file("image_femur.png")
-        tibiaimg.set_from_file("image_tibia.png")
-        window = builder.get_object("patient-details-window")
-        window.show()
 
     
-    def confirm_patient_added_dialog(self, button):
-        self.choose_action_window.hide()
-        self.patient_added_confirmation.show()
-        self.patients_list_window.show()
 
-        def get_points(im):
-            # Set up data to send to mouse handler
-            data = {}
-            data['im'] = im.copy()
-            data['lines'] = []
-
-            # Set the callback function for any mouse event
-            cv2.imshow("Image", im)
-            cv2.setMouseCallback("Image", mouse_handler, data)
-            cv2.waitKey(0)
-
-            # Convert array to np.array in shape n,2,2
-            points = np.uint16(data['lines'])
-
-            return points, data['im']
-    
-
-    def extract_coordinates(self, event, x, y, flags, parameters):
-    # Record starting (x,y) coordinates on left mouse button click
-        if event == cv2.EVENT_LBUTTONDOWN:
-            self.image_coordinates = [(x,y)]
-
-        # Record ending (x,y) coordintes on left mouse bottom release
-        elif event == cv2.EVENT_LBUTTONUP:
-            self.image_coordinates.append((x,y))
-            print('Starting: {}, Ending: {}'.format(self.image_coordinates[0], self.image_coordinates[1]))
-            if len(self.coordinates_list) == 3:
-                print("Finished")
-            # Draw line
-            if ((self.line1)  == [] and self.reset1 == True):
-                cv2.line(self.clone, self.image_coordinates[0], self.image_coordinates[1], (36,255,12), 2)
-                self.line1.append((self.image_coordinates[0], self.image_coordinates[1]))
-                self.reset1 = False
-                print("printa linea1")
-            elif ((self.line2)  == [] and self.reset2 == True):
-                cv2.line(self.clone, self.image_coordinates[0], self.image_coordinates[1], (36,255,12), 2)
-                self.line2.append((self.image_coordinates[0], self.image_coordinates[1]))
-                self.reset2 = False
-                print("printa linea2 ")
-            elif ((self.line3) == [] and self.reset3 == True):
-                cv2.line(self.clone, self.image_coordinates[0], self.image_coordinates[1], (36,255,12), 2)
-                self.line3.append((self.image_coordinates[0], self.image_coordinates[1]))
-                self.reset3 = False
-                print("printa linea3")
-            cv2.imshow("image", self.clone) 
-
-        # Clear drawing boxes on right mouse button click
-        elif event == cv2.EVENT_RBUTTONDOWN:
-            self.clone = self.original_image.copy()
-
-    def show_image(self):
-        return self.clone
-
-    def print_lines_window(self,button):
-        # List to store start/end points
-        self.image_coordinates = []
-        print_lines_window = builder.get_object("print-lines-window")
-        print_lines_window.show()
-    
-
-
-
-    
-    def set_line1(self,button):
-        cv2.destroyAllWindows()
-        copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
-        self.clone = copy
-        print(self.line2)
-        if  (self.line2) != [] :
-            cv2.line(copy, self.line2[0][0], self.line2[0][1], (36,255,12), 2)
-        if  (self.line3) != [] :
-            cv2.line(copy, self.line3[0][0], self.line3[0][1], (36,255,12), 2)
-        screen_res = 1980, 1080 
-        scale_width = screen_res[0] / copy.shape[1]
-        scale_height = screen_res[1] / copy.shape[0]
-        scale = min(scale_width, scale_height)
-        window_width = int(copy.shape[1] * scale)
-        window_height = int(copy.shape[0] * scale)
-        cv2.namedWindow("image", cv2.WINDOW_GUI_EXPANDED)
-        cv2.moveWindow("image", 40,30)
-        cv2.imshow('image',copy)
-       
-        self.reset1 = True
-        self.line1 = []
-        cv2.namedWindow('image')
-        cv2.setMouseCallback('image', self.extract_coordinates)
-
-    def set_line2(self,button):
-        copy = copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
-        self.clone = copy
-        if  (self.line1) != [] :
-            cv2.line(copy, self.line1[0][0], self.line1[0][1], (36,255,12), 2)
-        if  (self.line3) != [] :
-            cv2.line(copy, self.line3[0][0], self.line3[0][1], (36,255,12), 2)
-        cv2.imshow('image',copy)
-        self.line2 = []
-        self.reset2 = True
-        cv2.namedWindow('image')
-        cv2.setMouseCallback('image', self.extract_coordinates)
-
-    def set_line3(self,button):
-        cv2.destroyAllWindows()
-        copy = copy = dicom_utils.transformToHu(self.current_patient.femurRotulaImage.ds, self.current_patient.femurRotulaImage.ds.pixel_array)
-        if  (self.line1) != [] :
-            cv2.line(copy, self.line1[0][0], self.line1[0][1], (36,255,12), 2)
-        if  (self.line2) != [] :
-            cv2.line(copy, self.line2[0][0], self.line2[0][1], (36,255,12), 2)
-        self.clone = copy
-        cv2.imshow('image',copy)
-        self.line3 = []
-        self.reset3 = True
-        cv2.namedWindow('image')
-        cv2.setMouseCallback('image', self.extract_coordinates)
 
     def delete_patient(self, button):
         selection = builder.get_object("tree-list").get_selection()
@@ -483,6 +322,18 @@ class View:
         builder.get_object("pd-name").set_text(self.current_patient.name)
         builder.get_object("pd-age").set_text(self.current_patient.age)
         builder.get_object("pd-sex").set_text(self.current_patient.sex)
+        tagtr_l = controller.getStoredTAGTResult(self.current_patient, "Izquierda")
+        if  tagtr_l != "":
+            builder.get_object("pd-tagtrl").set_text(str(tagtr_l) + " mm")
+        tagtr_r = controller.getStoredTAGTResult(self.current_patient, "Derecha")
+        if  tagtr_r != "":
+            builder.get_object("pd-tagtrr").set_text(str(tagtr_r)+ " mm")
+        br_l = controller.getStoredBRResult(self.current_patient, "Izquierda")
+        if  br_l != "":
+            builder.get_object("pd-brl").set_text(str(br_l) + " º")
+        br_r = controller.getStoredBRResult(self.current_patient, "Derecha")
+        if  br_r != "":
+            builder.get_object("pd-brr").set_text(str(br_r)+ " º")            
         img_femur = builder.get_object("pd-femur-image")
         img1 = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage)
         img2 = controller.exportDStoPNG(self.current_patient.tibiaImage.originalImage)
@@ -494,6 +345,20 @@ class View:
         img_femur.set_from_file("femur.png")
         window.show()
         os.remove("femur.png")
+
+    def patient_details_button(self,button):
+        selection = builder.get_object("tree-list").get_selection()
+        selection.set_mode(Gtk.SelectionMode.BROWSE)
+        (modelo, paths) = selection.get_selected_rows()
+        if len(paths)==1:
+            for path in paths:
+                tree_iter = modelo.get_iter(path)
+                self.rowselected = modelo.get_value(tree_iter,0)
+        patient = model.get_patient(self.rowselected)
+        self.current_patient = patient
+        self.showPatientMenu()
+
+
 
     def show_measures_menu(self,button):
         builder.get_object("measures-options").show()
@@ -508,6 +373,7 @@ class View:
 
     def show_measures_window(self):
         d, img,lines = controller.getMeasures(self.measure_selected, self.half_selected, self.current_patient)
+        self.measure_result = d
         builder.get_object("patient-details-window").hide()
         image_window = builder.get_object("tagt-img")
         text_window = builder.get_object("tagtr-text")
@@ -517,13 +383,6 @@ class View:
         builder.get_object("measures-options").hide()
         builder.get_object("tagt-result").show()
         self.interesting_points = lines
-   
-        
-
-
-
-
-
 
     def show_previous_image(self, button):
         if self.series_iterator == 0:
@@ -649,6 +508,7 @@ class View:
 
     def confirm_refine(self,button):
         d, img = controller.refineMeasure(self.measure_selected, self.interesting_points, self.current_patient)
+        self.measure_result = d
         builder.get_object("refine-measure").hide()
         image_window = builder.get_object("tagt-img")
         text_window = builder.get_object("tagtr-text")
@@ -657,6 +517,19 @@ class View:
         text_window.set_text(str(d))
         builder.get_object("measures-options").hide()
         builder.get_object("tagt-result").show()
+
+    def storeResult(self,button):
+        if self.measure_selected == "TA-GT":
+            controller.storeTAGTResult(self.current_patient, self.measure_result, self.half_selected)
+        else:
+            controller.storeBRResult(self.current_patient, self.measure_result, self.half_selected)
+        builder.get_object("tagt-result").hide()
+        self.showPatientMenu()
+        
+    def fromPatientDetailsToList(self,button):
+        builder.get_object("patient-details-window").hide()
+
+    
 
 
 

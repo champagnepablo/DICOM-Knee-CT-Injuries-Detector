@@ -141,7 +141,7 @@ def refineMeasure(measure, lines, patient):
         ds = patient.femurRotulaImage.originalImage + patient.tibiaImage.originalImage
         img = export_serie_to_png.exportDStoPNG(ds)
         img, lines = image_processing.getDrawedImageTAGT(img, femur_left, femur_right, trochlea, tibia)
-        return d, img
+        return str(d), img
     elif measure == "Básica Rotuliana":
         femur_left = lines[0][0]
         femur_right = lines[0][1]
@@ -154,8 +154,32 @@ def refineMeasure(measure, lines, patient):
         return angle. img
 
 
+def storeTAGTResult(patient, result, half):
+    if half == "Izquierda":
+        model.set_tagt_result(patient.id, result, "left")
+    else:
+        model.set_tagt_result(patient.id, result, "right")
 
 
+def storeBRResult(patient, result, half):
+    if half == "Izquierda":
+        model.set_br_result(patient.id, result, "left")
+    else:
+        model.set_br_result(patient.id, result, "right")
         
 
+def getStoredTAGTResult(patient, half):
+    if half == "Izquierda":
+        return model.get_tagt_result(patient.id, "left")
+    else:
+        return model.get_tagt_result(patient.id, "right")
     
+def getStoredBRResult(patient, half):
+    if half == "Izquierda":
+        return model.get_br_result(patient.id, "left")
+    else:
+        return model.get_br_result(patient.id, "right")
+
+
+def findPatient(patient):
+    return model.find_patient(patient.id)

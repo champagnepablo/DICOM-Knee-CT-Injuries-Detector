@@ -356,7 +356,6 @@ def set_sex(id, sex):
     with open('data.json', 'w') as data_file:
         data = json.dump(data, data_file, indent=4)
 
-        
 
 
 
