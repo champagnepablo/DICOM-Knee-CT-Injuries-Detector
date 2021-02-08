@@ -2,8 +2,6 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf, Gdk, GLib
 from gi.repository.GdkPixbuf import Pixbuf
-builder = Gtk.Builder()
-builder.add_from_file("interface.glade")
 import cv2
 import numpy as np
 import scipy
@@ -156,16 +154,16 @@ def refineMeasure(measure, lines, patient):
 
 def storeTAGTResult(patient, result, half):
     if half == "Izquierda":
-        model.set_tagt_result(patient.id, result, "left")
+       return  model.set_tagt_result(patient.id, result, "left")
     else:
-        model.set_tagt_result(patient.id, result, "right")
+        return model.set_tagt_result(patient.id, result, "right")
 
 
 def storeBRResult(patient, result, half):
     if half == "Izquierda":
-        model.set_br_result(patient.id, result, "left")
+        return model.set_br_result(patient.id, result, "left")
     else:
-        model.set_br_result(patient.id, result, "right")
+        return model.set_br_result(patient.id, result, "right")
         
 
 def getStoredTAGTResult(patient, half):
@@ -181,9 +179,14 @@ def getStoredBRResult(patient, half):
         return model.get_br_result(patient.id, "right")
 
 
-def findPatient(patient):
-    return model.find_patient(patient.id)
+def findPatient(id):
+    return model.find_patient(id)
 
+def get_patients():
+    return model.get_patients()
+
+def get_patient(id):
+    return model.get_patient(id)
 
 def check_date(day, month, year):
     try:
@@ -191,3 +194,7 @@ def check_date(day, month, year):
           return True
     except ValueError:
         return False
+
+
+def removePatient(id):
+    model.remove_patient

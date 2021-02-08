@@ -12,7 +12,6 @@ class MedicalImageTest(unittest.TestCase):
         med_img = MedicalImage('/home/pablo/Documentos/TFG/src/python/image-preprocessing/data/dicom/tibia.dcm')
         self.assertEqual(ds.PixelSpacing, med_img.getPixelSpacing())
         self.assertEqual(ds.RescaleSlope, med_img.getRescaleSlope())
-        self.assertEqual(1,0)
 
 
 

@@ -86,7 +86,7 @@ class View:
         dialog.add_filter(filter_any)
 
     def update_list(self):
-        data = model.get_patients()
+        data = controller.get_patients()
         list =  builder.get_object("patients")
         list.clear()
         for i in range(len((data['patients']))):
@@ -305,7 +305,7 @@ class View:
             for path in paths:
                 tree_iter = modelo.get_iter(path)
                 self.rowselected = modelo.get_value(tree_iter,0)
-        patient = model.get_patient(self.rowselected)
+        patient = controller.get_patient(self.rowselected)
         self.current_patient = patient
         self.showPatientMenu()
 
