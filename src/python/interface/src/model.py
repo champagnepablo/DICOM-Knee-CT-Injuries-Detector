@@ -6,7 +6,10 @@ sys.path.insert(1, '../../image-preprocessing/src/')
 
 from PatientHistorial import Patient
 from MedicalImage import FemurRotulaImage, TibiaImage
-def write_json(data, filename='data.json'): 
+
+DATA_PATH = 'data/data.json'
+
+def write_json(data, filename=DATA_PATH): 
     with open(filename,'w') as f: 
         json.dump(data, f, indent=4) 
 
@@ -15,7 +18,7 @@ def create_patient(patient_id, first_name = None, last_name = None, age = None, 
     if (find_patient(patient_id) != None):
         return False
     else :
-        with open('data.json') as json_file: 
+        with open(DATA_PATH) as json_file: 
             data = json.load(json_file) 
             temp = data['patients']
             if (first_name == None):
@@ -66,7 +69,7 @@ def create_patient(patient ):
     if (True == False):
         return False
     else :
-        with open('data.json') as json_file: 
+        with open(DATA_PATH) as json_file: 
             data = json.load(json_file) 
             temp = data['patients']
             new_patient = {
@@ -113,13 +116,13 @@ def create_patient(patient ):
         return True
 
 def get_patients():
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         return data
 
 
 def find_patient(id):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     patient = None
     for i in data['patients']:
         if i['patient_id'] == id:
@@ -127,7 +130,7 @@ def find_patient(id):
     return patient
 
 def get_patient(id):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     patient = None
     for i in data['patients']:
         if i['patient_id'] == id:
@@ -142,7 +145,7 @@ def get_patient(id):
     return patient
 
 def get_trochlea_points(id, half = "left"):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     points = None
     for i in data['patients']:
         if i['patient_id'] == id:
@@ -154,7 +157,7 @@ def get_trochlea_points(id, half = "left"):
     return points
 
 def get_condiles_points(id, half = "left"):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     points_left = None
     points_right = None
     for i in data['patients']:
@@ -169,7 +172,7 @@ def get_condiles_points(id, half = "left"):
     return points_left, points_right
 
 def get_rotula_points(id, half = "left"):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     points_left = None
     points_right = None
     for i in data['patients']:
@@ -184,7 +187,7 @@ def get_rotula_points(id, half = "left"):
     return points_left, points_right   
 
 def get_tibia_points(id, half = "left"):
-    data = json.loads(open("data.json").read())
+    data = json.loads(open(DATA_PATH).read())
     points = None
     for i in data['patients']:
         if i['patient_id'] == id:
@@ -195,8 +198,7 @@ def get_tibia_points(id, half = "left"):
     return points
 
 def get_tagt_result(id, half= "left"):
-    data = json.loads(open("data.json").read())
-    result = None
+    data = json.loads(open(DATA_PATH).read())
     for i in data['patients']:
         if i['patient_id'] == id:
             if half == "left":
@@ -206,8 +208,7 @@ def get_tagt_result(id, half= "left"):
     return points 
 
 def get_br_result(id, half= "left"):
-    data = json.loads(open("data.json").read())
-    result = None
+    data = json.loads(open(DATA_PATH).read())
     for i in data['patients']:
         if i['patient_id'] == id:
             if half == "left":
@@ -217,7 +218,7 @@ def get_br_result(id, half= "left"):
     return points 
 
 def remove_patient(id):
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         list_patients = list(data['patients'])
         for i in range(len(list(data['patients'])) ):
@@ -230,7 +231,7 @@ def remove_patient(id):
 
 def set_name(id, first_name, last_name):
     changed = False
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -243,7 +244,7 @@ def set_name(id, first_name, last_name):
 
 def set_age(id, age):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -255,7 +256,7 @@ def set_age(id, age):
 
 def set_points_trochlea(id, points, half = "left"):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -270,7 +271,7 @@ def set_points_trochlea(id, points, half = "left"):
 
 def set_points_tibia(id, points, half = "left"):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -285,7 +286,7 @@ def set_points_tibia(id, points, half = "left"):
 
 def set_points_condiles(id, points_left, points_right, half = "left"):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -302,7 +303,7 @@ def set_points_condiles(id, points_left, points_right, half = "left"):
 
 def set_points_rotula(id, points_left, points_right, half = "left"):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:
@@ -319,7 +320,7 @@ def set_points_rotula(id, points_left, points_right, half = "left"):
 
 def set_tagt_result(id, result, half = "left"):
     changed = False 
-    with open('data.json') as data_file:
+    with open(DATA_PATH) as data_file:
         data = json.load(data_file)
         for i in data['patients']:
             if i['patient_id'] == id:

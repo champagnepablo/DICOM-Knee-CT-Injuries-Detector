@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import scipy
 import pydicom
-import cairo
 from PIL import Image
 from matplotlib import cm
 import sys
@@ -16,6 +15,9 @@ import json
 import os.path
 from os import path
 import export_serie_to_png
+import datetime
+
+
 sys.path.append('../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/model')
 sys.path.insert(1, '../../image-preprocessing/src/')
@@ -72,10 +74,8 @@ def check_patient_data(id, name, last_name, age, pathserie):
         return False
     if last_name == "":
         return False
-    try :
-        an_integer = int(age)
-    except ValueError:
-        return False
+    if age == "":
+       return False
     if pathserie == "" or path.isdir(pathserie) == False:
         return False
     return True
@@ -85,13 +85,13 @@ def exportSerieToPng(dir):
 
 def pngPathToDCM(file, path):
     path_dcm = file.replace('.png', '.dcm')
-    path_dcm = path_dcm.replace('prueba/',  path + '/')
+    path_dcm = path_dcm.replace('temp/',  path + '/')
     return path_dcm
 
 def removePngSeries():
-    filenames = os.listdir("prueba/")
+    filenames = os.listdir("temp/")
     for files in filenames:
-        path = "prueba/" + files
+        path = "temp/" + files
         os.remove(path)
 
 def exportDStoPNG(ds):
@@ -183,3 +183,11 @@ def getStoredBRResult(patient, half):
 
 def findPatient(patient):
     return model.find_patient(patient.id)
+
+
+def check_date(day, month, year):
+    try:
+          datetime.datetime(year, month, day)
+          return True
+    except ValueError:
+        return False

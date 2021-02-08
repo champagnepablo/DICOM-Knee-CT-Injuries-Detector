@@ -29,8 +29,8 @@ import os
 
 def listdir(dir):
     filenames = os.listdir(dir)
-    if not os.path.exists("prueba"):
-        os.mkdir("prueba")
+    if not os.path.exists("temp"):
+        os.mkdir("temp")
     for files in filenames:
         if files.endswith('.dcm'):
             path = dir + '/' + files
@@ -46,8 +46,9 @@ def listdir(dir):
             dim = (width, height)
             img_2d_scaled = cv2.resize(img_2d_scaled, dim, interpolation = cv2.INTER_AREA)
             img2 = cv2.cvtColor(img_2d_scaled, cv2.COLOR_GRAY2BGR)
+            img2 = cv2.resize(img2, (800, 800))
             filename = os.path.splitext(files)[0] + '.png'
-            cv2.imwrite("prueba/" + filename, img2)
+            cv2.imwrite("temp/" + filename, img2)
 
 def exportDStoPNG(ds):
         img_2d = ds.astype(float)

@@ -4,6 +4,7 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="br-details-window">
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
     <child type="titlebar">
       <placeholder/>
     </child>
@@ -119,85 +120,9 @@ y vuelva a intentarlo.</property>
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="choose-action-window">
-    <property name="can_focus">False</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkGrid">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="row_homogeneous">True</property>
-        <property name="column_homogeneous">True</property>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">¿Qué desea hacer con los datos de este paciente?</property>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkGrid">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="valign">center</property>
-            <property name="margin_left">1</property>
-            <property name="column_spacing">10</property>
-            <child>
-              <object class="GtkButton" id="store-ca-bt">
-                <property name="label" translatable="yes">Sólo almacenar en la base de Datos</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="confirm_patient_added_dialog" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="tagt-ca-bt">
-                <property name="label" translatable="yes">Realizar medidas TA-GT</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="tagt_details_button" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="br-ca-bt">
-                <property name="label" translatable="yes">Realizar medidas básica rotuliana</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="br_details_button" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="left_attach">0</property>
-            <property name="top_attach">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkWindow" id="confirm_delete_window">
     <property name="can_focus">False</property>
+    <property name="window_position">center</property>
     <property name="default_width">539</property>
     <property name="default_height">350</property>
     <child type="titlebar">
@@ -680,7 +605,7 @@ del sistema</property>
                 <property name="can_focus">False</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
-                <property name="label" translatable="yes">Edad</property>
+                <property name="label" translatable="yes">Fecha de nacimiento</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -698,18 +623,6 @@ del sistema</property>
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="np-age">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">3</property>
               </packing>
             </child>
             <child>
@@ -772,6 +685,57 @@ del sistema</property>
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkGrid">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="row_homogeneous">True</property>
+                <child>
+                  <object class="GtkEntry" id="np-day">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="text" translatable="yes">DD</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="np-month">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="text" translatable="yes">MM</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="np-year">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">3</property>
               </packing>
             </child>
           </object>
@@ -1114,7 +1078,7 @@ Rotuliana Derecha:</property>
     <property name="hexpand">True</property>
     <property name="vexpand">True</property>
     <property name="window_position">center-always</property>
-    <property name="default_width">512</property>
+    <property name="default_width">728</property>
     <property name="default_height">500</property>
     <child type="titlebar">
       <placeholder/>
@@ -1274,7 +1238,9 @@ Rotuliana Derecha:</property>
                     <items>
                       <item translatable="yes">x1</item>
                       <item translatable="yes">x1.5</item>
+                      <item translatable="yes">x1.75</item>
                     </items>
+                    <signal name="changed" handler="zoom_changed" swapped="no"/>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

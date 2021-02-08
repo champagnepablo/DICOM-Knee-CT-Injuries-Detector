@@ -4,15 +4,8 @@ import cv2 as cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import pydicom
-import imutils
-from pydicom.data import get_testdata_files
-from pydicom.pixel_data_handlers.util import apply_modality_lut
-from pydicom.pixel_data_handlers.util import apply_voi_lut
-from pydicom.pixel_data_handlers.util import apply_color_lut
 
 from image_utils import dicom_utils,image_processing,interesting_points
-import SimpleITK as sitk
-from skimage import exposure # for histogram equalization
 
 
 
@@ -37,7 +30,7 @@ def get_points_left(ds):
     flood_full = flood_full.astype(np.uint8)
     kernel = np.ones((3,2))
     flood_full = cv2.morphologyEx(flood_full, cv2.MORPH_CLOSE, kernel)
-    tr_im, throclea_points = interesting_points.getDeepestPointTrochlea(roi_img2, "left")
+    _, throclea_points = interesting_points.getDeepestPointTrochlea(roi_img2, "left")
 
     rotated_img, angle = image_processing.rotateFemur(roi_img2, "left")
     _, (extBot, extBot2) = interesting_points.getPointsFemur(rotated_img, roi_img2, -angle,)

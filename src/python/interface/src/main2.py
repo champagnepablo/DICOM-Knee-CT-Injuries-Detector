@@ -10,9 +10,6 @@ import cv2
 import numpy as np
 import scipy
 import pydicom
-import cairo
-from PIL import Image
-from matplotlib import cm
 import sys
 import json
 import os
@@ -61,23 +58,22 @@ class View:
         
     def on_folder_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
-            title="Please choose a folder",
+            title="Seleccione la carpeta donde se encuentra el estudio DICOM",
             action=Gtk.FileChooserAction.SELECT_FOLDER,
         )
         dialog.add_buttons(
-            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, "Select", Gtk.ResponseType.OK
+          "Cancelar", Gtk.ResponseType.CANCEL, "Seleccionar", Gtk.ResponseType.OK
         )
         dialog.set_default_size(800, 400)
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Select clicked")
-            print("Folder selected: " + dialog.get_filename())
             buffer = self.pathf2.get_buffer()
             self.pathf2_text = dialog.get_filename()
             buffer.set_text(dialog.get_filename())
         elif response == Gtk.ResponseType.CANCEL:
-            print("Cancel clicked")
+            dialog.destroy()
+
 
         dialog.destroy()
 
@@ -97,9 +93,11 @@ class View:
             list.append([str(data['patients'][i]["patient_id"]), data['patients'][i]["first_name"], data['patients'][i]["last_name"], str(data['patients'][i]["age"]), data['patients'][i]["sex"]])
 
     def patients_list(self, button):
+        builder.get_object("patients-list").set_title("Listado de pacientes")
+        builder.get_object("patients-list").connect("delete-event", Gtk.main_quit)
         self.home_page.hide()
         treeview = builder.get_object("tree-list")
-        for i, column_title in enumerate(["DNI","Nombre", "Apellidos", "Edad", "Sexo"]):
+        for i, column_title in enumerate(["DNI","Nombre", "Apellidos", "Fecha de Nacimiento", "Sexo"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i)
             treeview.append_column(column)
@@ -115,10 +113,16 @@ class View:
         self.id = builder.get_object("np-dni")
         self.name = builder.get_object("np-fstname")
         self.last_name = builder.get_object("np-name")
-        self.age = builder.get_object("np-age")
+        self.day = builder.get_object("np-day")
+        self.month = builder.get_object("np-month")
+        self.year = builder.get_object("np-year")
+        if controller.check_date(int(self.day.get_text()), int(self.month.get_text()), int(self.year.get_text())) == True: 
+            self.age = self.day.get_text() + "/"+ self.month.get_text() + "/" + self.year.get_text()
+        else :
+            self.age = ""
         self.sex = builder.get_object("np-sex")
         self.path2 = builder.get_object("np-tv-p2")
-        if controller.check_patient_data(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age.get_text(), self.pathf2_text) == False:
+        if controller.check_patient_data(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age, self.pathf2_text) == False:
             builder.get_object("check-data-patient").show()
         else:
           #  new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
@@ -145,64 +149,10 @@ class View:
     def hide_dialog_confirm(self, button):
         self.patient_added_confirmation.hide()
 
-    def do_ta_gt(self,button):
-        selection = builder.get_object("tagtd-options").get_active_text()
-        self.tagt_details_window.hide()
-        print(selection)
-        print("Doing ta-gt")
-        img, _, _, _ = meaures.get_points_left(self.current_patient.femurRotulaImage.ds)
-      #  cv2.imshow("Image", img)
-        cv2.imwrite('image.png',img)
-        
-        #window = builder.get_object("tagt-panel")
-        self.measurements_details_window = builder.get_object("tagt-result")
-        tagt_img = builder.get_object("tagt-img")
-        dni = builder.get_object("tagtr-dni")
-        dni.set_text(self.current_patient.id)
-        patient = model.get_patient(self.current_patient.id)
-        ds = pydicom.dcmread(patient.femurRotulaImage.fileName)
-        ds2 = pydicom.dcmread(patient.tibiaImage.fileName)
-        if self.half_selected == "Mitad izquierda" and self.measure_selected == "tagt":
-            img, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
-            tibia = meaures.get_point_tibia_left(ds2)
-            d = meaures.ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
-            text = builder.get_object("tagtr-text")
-            text.set_text("El resultado de la medida TA-GT es: " + str(d) + " mm")
-        elif self.half_selected == "Mitad derecha" and self.measure_selected == "tagt":
-            img2, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
-            img, femur_left, femur_right, trochlea = meaures.get_points_right(ds, img)
-            tibia = meaures.get_point_tibia_right(ds2)
-            d = meaures.ta_gt_measures(ds,femur_left, femur_right, trochlea, tibia)
-            text = builder.get_object("tagtr-text")
-            text.set_text("El resultado de la medida TA-GT es: " + str(d) + " mm")
-        elif self.half_selected == "Mitad derecha" and self.measure_selected == "br":
-            img2, femur_left, femur_right, trochlea = meaures.get_points_right(ds,img)
-            rotula_left, rotula_right = meaures.get_points_rotula_right(ds)
-            d = meaures.basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right)
-            text = builder.get_object("tagtr-text")
-            text.set_text("El resultado de la medida Básica Rotuliana es: " + str(d) + "º")
-        elif self.half_selected == "Mitad izquierda" and self.measure_selected == "br":
-            img2, femur_left, femur_right, trochlea = meaures.get_points_left(ds)
-            rotula_left, rotula_right = meaures.get_points_rotula_left(ds)
-            tibia = meaures.get_point_tibia_right(ds2)
-            d = meaures.basic_rotulian(ds, femur_left, femur_right, rotula_left, rotula_right)
-            text = builder.get_object("tagtr-text")
-            text.set_text("El resultado de la medida Básica Rotuliana es: " + str(d) + "º")
-        fst_name = builder.get_object("tagtr-fstname")
-        fst_name.set_text(self.current_patient.firstName)
-        name = builder.get_object("tagtr-name")
-        name.set_text(self.current_patient.name)
-        age = builder.get_object("tagtr-age")
-        age.set_text(str(self.current_patient.age))
-        sex = builder.get_object("tagtr-sex")
-        sex.set_text(self.current_patient.sex)
-        tagt_img.set_from_file("image.png")
-        self.measurements_details_window.show()
-        if os.path.exists("image.png"):
-            os.remove("image.png")
 
     def tagt_details_button(self,button):
         window = builder.get_object("tagt-details-window")
+        window.set_title("Selección de opciones de medida")
         self.choose_action_window.hide() 
         builder.get_object("tagtd-text").set_text("Seleccione las opciones TA-GT deseadas")   
         self.half_selected = builder.get_object("tagtd-options").get_active_text()
@@ -241,6 +191,7 @@ class View:
                 tree_iter = model.get_iter(path)
                 self.rowselected = model.get_value(tree_iter,0)
         confirm_delete = builder.get_object("confirm_delete_window")
+        confirm_delete.set_title("Confirmar eliminación")
         confirm_delete.show()
 
     def cancel_delete_patient(self,button):
@@ -276,10 +227,10 @@ class View:
             label.set_text("Escoja la imagen que muestre el fémur de manera óptima")
         if self.dcm_images_selected == 1:
             label.set_text("Escoja la imagen que muestre la tibia de manera óptima")
-        filenames = os.listdir("prueba")
+        filenames = os.listdir("temp")
         self.series_list = []
         for files in filenames:
-            self.series_list.append("prueba/" + files)
+            self.series_list.append("temp/" + files)
         self.series_list = sorted(self.series_list)
         self.series_iterator = 0
         img = builder.get_object("si-dcmimage")
@@ -297,7 +248,7 @@ class View:
         elif self.dcm_images_selected == 1:
             path_dcm = self.series_list[self.series_iterator]
             self.tibiaDcm = controller.pngPathToDCM(path_dcm, self.pathf2_text)
-            new_patient = Patient(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age.get_text(), self.sex.get_active_text(), self.femurDcm, self.tibiaDcm)
+            new_patient = Patient(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age, self.sex.get_active_text(), self.femurDcm, self.tibiaDcm)
             controller.create_patient(new_patient)
             self.current_patient = new_patient
             controller.removePngSeries()
@@ -337,8 +288,8 @@ class View:
         img_femur = builder.get_object("pd-femur-image")
         img1 = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage)
         img2 = controller.exportDStoPNG(self.current_patient.tibiaImage.originalImage)
-        img1 = cv2.resize(img1, (256,256))
-        img2 = cv2.resize(img2, (256,256))
+        img1 = cv2.resize(img1, (400,400))
+        img2 = cv2.resize(img2, (400,400))
         im_v = cv2.vconcat([img1, img2])
         cv2.imwrite("femur.png", im_v)
 
@@ -362,6 +313,8 @@ class View:
 
     def show_measures_menu(self,button):
         builder.get_object("measures-options").show()
+        builder.get_object("measures-options").set_title("Escoja la medida")
+
 
     def hide_measures_menu(self,button):
         builder.get_object("measures-options").hide()
@@ -377,9 +330,21 @@ class View:
         builder.get_object("patient-details-window").hide()
         image_window = builder.get_object("tagt-img")
         text_window = builder.get_object("tagtr-text")
+        builder.get_object("tagtr-dni").set_text(self.current_patient.id)
+        builder.get_object("tagtr-fstname").set_text(self.current_patient.firstName)
+        builder.get_object("tagtr-name").set_text(self.current_patient.name)
+        builder.get_object("tagtr-age").set_text(self.current_patient.age)
+        builder.get_object("tagtr-sex").set_text(self.current_patient.sex)
+        builder.get_object("tagt-result").set_title("Resultados de la medida")
+
+        
         cv2.imwrite("result.png", img)
         image_window.set_from_file("result.png")
-        text_window.set_text(str(d))
+        if self.measure_selected == "TA-GT":
+            text_window.set_text("Resultado: " + str(d) + " mm")
+        else:
+            text_window.set_text("Resultado: " + str(d) + " º")
+
         builder.get_object("measures-options").hide()
         builder.get_object("tagt-result").show()
         self.interesting_points = lines
@@ -461,17 +426,14 @@ class View:
             elif points[1] == self.point_selected:
                 points[1] = (x, y)
 
-
-
-
-
     def motion_notify(self, widget, event):
-        print(event.x, event.y)
         x = int (event.x)
         y = int (event.y)
-        print(self.is_line_selected)
         img = builder.get_object("rf-img")
         img2 = cv2.imread('refine.png')
+        h =  (int) (img2.shape[0] * 1.5)
+        w = (int) (img2.shape[1] * 1.5)
+      #  img2 = cv2.resize(img2, (h,w))
         if self.is_line_selected == True and event.type == Gdk.EventType.BUTTON_PRESS and event.button == 1:
             self.is_line_selected = not  (self.is_line_selected)
             img2 = self.print_lines_selection(img2, x, y)
@@ -486,6 +448,60 @@ class View:
         cv2.imwrite('refine2.png', img2)
         img.set_from_file('refine2.png')
 
+    def change_resolution(self,img, coefficient):
+        img2 = cv2.imread('refine2.png')
+        h =  (int) (self.current_size[0] * coefficient/self.current_zoom)
+        w = (int) (self.current_size[1] * coefficient/self.current_zoom)
+        self.current_size = (h,w)
+        print(img.shape)
+        print(h,w)
+        img = cv2.resize(img, (h,w))
+        lines = []
+        for points in self.interesting_points:
+            x1 = (int) (points[0][0] * coefficient/self.current_zoom)
+            y1 = (int) (points [0][1] * coefficient/self.current_zoom)
+            x2 = (int) (points[1][0] * coefficient/self.current_zoom)
+            y2 = (int) (points[1][1] * coefficient/self.current_zoom)
+            lines.append([(x1,y1), (x2,y2)])
+        return lines, img
+
+
+
+    def zoom_changed(self, combo):
+        img = cv2.imread('refine.png')
+        text = builder.get_object("rm-zoom").get_active_text()
+        if text == "x1.5":
+            if self.current_zoom != 1.5:
+                lines, img = self.change_resolution(img, 1.5)
+                cv2.imwrite('refine.png', img)
+                self.interesting_points = lines
+                img = self.print_lines_left_click(img)
+                print(self.interesting_points)
+                cv2.imwrite('refine2.png', img)
+                img_window = builder.get_object("rf-img")
+                img_window.set_from_file('refine2.png')
+                self.current_zoom = 1.5
+        elif text == "x1.75":
+            if self.current_zoom != 1.75:
+                lines, img = self.change_resolution(img, 1.75)
+                cv2.imwrite('refine.png', img)
+                self.interesting_points = lines
+                img = self.print_lines_left_click(img)
+                cv2.imwrite('refine2.png', img)
+                img_window = builder.get_object("rf-img")
+                img_window.set_from_file('refine2.png')
+                self.current_zoom = 1.75
+        elif text == "x1":
+            if self.current_zoom != 1:
+                lines, img = self.change_resolution(img, 1)
+                cv2.imwrite('refine.png', img)
+                self.interesting_points = lines
+                img = self.print_lines_left_click(img)
+                cv2.imwrite('refine2.png', img)
+                img_window = builder.get_object("rf-img")
+                img_window.set_from_file('refine2.png')
+                self.current_zoom = 1
+    
 
 
     def refine_measures(self, button):
@@ -493,20 +509,26 @@ class View:
         img_window = builder.get_object("rf-img")
         if self.measure_selected == "TA-GT":
             img = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage + self.current_patient.tibiaImage.originalImage)
-            cv2.imwrite("refine.png", img)
-            img_window.set_from_file('refine.png')
         elif self.measure_selected == "Básica Rotuliana":
             img = controller.exportDStoPNG(self.current_patient.femurRotulaImage.originalImage)
-            cv2.imwrite("refine.png", img)
-            img_window.set_from_file('refine.png')
+        cv2.imwrite("refine.png", img)
+        img = self.print_lines_left_click(img)
+        cv2.imwrite("refine2.png", img)
+
+        img_window.set_from_file('refine2.png')
         eventbox = builder.get_object('rm-event')
         eventbox.connect("button-press-event", self.motion_notify)
+        self.current_zoom = 1
+        self.current_size = img.shape
         self.line_selected = None
         self.point_selected = None
         self.is_line_selected = False
         window.show()
 
     def confirm_refine(self,button):
+        img = cv2.imread("refine.png")
+        lines , _ = self.change_resolution(img, 1)
+        self.interesting_points = lines
         d, img = controller.refineMeasure(self.measure_selected, self.interesting_points, self.current_patient)
         self.measure_result = d
         builder.get_object("refine-measure").hide()
@@ -515,10 +537,13 @@ class View:
         cv2.imwrite("result.png", img)
         image_window.set_from_file("result.png")
         text_window.set_text(str(d))
+        os.remove("refine.png")
+        os.remove("refine2.png")
         builder.get_object("measures-options").hide()
         builder.get_object("tagt-result").show()
 
     def storeResult(self,button):
+        os.remove("result.png")
         if self.measure_selected == "TA-GT":
             controller.storeTAGTResult(self.current_patient, self.measure_result, self.half_selected)
         else:

@@ -118,6 +118,45 @@
             }
         },
         {
+            "patient_id": "34824394892",
+            "first_name": "Miguel ",
+            "last_name": "Angel",
+            "age": "32",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
             "patient_id": "9347347394",
             "first_name": "Luis",
             "last_name": "Perez",
@@ -848,6 +887,84 @@
             },
             "img_tibia": {
                 "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "223232",
+            "first_name": "232a",
+            "last_name": "aasasasasas",
+            "age": "15/09/1996",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm",
+                "coordinates_tibia_left": "",
+                "coordinates_tibia_right": ""
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "wewewew",
+            "first_name": "ewewewe",
+            "last_name": "we",
+            "age": "12/12/1111",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm",
+                "coordinates_trochlea_left": "",
+                "coordinates_trochlea_right": "",
+                "coordinates_condiles_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_condiles_right": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_left": {
+                    "left": "",
+                    "right": ""
+                },
+                "coordinates_rotula_right": {
+                    "left": "",
+                    "right": ""
+                }
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/prueba2.dcm",
                 "coordinates_tibia_left": "",
                 "coordinates_tibia_right": ""
             },

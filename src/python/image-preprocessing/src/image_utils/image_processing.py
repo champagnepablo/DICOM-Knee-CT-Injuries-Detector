@@ -94,7 +94,7 @@ def getROI(img):
     half_column = img.shape[1] / 2
     for i in range(img.shape[0]-1):
         for j in range(img.shape[1]-1):
-            if j > half_column or i > 350:
+            if j > half_column or i > img.shape[0]:
                 img2[i][j] = 0
     return img2
 
@@ -109,7 +109,7 @@ def getROI2(img):
     half_column = img.shape[1] / 2
     for i in range(img.shape[0]-1):
         for j in range(img.shape[1]-1):
-            if j < half_column or i > 350:
+            if j < half_column or i > img.shape[0]:
                 img2[i][j] = 0
     return img2
 
