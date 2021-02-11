@@ -138,7 +138,7 @@ y vuelva a intentarlo.</property>
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">¿Está seguro de que quiere borrar al paciente de la base de datos?</property>
+            <property name="label" translatable="yes">¿Está seguro de que quiere borrar este estudio de la base de datos?</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -217,7 +217,7 @@ y vuelva a intentarlo.</property>
             <property name="column_homogeneous">True</property>
             <child>
               <object class="GtkButton" id="hp-b-list">
-                <property name="label" translatable="yes">Listado de pacientes</property>
+                <property name="label" translatable="yes">Listado de estudios</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -230,7 +230,7 @@ y vuelva a intentarlo.</property>
             </child>
             <child>
               <object class="GtkButton" id="hp-b-im">
-                <property name="label" translatable="yes">Nuevo paciente</property>
+                <property name="label" translatable="yes">Nuevo estudio</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -273,10 +273,10 @@ y vuelva a intentarlo.</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="label" translatable="yes">Bienvenido a la plataforma de detección de estructuras anatómicas de rodilla. 
-Pulsa el botón "Nuevo paciente" para subir los archivos .dcm y poder realizar 
-medidas en las imágenes. Busca el botón "Listado de pacientes" para acceder al 
-listado de pacientes ya almacenado en el sistema. Pulsa el botón "Salir" para salir 
-del sistema</property>
+Pulsa el botón "Nuevo estudio" para subir los archivos .dcm y poder realizar 
+medidas en las imágenes. Busca el botón "Listado de estudios" para acceder al 
+listado de estudios ya almacenado en el sistema. Pulsa el botón "Salir" para salir 
+del sistema.</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -1009,7 +1009,7 @@ Rotuliana Derecha:</property>
                 </child>
                 <child>
                   <object class="GtkButton" id="tagtr-bt-other1">
-                    <property name="label" translatable="yes">Ir al listado de pacientes</property>
+                    <property name="label" translatable="yes">Ir al listado de estudios</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1128,7 +1128,7 @@ Rotuliana Derecha:</property>
             <property name="column_spacing">34</property>
             <child>
               <object class="GtkButton" id="new-patient-pl-button">
-                <property name="label" translatable="yes">Añadir paciente</property>
+                <property name="label" translatable="yes">Añadir estudio</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -1143,7 +1143,7 @@ Rotuliana Derecha:</property>
             </child>
             <child>
               <object class="GtkButton" id="edit-patient-pl-button">
-                <property name="label" translatable="yes">Detalles paciente	</property>
+                <property name="label" translatable="yes">Detalles estudio</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -1158,7 +1158,7 @@ Rotuliana Derecha:</property>
             </child>
             <child>
               <object class="GtkButton" id="remove-patient-pl-button">
-                <property name="label" translatable="yes">Eliminar paciente</property>
+                <property name="label" translatable="yes">Eliminar estudio</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

@@ -1,10 +1,48 @@
 {
     "patients": [
         {
-            "patient_id": "121212126",
-            "first_name": "P",
-            "last_name": "v P",
-            "age": "15/09/1996",
+            "patient_id": "00000001A",
+            "first_name": "Nombre1",
+            "last_name": "Apellido1 Apellido2",
+            "age": "01/01/1970",
+            "sex": "Hombre",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/femur.dcm"
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm"
+            },
+            "results": {
+                "rb_left": "10",
+                "rb_right": "11",
+                "ta_gt_left": "12.3",
+                "ta_gt_right": "11.2"
+            }
+        },
+        {
+            "patient_id": "00000001B",
+            "first_name": "Nombre2",
+            "last_name": "Apellido2 Apellido3",
+            "age": "01/01/1970",
+            "sex": "Mujer",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/femur.dcm"
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm"
+            },
+            "results": {
+                "rb_left": "10",
+                "rb_right": "11",
+                "ta_gt_left": "12.3",
+                "ta_gt_right": "11.2"
+            }
+        },
+        {
+            "patient_id": "12345678A",
+            "first_name": "Lionel",
+            "last_name": "Messi",
+            "age": "30/06/1987",
             "sex": "Hombre",
             "img_femur": {
                 "file_femur": "/home/pablo/serie_prueba/prueba2.dcm"

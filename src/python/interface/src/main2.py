@@ -52,7 +52,7 @@ class View:
     def new_patient_button(self,button):
         self.new_patient_data.show()
         self.new_patient_data.connect("delete-event", Gtk.main_quit)
-        self.new_patient_data.set_title("Añadir nuevo paciente")
+        self.new_patient_data.set_title("Añadir nuevo estudio")
         self.home_page.hide()
         self.patients_list_window.hide()
         
@@ -93,7 +93,7 @@ class View:
             list.append([str(data['patients'][i]["patient_id"]), data['patients'][i]["first_name"], data['patients'][i]["last_name"], str(data['patients'][i]["age"]), data['patients'][i]["sex"]])
 
     def patients_list(self, button):
-        builder.get_object("patients-list").set_title("Listado de pacientes")
+        builder.get_object("patients-list").set_title("Listado de estudios")
         builder.get_object("patients-list").connect("delete-event", Gtk.main_quit)
         self.home_page.hide()
         treeview = builder.get_object("tree-list")

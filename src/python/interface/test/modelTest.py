@@ -18,8 +18,6 @@ class TestModel(unittest.TestCase):
         id = model.find_patient("1")
         self.assertEqual("1", patient2.id)
         self.assertEqual("1", id)
-
-
         isChanged = model.set_tagt_result("1", 10, "left")
         self.assertEqual(True, isChanged)
 
