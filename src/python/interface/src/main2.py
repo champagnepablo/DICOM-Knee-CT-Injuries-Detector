@@ -90,14 +90,14 @@ class View:
         list =  builder.get_object("patients")
         list.clear()
         for i in range(len((data['patients']))):
-            list.append([str(data['patients'][i]["patient_id"]), data['patients'][i]["first_name"], data['patients'][i]["last_name"], str(data['patients'][i]["age"]), data['patients'][i]["sex"]])
+            list.append([str(data['patients'][i]["patient_id"]), str(data['patients'][i]["age"]), data['patients'][i]["sex"]])
 
     def patients_list(self, button):
         builder.get_object("patients-list").set_title("Listado de estudios")
         builder.get_object("patients-list").connect("delete-event", Gtk.main_quit)
         self.home_page.hide()
         treeview = builder.get_object("tree-list")
-        for i, column_title in enumerate(["DNI","Nombre", "Apellidos", "Fecha de Nacimiento", "Sexo"]):
+        for i, column_title in enumerate(["Nombre del estudio", "Fecha de Nacimiento", "Sexo"]):
             renderer = Gtk.CellRendererText()
             column = Gtk.TreeViewColumn(column_title, renderer, text=i)
             treeview.append_column(column)
@@ -111,8 +111,6 @@ class View:
 
     def confirm_new_patient_button(self, button):
         self.id = builder.get_object("np-dni")
-        self.name = builder.get_object("np-fstname")
-        self.last_name = builder.get_object("np-name")
         self.day = builder.get_object("np-day")
         self.month = builder.get_object("np-month")
         self.year = builder.get_object("np-year")
@@ -122,7 +120,7 @@ class View:
             self.age = ""
         self.sex = builder.get_object("np-sex")
         self.path2 = builder.get_object("np-tv-p2")
-        if controller.check_patient_data(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age, self.pathf2_text) == False:
+        if controller.check_patient_data(self.id.get_text(), self.id.get_text(), self.id.get_text(), self.age, self.pathf2_text) == False:
             builder.get_object("check-data-patient").show()
         else:
           #  new_patient = Patient(id.get_text(), name.get_text(), last_name.get_text(), age.get_text(), sex.get_active_text(), self.pathf1_text, self.pathf2_text)
@@ -248,7 +246,7 @@ class View:
         elif self.dcm_images_selected == 1:
             path_dcm = self.series_list[self.series_iterator]
             self.tibiaDcm = controller.pngPathToDCM(path_dcm, self.pathf2_text)
-            new_patient = Patient(self.id.get_text(), self.name.get_text(), self.last_name.get_text(), self.age, self.sex.get_active_text(), self.femurDcm, self.tibiaDcm)
+            new_patient = Patient(self.id.get_text(), self.id.get_text(), self.id.get_text(), self.age, self.sex.get_active_text(), self.femurDcm, self.tibiaDcm)
             controller.create_patient(new_patient)
             self.current_patient = new_patient
             controller.removePngSeries()
@@ -267,10 +265,8 @@ class View:
 
     def showPatientMenu(self):
         window = builder.get_object("patient-details-window")
-        window.set_title(self.current_patient.firstName + " " + self.current_patient.name)
+        window.set_title(self.current_patient.id)
         builder.get_object("pd-dni").set_text(self.current_patient.id)
-        builder.get_object("pd-fstname").set_text(self.current_patient.firstName)
-        builder.get_object("pd-name").set_text(self.current_patient.name)
         builder.get_object("pd-age").set_text(self.current_patient.age)
         builder.get_object("pd-sex").set_text(self.current_patient.sex)
         tagtr_l = controller.getStoredTAGTResult(self.current_patient, "Izquierda")
@@ -331,8 +327,6 @@ class View:
         image_window = builder.get_object("tagt-img")
         text_window = builder.get_object("tagtr-text")
         builder.get_object("tagtr-dni").set_text(self.current_patient.id)
-        builder.get_object("tagtr-fstname").set_text(self.current_patient.firstName)
-        builder.get_object("tagtr-name").set_text(self.current_patient.name)
         builder.get_object("tagtr-age").set_text(self.current_patient.age)
         builder.get_object("tagtr-sex").set_text(self.current_patient.sex)
         builder.get_object("tagt-result").set_title("Resultados de la medida")
@@ -453,8 +447,6 @@ class View:
         h =  (int) (self.current_size[0] * coefficient/self.current_zoom)
         w = (int) (self.current_size[1] * coefficient/self.current_zoom)
         self.current_size = (h,w)
-        print(img.shape)
-        print(h,w)
         img = cv2.resize(img, (h,w))
         lines = []
         for points in self.interesting_points:

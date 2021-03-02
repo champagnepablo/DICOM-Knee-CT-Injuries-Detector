@@ -56,6 +56,46 @@
                 "ta_gt_left": "",
                 "ta_gt_right": ""
             }
+        },
+        {
+            "patient_id": "DEMO_TFG_3_3_2021",
+            "first_name": "DEMO_TFG_3_3_2021",
+            "last_name": "DEMO_TFG_3_3_2021",
+            "date": "",
+            "age": "15/09/1996",
+            "sex": "Hombre",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm"
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm"
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "5.99",
+                "ta_gt_right": ""
+            }
+        },
+        {
+            "patient_id": "DEMO_TFG_3_3_2021_TAGT",
+            "first_name": "DEMO_TFG_3_3_2021_TAGT",
+            "last_name": "DEMO_TFG_3_3_2021_TAGT",
+            "date": "",
+            "age": "15/09/1996",
+            "sex": "Hombre",
+            "img_femur": {
+                "file_femur": "/home/pablo/serie_prueba/prueba2.dcm"
+            },
+            "img_tibia": {
+                "file_tibia": "/home/pablo/serie_prueba/tibia.dcm"
+            },
+            "results": {
+                "rb_left": "",
+                "rb_right": "",
+                "ta_gt_left": "7.97",
+                "ta_gt_right": ""
+            }
         }
     ]
 }

@@ -24,6 +24,7 @@ def create_patient(patient ):
                     'patient_id' : patient.id,
                     'first_name' : patient.firstName,
                     'last_name'  : patient.name,
+                    'date': '',
                     'age': patient.age,
                     'sex': patient.sex,
                     'img_femur': {
